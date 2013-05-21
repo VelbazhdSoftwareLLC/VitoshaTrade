@@ -1,0 +1,7 @@
+<load_ann_list>
+	<number_of_ids>%d</number_of_ids>
+	<id index=0>%d</id>
+	<id index=1>%d</id>
+	<id index=2>%d</id>
+	...
+</load_ann_list>

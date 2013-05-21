@@ -1,0 +1,5 @@
+<load_ann_list>
+	<ann_id>%d</ann_id>
+	<symbol>%s</symbol>
+	<period>%d</period>
+</load_ann_list>

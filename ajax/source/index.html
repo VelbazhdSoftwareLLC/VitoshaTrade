@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+ *******************************************************************************
+ *                                                                             *
+ * VitoshaTrade is Distributed Artificial Neural Network trained by            *
+ * Differential Evolution for prediction of Forex. Project development is in   *
+ * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
+ * the capital of Bulgaria.                                                    *
+ *                                                                             *
+ * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ *                            Iliyan Zankinski ( iliyan_mf@abv.bg )            *
+ *                            Galq Cirkalova   ( galq_cirkalova@abv.bg )       *
+ *                            Ivan Grozev      ( ivan.iliev.grozev@gmail.com ) *
+ *                            Daniel Chutrov   ( d.chutrov@gmail.com )         *
+ *                                                                             *
+ * This program is free software: you can redistribute it and/or modify        *
+ * it under the terms of the GNU General Public License as published by        *
+ * the Free Software Foundation, either version 3 of the License, or           *
+ * (at your option) any later version.                                         *
+ *                                                                             *
+ * This program is distributed in the hope that it will be useful,             *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ * GNU General Public License for more details.                                *
+ *                                                                             *
+ * You should have received a copy of the GNU General Public License           *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.        *
+ *                                                                             *
+ *******************************************************************************
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>.:: Даниел Чутров - Дипломна работа - ТУЕС към ТУ-София ::.</title>
+
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+    <meta name="language" content="bg" />
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- External includes. -->
+<script language="JavaScript" type="text/javascript" src="Trainer.js"></script>
+<!-- External includes. -->
+
+<!-- Ajax distributed computing code. -->
+<script language="JavaScript" type="text/javascript">
+<!--
+
+/**
+ *
+ */
+var trainer = null;
+
+/**
+ *
+ *
+ * @author Daniel Chutrov
+ *
+ * @email d.chutrov@gmail.com
+ *
+ * @date 31 Jan 2011
+ */
+function init() {
+	var dbId = document.getElementById('annId').value;
+	var symbol = document.getElementById('symbol').value;
+	var period = document.getElementById('period').value;
+	var neuronsAmount = document.getElementById('numberOfNeurons').value;
+	var populationSize = document.getElementById('populationSize').value;
+	var bars = document.getElementById('numberOfBars').value;
+	trainer = new Trainer(dbId, symbol, period, neuronsAmount, populationSize, bars);
+}
+
+/**
+ *
+ *
+ * @author Daniel Chutrov
+ *
+ * @email d.chutrov@gmail.com
+ *
+ * @date 31 Jan 2011
+ */
+function doCalculation() {
+	/*
+	 * Call training procedure.
+	 */
+	trainer.train();
+	
+	//TODO Call predition procedure.
+	document.getElementById('prediction').innerHTML = Math.round(Math.random()*100000.0)/100.0;
+}
+
+/*
+ * Setup time interval for calculation calling.
+ */
+setInterval("doCalculation()", 3000);
+
+//-->
+</script>
+
+<!-- Ajax distributed computing code. -->
+
+</head>
+
+<body onload="init();doCalculation();">
+    <div id="main">
+
+        <div id="top">
+            <div id="logo">
+                <h1>Даниел Чутров</h1>
+                <h2>Дипломна работа - ТУЕС към ТУ-София - 2011</h2>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li><a href="#">Начало</a></li>
+                    <li><a href="#">Продукти</a></li>
+                    <li><a href="#">Услуги</a></li>
+                    <li><a href="#">Глерия</a></li>
+                    <li><a href="#">За нас</a></li>
+                    <li><a href="mailto:d.chutrov@gmail.com">Контакти</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="middle">
+            <div id="left">
+                <div id="search">
+                    <form  id="simulationParameters" method="post" action="" accept-charset="windows-1251">
+			<table border="0">
+			<tr><td align="right"><p>Прогноза:&nbsp;&nbsp;&nbsp;</p></td><td align="right"><p><span id="prediction"></p></td></tr>
+			</table>
+
+                        <div id="searchInpTxt">
+			<table border="0">
+			<tr><th align="center">Параметър</th><th align="left">Стойност</th></tr>
+			<tr><td align="right">ID:</td><td><input id="annId" type="text" class="text" value="1" /></td></tr>
+			<tr><td align="right">Symbol:</td><td><input id="symbol" type="text" class="text" value="EURUSD" /></td></tr>
+			<tr><td align="right">Period:</td><td><input id="period" type="text" class="text" value="M1" /></td></tr>
+			<tr><td align="right">Брой неврони:</td><td><input id="numberOfNeurons" type="text" class="text" value="20" /></td></tr>
+			<tr><td align="right">Популация:</td><td><input id="populationSize" type="text" class="text" value="40" /></td></tr>
+			<tr><td align="right">Брой барове:</td><td><input id="numberOfBars" type="text" class="text" value="5" /></td></tr>
+			</table>
+			</div>
+                        <div id="searchInpSub">
+			<input id="start" type="submit" class="submit" value="" />
+			</div>
+                    </form>
+                </div>
+                <div id="left_mid">
+                    <h3>Новини</h3>
+                    <h4>10 Фев 2011</h4>
+                    <p>Випуск 2010/2011, на ТУЕС към ТУ-София, предава разработените си дипломни работи, по предварително зададен график. <a href="#">подробности</a></p>
+                    <h4>16 Фев 2011</h4>
+                    <p>Процесът за предаване на дипломни работи протече в рамките на една седмица, като срокът за разработка на някои бе удължен, по молба утвърдена от дипломните ръководители. <a href="#">подробности</a></p>
+                    <h4>11 Мар 2011</h4>
+                    <p>Дипломните работи окончателно бяха внесени в деловодството на училището, за назначаване на рецензенти и определяне на дати за защита. <a href="#">подробности</a></p>
+                </div>
+                <div id="left_bot">
+                    <h3>Полезни връзки</h3>
+                    <ul>
+                        <li>&raquo; <a href="http://vitoshatrade.tbsoft.eu/">VitoshaTrade</a></li>
+                        <li>&raquo; <a href="http://www.tradingsolutions.com/">TradingSolutions</a></li>
+                        <li>&raquo; <a href="http://www.moneybee.net/">MoneyBee</a></li>
+                        <li>&raquo; <a href="http://www.gstock.com/">GStock</a></li>
+                        <li>&raquo; <a href="http://www.elsys-bg.org/">ТУЕС към ТУ-София</a></li>
+                        <li>&raquo; <a href="http://www.tu-sofia.bg/">ТУ София</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="right">
+                <div id="right_top">
+                    <h3 class="firsth3">Уеб базирани системи за разпределени изчизления:</h3>
+                    <p>Уеб базираните системи за разпределени изчисления използват възможностите за изпълнение на програмен код, от страна на потребителските компютри, в рамките на уеб браузъра. За създаването на уеб базирани системи най-често се използват технологиите Java Applets, Adobe Flash, AJAX и други.</p>
+                    <p>В настоящата дипломна работа е представена уеб базирана система за разпределени изчисления, базирана на AJAX. Целта на системата е да обучава изкуствени невронни мрежи за прогнозиране на валутни курсове. Обучението се осъществява с популационен евристиччен алгоритъм - диференциална еволюция.</p>
+                    <h3>Информация</h3>
+                    <p>Разработката е част от проекта <a href="http://vitoshatrade.tbsoft.eu/" target="_blank">VitoshaTrade</a>.</p>
+                </div>
+                <div id="right_mid">
+                    <div id="right_mid_1"><img src="images/photo1.jpg" width="162" height="102" alt="" />
+                        <h4><a href="http://www.compsystech.org/">CompSysTech 2011</a></h4>
+                        <p>CompSysTech е международна конференция, организирана от българската академична област.</p>
+                    </div>
+                    <div id="right_mid_2"><img src="images/photo2.jpg" width="162" height="102" alt="" />
+                        <h4><a href="http://www.sigevo.org/gecco-2011/">GECCO 2011</a></h4>
+                        <p>GECCO е най-голямата и престижна конференция за еволюционни алгоритми.</p>
+                    </div>                    
+                    <div id="right_mid_3"><img src="images/photo3.jpg" width="162" height="102" alt="" />
+                        <h4><a href="http://parallel.bas.bg/Conferences/SciCom11.html">LSSC 2011</a></h4>
+                        <p>LSSC е българска конференция с международно участие, посветена на агоритмични проблеми трудни за пресмятане.</p>
+                    </div>
+                    <div id="right_mid_4">
+                        &nbsp;
+                    </div>  				
+                </div>
+                <div id="right_bot">
+                    <h3 class="firsth3">Инсталиране</h3>
+                    <p>От страна на крайния потребител, не е нужна инсталация на допълнителни модули. Достатъчно е крайният потребител да има AJAX съвместим уеб браузър. За да се вгради в уеб страница изчислителният модул, то трябва да се добавят фрагменти код и да се подсигури връзка с отдалечен уеб сървър.</p>
+                    <h3>Юридически аспекти</h3>
+                    <p>Най-популярните системи за разпределени изчисления разчитат на дарени изчислителни ресурси от потребители в глобалната мрежа. Този акт на дарение е обвързан с някои юридически особености. На първо място, лицето стартиращо модули за разпределени изчисления трябва да има административното право за извършването на подобно действие. На второ място, нужно е изричното съгласие на крайните потребители, ако тяхната изчислителна система ще се използва за допълнителни цели (в случая разпределени изчисления на фонов режим).</p>
+                </div>                
+            </div>
+        </div>
+        <div id="bottom">
+            <p>Copyright &copy; <a href="mailto:d.chutrov@gmail.com">Даниел Чутров</a> / Дизайн: <a href="http://www.alphastudio.pl" target="_blank">Alpha Studio - Darmowe Szablony</a></p>
+        </div>        
+    </div>
+</body>
+</html>

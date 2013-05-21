@@ -1,0 +1,12 @@
+VitoshaTrade
+
+VitoshaTrade is Distributed Artificial Neural Network trained by Differential 
+Evolution for prediction of Forex. Project development is in Sofia, Bulgaria. 
+Vitosha is a mountain massif, on the outskirts of Sofia, the capital of 
+Bulgaria.
+
+The idea of the project is MySQL-PHP-WinDLL based distributed ANN-DE for 
+prediction of Forex indexes. This project is really innovative, because it is 
+not common to use MySQL-PHP-WinDLL for distributed computing. Also the project 
+implements full-connected neural network as predictor. The training is done by 
+evolutionary algorithm.

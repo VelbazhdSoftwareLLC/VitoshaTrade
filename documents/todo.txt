@@ -1,0 +1,69 @@
+-> Implement crossover as map of random selected cells, instead of cutting point and add field to ANN database table structure.
+
+-> Last used exception number 211.
+
+-> Change period_id field in currency_pairs table to time_periods_id.
+
+-> Implement all tests.
+
+-> Implement PHP tests.
+
+-> Implement HTTP module tests.
+
+-> Profile and optimize all C++ code.
+
+-> Create installer.
+
+-> Create updater.
+
+-> Create illegal copying software protection.
+
+-> Add training set to database.
+
+-> Load and save all tasks for calculation from web server (ANN, DE, Training set arrays, Prediction array twice bigger than training set). It is possible to be XML format. Nothing should be loaded from MetaTrader 4. By this way screensavers can be efficient.
+
+-> Implement AJAX web based client.
+
+-> Implement Windows (finish integration), Linux and Mac OS screensaver.
+
+-> Implemnnt web based (Java Applet) back end system (manipulation of ANN topology).
+
+-> Implement BOINC and BlueGene/P client.
+
+-> Supply pictures of Vitosha and Sofia.
+
+-> Write as book the process of VitoshaTrade implementation.
+
+-> Use INI file for parameters initialization.
+
+-> Search for models like (Improved time series prediction using evolutionary algorithms for the generation of feedback connections in neural networks): http://www.me.chalmers.se/~mwahde/AdaptiveSystems/Publications/HulthenWahdeCF2004.pdf
+
+-> Replace communication library with: http://curl.haxx.se/
+
+-> Replace communication protocol with XML based: http://xerces.apache.org/xerces-c/
+
+-> Use STL for all containers.
+
+-> Implement all SQL queries as stored procedures.
+
+-> Create developers install script for building process ( build.bat C:\Programs\MetaTrader_4\ C:\Programs\xampp\htdocs\ ).
+
+-> Think about peer to peer architecture.
+
+-> Improve ANN training by switching on/off neurons when training is not effective.
+
+-> Improve ANN training by addition of new neurons to ANN when training is not effective.
+
+-> Improve ANN training by modifications of activation matrix when training is not effective. It is possible to involve TopologyDE as self adaptive topology GA. It will need to split DE (parent) to TopologyDE (inherit from DE) and WeightsDE (inherit form DE). 
+
+-> Implement additional working logic on the server side to distribute absolutely untested chromosomes.
+
+-> Work with remote host as parameter in MetaTrader 4 and all other places.
+
+-> Control training parameters from database table (single record for each ANN kind for DE population size, number of bars of expected prediction).
+
+-> Extend DE with Radom Search around each chromosome (after crossover and mutation) as adding chromosome neighbors (near points in search space) to population.
+
+-> Check all preconditions in profiling segments.
+
+-> JavaDoc for all functions which are using exceptions.

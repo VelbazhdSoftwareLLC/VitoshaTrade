@@ -1,0 +1,13 @@
+<load_remote_best_fitness>
+	<symbol>%s</symbol>
+	<period>%d</period>
+	<number_of_neurons>%d</number_of_neurons>
+	<flag index=0>%d</flag>
+	<flag index=1>%d</flag>
+	<flag index=2>%d</flag>
+	...
+	<activity col=0 row=0>%lf</activity>
+	<activity col=1 row=0>%lf</activity>
+	<activity col=2 row=0>%lf</activity>
+	...
+</load_remote_best_fitness>

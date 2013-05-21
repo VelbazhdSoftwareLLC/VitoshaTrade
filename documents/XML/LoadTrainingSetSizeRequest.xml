@@ -1,0 +1,4 @@
+<load_training_set_size>
+	<symbol>%s</symbol>
+	<period>%d</period>
+</load_training_set_size>

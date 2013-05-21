@@ -1,0 +1,671 @@
+/*******************************************************************************
+ *                                                                             *
+ * VitoshaTrade is Distributed Artificial Neural Network trained by            *
+ * Differential Evolution for prediction of Forex. Project development is in   *
+ * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
+ * the capital of Bulgaria.                                                    *
+ *                                                                             *
+ * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
+ *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
+ *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
+ *                       Nikola Simeonov    ( n.simeonow@gmail.com )           *
+ *                       Galq Cirkalova     ( galq_cirkalova@abv.bg )          *
+ *                       Ivan Grozev        ( ivan.iliev.grozev@gmail.com )    *
+ *                       Elisaveta Hristova ( elisaveta.s.hristova@gmail.com ) *
+ *                                                                             *
+ * This program is free software: you can redistribute it and/or modify        *
+ * it under the terms of the GNU General Public License as published by        *
+ * the Free Software Foundation, either version 3 of the License, or           *
+ * (at your option) any later version.                                         *
+ *                                                                             *
+ * This program is distributed in the hope that it will be useful,             *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ * GNU General Public License for more details.                                *
+ *                                                                             *
+ * You should have received a copy of the GNU General Public License           *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.        *
+ *                                                                             *
+ ******************************************************************************/
+
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <iomanip>
+
+using namespace std;
+
+#include "ANN.h"
+#include "ANNInput.h"
+#include "ANNOutput.h"
+#include "Counter.h"
+#include "WeightsMatrix.h"
+#include "TrainingSet.h"
+#include "ActivitiesMatrix.h"
+
+extern void sleep();
+
+/*
+ * Control running of the thread.
+ */
+extern bool isRunning;
+
+void ANN::create(int neuronsAmount) {
+	NeuronsList neurons(neuronsAmount);
+	this->neurons = neurons;
+	neuronsAmount = this->neurons.dimension();
+
+	ActivitiesMatrix activities(neuronsAmount);
+	this->activities = activities;
+
+	/*
+	 * Make all neurons regular.
+	 */
+	neurons.clearTypes();
+
+	/*
+	 * Initialize neurons for first update.
+	 */
+	neurons.reset();
+
+	/*
+	 * In the beginning there is no prediction.
+	 */
+	prediction = 0;
+
+	/*
+	 * Estimate work done.
+	 */
+	if (counters != NULL) {
+		counters->setValue("Number of neurons", neuronsAmount);
+	}
+}
+
+ANN::ANN() {
+	this->counters = NULL;
+	this->ts = NULL;
+	this->bars = 0;
+	this->period = NO;
+
+	/*
+	 * Allocate memory.
+	 */
+	create(0);
+}
+
+ANN::ANN(const ANN &ann) {
+	this->counters = ann.counters;
+	this->ts = ann.ts;
+	this->bars = ann.bars;
+	this->period = ann.period;
+	this->neurons = ann.neurons;
+	this->activities = ann.activities;
+	this->weights = ann.weights;
+	this->prediction = ann.prediction;
+}
+
+ANN::ANN(Counter *counters, int neuronsAmount, int bars, TimePeriod period) {
+	/*
+	 * Check counters pointer for point valid object.
+	 */
+	if (counters == NULL) {
+		throw( "ANN00144" );
+		return;
+	}
+
+	/*
+	 * In prediction mode there is no training set link.
+	 */
+	this->counters = counters;
+	this->ts = NULL;
+	this->bars = bars;
+	this->period = period;
+
+	/*
+	 * Allocate memory.
+	 */
+	create(neuronsAmount);
+}
+
+ANN::ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int bars, TimePeriod period) {
+	/*
+	 * Check counters pointer for point valid object.
+	 */
+	if (counters == NULL) {
+		throw( "ANN00146" );
+		return;
+	}
+
+	/*
+	 * Check training set pointer for point valid object.
+	 */
+	if (ts == NULL) {
+		throw( "ANN00147" );
+		return;
+	}
+
+	this->counters = counters;
+	this->ts = ts;
+	this->bars = bars;
+	this->period = period;
+
+	/*
+	 * Allocate memory.
+	 */
+	create(neuronsAmount);
+}
+
+NeuronsList& ANN::getNeurons() {
+	return( neurons );
+}
+
+void ANN::setNeurons(NeuronsList &neurons) {
+	this->neurons = neurons;
+}
+
+WeightsMatrix& ANN::getWeights() {
+	return( weights );
+}
+
+void ANN::setWeights(WeightsMatrix &weights) {
+	this->weights = weights;
+}
+
+ActivitiesMatrix& ANN::getActivities() {
+	return( activities );
+}
+
+void ANN::setActivities(ActivitiesMatrix &activities) {
+	this->activities = activities;
+}
+
+double ANN::getActivity(int x, int y) {
+	if (x < 0 || y<0 || x >= activities.dimension() || y >= activities.dimension()) {
+		throw( "ANN00015" );
+		return( 0.0 );
+	}
+
+	return( activities(x,y) );
+}
+
+void ANN::setActivity(int x, int y, double value) {
+	if (x < 0 || y<0 || x >= activities.dimension() || y >= activities.dimension()) {
+		throw( "ANN00016" );
+		return;
+	}
+
+	activities(x,y) = value;
+	activities.normalize();
+}
+
+void ANN::setAllActive() {
+	for (int j=0; j<activities.dimension(); j++) {
+		for (int i=0; i<activities.dimension(); i++) {
+			activities(i,j) = ActivitiesMatrix::MAX_ACTIVITY;
+		}
+	}
+}
+
+void ANN::setTrainingSetPointer(TrainingSet *ts) {
+	this->ts = ts;
+}
+
+double ANN::getPrediction() const {
+	return( prediction );
+}
+
+void ANN::setupInput(int size) {
+	for(int i=0; i<size&&i<neurons.dimension(); i++) {
+		neurons[i].setInput( true );
+	}
+}
+
+void ANN::setupOutput(int size) {
+	for(int i=neurons.dimension()-size; i<neurons.dimension(); i++) {
+		neurons[i].setOutput( true );
+	}
+}
+
+void ANN::loadInput(ANNIO &input) {
+	if (input.dimension() != neurons.getInputNeuronsAmount()) {
+		throw( "ANN00022" );
+		return;
+	}
+
+	for (int i=0, k=0; i<neurons.dimension(); i++) {
+		if (neurons[i].isInput() == false) {
+			continue;
+		}
+
+		neurons[i].setValue( input[k] );
+		k++;
+	}
+}
+
+void ANN::update() {
+	/*
+	 * Return if weights are not loaded.
+	 */
+	if (weights.dimension() == 0) {
+		return;
+	}
+
+	NeuronsList next(neurons);
+	for (int i=0; i<neurons.dimension(); i++) {
+		if (neurons[i].isInput()==true || neurons[i].isBias()==true) {
+			continue;
+		}
+
+		/*
+		 * Activation function of neuron i.
+		 */
+		double value = 0.0;
+		for (int j=0; j<neurons.dimension(); j++) {
+			value += neurons[j].getValue() * weights(i,j) * activities(i,j);
+		}
+
+		/*
+		 * Normalize activation level of neuron i with sidmoid function.
+		 */
+		value = 1.0 / (1.0 + exp(-value));
+
+		next[i].setValue( value );
+	}
+
+	/*
+	 * Swap buffer to be ready for next network forward update.
+	 */
+	neurons = next;
+}
+
+void ANN::storeOutput(ANNIO &output) {
+	if (output.dimension() != neurons.getOutputNeuronsAmount()) {
+		throw( "ANN00023" );
+		return;
+	}
+
+	for (int i=0, k=0; i<neurons.dimension(); i++) {
+		if (neurons[i].isOutput() == false) {
+			continue;
+		}
+
+		output[k] = neurons[i].getValue();
+		k++;
+	}
+}
+
+double ANN::error(ANNIO &expected, ANNIO &predicted) {
+	if (expected.dimension() != predicted.dimension()) {
+		throw( "ANN00170" );
+		return( 0.0 );
+	}
+
+	if (predicted.dimension() < 0 || predicted.dimension() > neurons.dimension()) {
+		throw( "ANN00024" );
+		return( 0.0 );
+	}
+
+	storeOutput(predicted);
+
+	/*
+	 * Difference sum.
+	 * http://www.speech.sri.com/people/anand/771/html/node37.html
+	 */
+	double result = 0.0;
+	static double subtraction = 0.0;
+	for (int i=0; i<predicted.dimension(); i++) {
+		subtraction = expected[i] - predicted[i];
+		result += subtraction * subtraction;
+	}
+	result /= (double)2.0;
+
+	return( result );
+}
+
+double ANN::totalError() {
+	double result = 0.0;
+
+	/*
+	 * Estimate work done.
+	 */
+	if (counters != NULL) {
+		counters->increment( "Total error calculations" );
+	}
+
+	/*
+	 * Total artificial neural network error can not be calculated without
+	 * training set.
+	 */
+	if (ts == NULL) {
+		return( (double)RAND_MAX );
+	}
+
+	/*
+	 * Reset network for new training.
+	 */
+	neurons.reset();
+
+	/*
+	 * Loop over training set examples.
+	 */
+	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {
+		/*
+		 * For each time load ANN input.
+		 */
+		loadInput(ts->getSplittedTime(i));
+
+		/*
+		 * Update ANN internal state.
+		 */
+		update();
+
+		/*
+		 * Calculate error.
+		 */
+		result += error(ts->getSplittedExpected(i), ts->getSplittedPredicted(i));
+
+		/*
+		 * Sleep for better performance.
+		 */
+		sleep();
+	}
+
+	/*
+	 * Average error for comparisons with different amount of training examples.
+	 */
+	result /= ts->getSize();
+
+	return( result );
+}
+
+void ANN::feedforward() {
+	/*
+	 * Return if weights are not loaded.
+	 */
+	if (weights.dimension() == 0) {
+		return;
+	}
+
+	NeuronsList next(neurons);
+
+	/*
+	 * Feed hidden layer with values.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		/*
+		 * Select neurons into the hidden layer.
+		 */
+		if (neurons[i].isInput()==true || neurons[i].isOutput()==true || neurons[i].isBias()==true) {
+			continue;
+		}
+
+		/*
+		 * Activation function of neuron i.
+		 */
+		double value = 0.0;
+		for (int j=0; j<neurons.dimension(); j++) {
+			/*
+			 * Select neurons into the input layer.
+			 */
+			if (neurons[j].isInput() == false) {
+				continue;
+			}
+
+			value += neurons[j].getValue() * weights(i,j) * activities(i,j);
+		}
+
+		/*
+		 * Normalize activation level of neuron i with sidmoid function.
+		 */
+		value = 1.0 / (1.0 + exp(-value));
+
+		next[i].setValue( value );
+	}
+
+	/*
+	 * Feed output layer with values.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		/*
+		 * Select neurons into the output layer.
+		 */
+		if (neurons[i].isOutput() == false) {
+			continue;
+		}
+
+		/*
+		 * Activation function of neuron i.
+		 */
+		double value = 0.0;
+		for (int j=0; j<neurons.dimension(); j++) {
+			/*
+			 * Select neurons into the hidden layer.
+			 */
+			if (neurons[j].isInput()==true || neurons[j].isOutput()==true) {
+				continue;
+			}
+
+			value += neurons[j].getValue() * weights(i,j) * activities(i,j);
+		}
+
+		/*
+		 * Normalize activation level of neuron i with sidmoid function.
+		 */
+		value = 1.0 / (1.0 + exp(-value));
+
+		next[i].setValue( value );
+	}
+
+	/*
+	 * Swap buffer to be ready for next network forward update.
+	 */
+	neurons = next;
+}
+
+void ANN::backpropagation(ANNIO &expected) {
+	WeightsMatrix weights = this->weights;
+
+	/*
+	 * Calculate error into output layer.
+	 */
+	for (int i=0,k=0; i<neurons.dimension()&&k<expected.dimension(); i++) {
+		/*
+		 * Select neurons into the output layer.
+		 */
+		if (neurons[i].isOutput() == false) {
+			continue;
+		}
+
+		double error = (neurons[i].getValue() - expected[k]) * neurons[i].getValue() * (1.0 - neurons[i].getValue());
+		neurons[i].setError( error );
+
+		/*
+		 * Increment expected values counter.
+		 */
+		k++;
+	}
+
+	/*
+	 * Calculate error into hidden layer.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		/*
+		 * Select neurons into the hidden layer.
+		 */
+		if (neurons[i].isInput()==true || neurons[i].isOutput()==true) {
+			continue;
+		}
+
+		double error = 0.0;
+
+
+		for (int j=0; j<neurons.dimension(); j++) {
+			/*
+			 * Select neurons into the output layer.
+			 */
+			if (neurons[j].isOutput() == false) {
+				continue;
+			}
+
+			error += neurons[j].getError() * weights(i,j);
+		}
+
+		error *= neurons[i].getValue() * (1.0 - neurons[i].getValue());
+		neurons[i].setError( error );
+	}
+
+	/*
+	 * Correct weights between output and hidden layer.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		/*
+		 * Select neurons into the output layer.
+		 */
+		if (neurons[i].isOutput() == false) {
+			continue;
+		}
+
+		for (int j=0; j<neurons.dimension(); j++) {
+			/*
+			 * Select neurons into the hidden layer.
+			 */
+			if (neurons[j].isInput()==true || neurons[j].isOutput()==true) {
+				continue;
+			}
+
+			weights(i,j) += LEARNING_RATE * neurons[i].getError() * neurons[j].getValue();
+		}
+	}
+
+	/*
+	 * Correct weights between hidden and output layer.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		/*
+		 * Select neurons into the hidden layer.
+		 */
+		if (neurons[i].isInput()==true || neurons[i].isOutput()==true || neurons[i].isBias()==true) {
+			continue;
+		}
+
+		for (int j=0; j<neurons.dimension(); j++) {
+			/*
+			 * Select neurons into the input layer.
+			 */
+			if (neurons[j].isInput() == false) {
+				continue;
+			}
+
+			weights(i,j) += LEARNING_RATE * neurons[i].getError() * neurons[j].getValue();
+		}
+	}
+}
+
+void ANN::gradient() {
+	int index = 0;
+
+	/*
+	 * Gradient optimization can not be applied without training set.
+	 */
+	if (ts == NULL) {
+		return;
+	}
+
+	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {
+		/*
+		 * Select random training example.
+		 * All recurrent connections are switched off and there is no need to
+		 * have time order of examples feeding.
+		 */
+		index = rand() % size;
+
+		/*
+		 * For each time load ANN input.
+		 */
+		loadInput(ts->getSplittedTime(index));
+
+		/*
+		 * Feed forward ANN.
+		 */
+		feedforward();
+
+		/*
+		 * Back propacate ANN error.
+		 */
+		backpropagation(ts->getSplittedExpected(index));
+
+		/*
+		 * Sleep for better performance.
+		 */
+		sleep();
+	}
+}
+
+void ANN::predict() {
+	/*
+	 * Total artificial neural network error can not be calculated without
+	 * training set.
+	 */
+	if (ts == NULL) {
+		return;
+	}
+
+	/*
+	 * Minutes shoud be converted to seconds.
+	 */
+	static unsigned long period = this->period * 60;
+
+	/*
+	 * Loop over future time values.
+	 */
+	unsigned long moment = ts->getTime( ts->getSize()-1 ) + period;
+	for (int i=0; i<bars&&isRunning==true; i++) {
+		/*
+		 * For each time load ANN input.
+		 */
+		ANNInput inputValues( neurons.getInputNeuronsAmount() );
+		ts->splitDigits(inputValues, moment);
+		loadInput(inputValues);
+
+		update();
+
+		moment += period;
+	}
+
+	ANNOutput outputValues( neurons.getOutputNeuronsAmount() );
+	storeOutput(outputValues);
+	prediction = ts->mergeDigits(outputValues) / ts->FLOATING_POINT_FACTOR;
+}
+
+ANN::~ANN() {
+	ts = NULL;
+	counters = NULL;
+}
+
+ANN& ANN::operator=(const ANN &ann) {
+	this->counters = ann.counters;
+	this->ts = ann.ts;
+	this->bars = ann.bars;
+	this->period = ann.period;
+	this->neurons = ann.neurons;
+	this->activities = ann.activities;
+	this->weights = ann.weights;
+	this->prediction = ann.prediction;
+
+	return( *this );
+}
+
+ostream& operator<<(ostream &out, ANN &ann) {
+	out << fixed;
+
+	out << ann.neurons;
+	out << endl;
+
+	out << ann.activities;
+	out << endl;
+
+	out << ann.weights;
+
+	return( out );
+}

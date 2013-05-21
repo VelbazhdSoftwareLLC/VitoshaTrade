@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VitoshaTradeInstaller", "VitoshaTradeInstaller\VitoshaTradeInstaller.vdproj", "{D65CDB7C-EE69-4BC5-A70A-DC26956E4D0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D65CDB7C-EE69-4BC5-A70A-DC26956E4D0F}.Debug|Default.ActiveCfg = Debug
+		{D65CDB7C-EE69-4BC5-A70A-DC26956E4D0F}.Debug|Default.Build.0 = Debug
+		{D65CDB7C-EE69-4BC5-A70A-DC26956E4D0F}.Release|Default.ActiveCfg = Release
+		{D65CDB7C-EE69-4BC5-A70A-DC26956E4D0F}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

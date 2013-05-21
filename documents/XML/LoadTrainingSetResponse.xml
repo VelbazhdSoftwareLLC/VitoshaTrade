@@ -1,0 +1,27 @@
+<load_training_set>
+	<number_of_training_sets>%d</number_of_training_sets>
+	<time index=0>%ld</time>
+	<time index=1>%ld</time>
+	<time index=2>%ld</time>
+	...
+	<open index=0>%lf</open>
+	<open index=1>%lf</open>
+	<open index=2>%lf</open>
+	...
+	<low index=0>%lf</low>
+	<low index=1>%lf</low>
+	<low index=2>%lf</low>
+	...
+	<high index=0>%lf</high>
+	<high index=1>%lf</high>
+	<high index=2>%lf</high>
+	...
+	<close index=0>%lf</close>
+	<close index=1>%lf</close>
+	<close index=2>%lf</close>
+	...
+	<volume index=0>%lf</volume>
+	<volume index=1>%lf</volume>
+	<volume index=2>%lf</volume>
+	...
+</load_training_set>

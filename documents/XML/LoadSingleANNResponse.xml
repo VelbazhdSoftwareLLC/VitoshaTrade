@@ -1,0 +1,19 @@
+<load_single_ann>
+	<number_of_anns>%d</number_of_anns>
+	<symbol>%s</symbol>
+	<period>%d</period>
+	<fitness>%lf</fitness>
+	<number_of_neurons>%d</number_of_neurons>
+	<flag index=0>%d</flag>
+	<flag index=0>%d</flag>
+	<flag index=0>%d</flag>
+	...
+	<weight col=0 row=0>%lf</weight>
+	<weight col=1 row=0>%lf</weight>
+	<weight col=2 row=0>%lf</weight>
+	...
+	<activity col=0 row=0>%lf</activity>
+	<activity col=1 row=0>%lf</activity>
+	<activity col=2 row=0>%lf</activity>
+	...
+</load_single_ann>
