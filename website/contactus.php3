@@ -24,10 +24,10 @@
 		<div class="innerContainer">
 			<h1 style="margin-top:-10px;">Contact Us</h1>
 			<p>
-				TB Soft - Bulgarian Software Company
+				Velbazhd Software - Bulgarian Software Company
 				<br /><br />
 				Todor Balabanov, CEO<br />
-				Email: <a href="mailto:tdb @ tbsoft.eu" title="VitoshaTrade Email Request" target="_blank">tdb @ tbsoft.eu</a><br />
+				Email: <a href="mailto:todor.balabanov gmail com" title="VitoshaTrade Email Request" target="_blank">todor.balabanov gmail com</a><br />
 				Phone: +359 89 8237103
 			</p> 
 		</div>

@@ -150,7 +150,7 @@ if ($offset >= $number_of_pages) {
 		<div id="home_purchase_bevel">
 			<h1>Purchase Information</h1>
 			<div id="home_bevel_txt">
-				VitoshaTrade ® comes on the price of &euro;1999. To make your order we would like to ask you fill 
+				VitoshaTrade ® comes on the price of &euro;9999 (1/100 company shares included in the price). To make your order we would like to ask you fill 
 				out the <a href="order.php" title="Order Vitosha Trade">order form</a>
 
 			</div>
@@ -158,10 +158,10 @@ if ($offset >= $number_of_pages) {
 		<div id="home_contact_bevel">
 			<h1>Contact Us</h1>
 			<div id="home_bevel_txt">
-				TB Soft - Bulgarian Software Company
+				Velbazhd Software - Bulgarian Software Company
 				<br /><br />
 				Todor Balabanov, CEO<br />
-				Email: <a href="mailto:tdb @ tbsoft.eu" title="VitoshaTrade Email Request" target="_blank">tdb @ tbsoft.eu</a><br />
+				Email: <a href="mailto:todor.balabanov gmail com" title="VitoshaTrade Email Request" target="_blank">todor.balabanov gmail com</a><br />
 				Phone: +359 89 8237103
 			</div>
 		</div>

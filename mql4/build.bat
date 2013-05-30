@@ -49,12 +49,19 @@ md "%~dp2images\"
 rem ############################################################################
 rem # Deploy server side scripts. The parameter %2 PHP Apache htdocs folder.   #
 rem ############################################################################
+del "%~dp2common\*.php"
+del "%~dp2logic\*.php"
 copy ..\server\common\*.php "%~dp2common\"
 copy ..\server\logic\*.php "%~dp2logic\"
 
 rem ############################################################################
 rem # Deploy website scripts. The parameter %2 PHP Apache htdocs folder.       #
 rem ############################################################################
+del "%~dp2images\*.jpg"
+del "%~dp2images\*.png"
+del "%~dp2\*.php"
+del "%~dp2\*.php3"
+del "%~dp2\*.css"
 copy ..\website\images\*.jpg "%~dp2images\"
 copy ..\website\images\*.png "%~dp2images\"
 copy ..\website\*.php3 "%~dp2"
@@ -65,6 +72,7 @@ del "%~dp2\*.php3"
 rem ############################################################################
 rem # Change working directory to binaries.                                    #
 rem ############################################################################
+md binaries
 cd binaries
 
 rem ############################################################################
@@ -106,6 +114,7 @@ del VitoshaTrade.dll
 rem ############################################################################
 rem # Compile Java based back end system.                                      #
 rem ############################################################################
+md ..\..\backend\binaries
 cd ..\..\backend\binaries\
 javac -d .\ ..\source\*.java
 jar cvf VitoshaTradeUnsigned.jar *.class
@@ -114,6 +123,9 @@ jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass Vitosh
 rem ############################################################################
 rem # Depoly Java based back end system.                                       #
 rem ############################################################################
+del "%~dp2\VitoshaTrade.jar"
+del "%~dp2\VitoshaTrade.cer"
+del "%~dp2\*.html"
 copy .\VitoshaTrade.jar "%~dp2"
 copy ..\keys\VitoshaTrade.cer "%~dp2"
 copy ..\source\*.html "%~dp2"
