@@ -142,7 +142,7 @@ if ($offset >= $number_of_pages) {
 		<div id="home_about_bevel">
 			<h1>About Vitosha Trade</h1>
 			<div id="home_bevel_txt">
-				VitoshaTrade ® is <a href="http://en.wikipedia.org/wiki/Foreign_exchange_market">Forex</a> prediction indicator that can be used only with <a href="http://www.metatrader4.com/">MetaTrader 4</a> trading  platform. 
+				VitoshaTrade &reg; is <a href="http://en.wikipedia.org/wiki/Foreign_exchange_market">Forex</a> prediction indicator that can be used only with <a href="http://www.metatrader4.com/">MetaTrader 4</a> trading  platform. 
 				The indicator is based on Artificial Neural Networks trained by Differential Evolution algorithm in 
 				distributed environment.
 			</div>
@@ -150,7 +150,7 @@ if ($offset >= $number_of_pages) {
 		<div id="home_purchase_bevel">
 			<h1>Purchase Information</h1>
 			<div id="home_bevel_txt">
-				VitoshaTrade ® comes on the price of &euro;9999 (1/100 company shares included in the price). To make your order we would like to ask you fill 
+				VitoshaTrade &reg; comes on the price of &euro;9999 (1/100 company shares included in the price). To make your order we would like to ask you fill 
 				out the <a href="order.php" title="Order Vitosha Trade">order form</a>
 
 			</div>
@@ -249,7 +249,7 @@ if ($result != false) {
 			<div class="footerLeft">
 			 	Design by <a href="http://www.mxworkz.com" target="_blank" title="MXWorkz Creative">MXWorkz</a>
 			</div>
-			<div class="copy">This website and its content is intellectual pfoperty of <strong>TBSoft &copy;</strong>. </div>
+			<div class="copy">This website and its content is intellectual pfoperty of <strong>Velbazhd Software &copy;</strong>. </div>
 			<div class="footerRight">
 				 <a href="index.php" title="Home">Home</a> &nbsp; &nbsp; 
 				 <a href="products.php" title="Products Information">Products Information</a> &nbsp; &nbsp; 

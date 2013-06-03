@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `todorb_vitoshatrade`
+-- Database: `veldsoft_vitoshatrade`
 --
 
 DELIMITER $$
