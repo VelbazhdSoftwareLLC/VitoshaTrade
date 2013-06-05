@@ -29,7 +29,7 @@
  *                                                                             *
  ******************************************************************************/
 
-#property copyright "Copyright © 2008-2011, Todor Balabanov"
+#property copyright "Copyright © 2008-2013, Todor Balabanov"
 #property link "http://tdb.hit.bg/"
 
 #include <VitoshaTrade.mqh>
@@ -101,7 +101,7 @@ extern int PREDICTOR_ID = 0;
 void sendDataToPredictor() {
 	double rates[][6];
 	ArrayCopyRates( rates );
-	_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
+	//_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
 }
 
 /**
@@ -149,7 +149,7 @@ int init() {
 	/*
 	 * Initialize predictor.
 	 */
-	_Z14startPredictoriPKciiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, PREDICT_BARS);
+	//_Z14startPredictoriPKciiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, PREDICT_BARS);
 
 	return( 0 );
 }
@@ -179,7 +179,7 @@ int deinit() {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	_Z13stopPredictorv();
+	//_Z13stopPredictorv();
 
 	return( 0 );
 }
@@ -227,7 +227,9 @@ int start() {
 	 * Ask for prediction.
 	 */
 	static double lastValue = 0.0;
-	double value = _Z10predictionv();
+	double value;
+	//value = _Z10predictionv();
+	value = (Ask+Bid)/2.0;
 
 	/*
 	 * Display prediction.
