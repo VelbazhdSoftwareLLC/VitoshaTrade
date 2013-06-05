@@ -229,7 +229,11 @@ int start() {
 	static double lastValue = 0.0;
 	double value;
 	//value = _Z10predictionv();
-	value = (Ask+Bid)/2.0;
+	if(MathRand()%2 == 0) {
+	  value = (Ask+Bid)/2.0 + (MathRand()/3276700.0);
+	} else {
+	  value = (Ask+Bid)/2.0 - (MathRand()/3276700.0);
+	}
 
 	/*
 	 * Display prediction.
