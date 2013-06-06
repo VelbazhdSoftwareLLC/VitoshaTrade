@@ -46,7 +46,7 @@ define("PASSWORD", "");
 /**
  * Database name.
  */
-define("DBNAME", "todorb_vitoshatrade");
+define("DBNAME", "veldsoft_vitoshatrade");
 
 /**
  * Database link global variable.
