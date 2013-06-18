@@ -206,11 +206,13 @@ DWORD WINAPI run(void *arg) {
 	 */
 	EnterCriticalSection( &criticalSection );
 	try {
-		trainer = new Trainer( init );
+		trainer = new Trainer();
 		if (trainer == NULL) {
 			isRunning = false;
 			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
 		} else {
+			//TODO Fix commucation problems.
+			//trainer.setup( init );
 			isRunning = true;
 		}
 	} catch (const char* message) {
@@ -373,7 +375,9 @@ MT4_EXPFUNC void __stdcall stopPredictor() {
 	/*
 	 * Deactivate calculation thread.
 	 */
+	EnterCriticalSection( &criticalSection );
 	isRunning = false;
+	LeaveCriticalSection( &criticalSection );
 	//TODO Investigate effects caused by the second parameter.
 	WaitForSingleObject(threadHandle, 0);
 	CloseHandle( threadHandle );

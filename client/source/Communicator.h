@@ -5,7 +5,7 @@
  * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
  * the capital of Bulgaria.                                                    *
  *                                                                             *
- * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ * Copyright (C) 2008-2013 by Todor Balabanov  ( tdb@tbsoft.eu )               *
  *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
  *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
  *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
@@ -13,6 +13,7 @@
  *                       Galq Cirkalova     ( galq_cirkalova@abv.bg )          *
  *                       Ivan Grozev        ( ivan.iliev.grozev@gmail.com )    *
  *                       Elisaveta Hristova ( elisaveta.s.hristova@gmail.com ) *
+ *                       Simona Karadachka  ( simona.karadachka@gmail.com )    *
  *                                                                             *
  * This program is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by        *
@@ -29,94 +30,25 @@
  *                                                                             *
  ******************************************************************************/
 
-#ifndef HTTP_COMMUNICATOR_H
-#define HTTP_COMMUNICATOR_H
+#ifndef COMMUNICATOR_H
+#define COMMUNICATOR_H
 
-#include <vector>
+class DE;
+class ANN;
 
-#include "Communicator.h"
+#include "RateInfo.h"
+#include "TimePeriod.h"
 
 /**
- * Communication class used for HTTP data transfer between client module and
- * server side business logic.
+ * Communication class used for abstract data transfer.
  *
  * @author Todor Balabanov
  *
  * @email tdb@tbsoft.eu
  *
- * @date 10 May 2009
+ * @date 18 Jun 2013
  */
-class HttpCommunicator : public Communicator {
-private:
-
-	/**
-	 * String buffer size.
-	 */
-	static const int HTTP_PARAMETERS_BUFFER_SIZE = 1000000;
-
-public:
-
-	/**
-	 * String buffer size.
-	 */
-	static const int BUFFER_SIZE = 1000000;
-
-	/**
-	 * Remote host URL address.
-	 */
-	static const char HOST[];
-
-	/**
-	 * Remote host port.
-	 */
-	static const int PORT = 80;
-
-	/**
-	 * Remote script ANN list provider.
-	 */
-	static const char LIST_OF_ANNS_SCRIPT[];
-
-	/**
-	 * Remote single ANN save script.
-	 */
-	static const char SAVE_SINGLE_ANN_SCRIPT[];
-
-	/**
-	 * Remote ANN neurons amount load script.
-	 */
-	static const char LOAD_NEURONS_AMOUNT_SCRIPT[];
-
-	/**
-	 * Remote single ANN load script.
-	 */
-	static const char LOAD_SINGLE_ANN_SCRIPT[];
-
-	/**
-	 * Remote single ANN load script.
-	 */
-	static const char LOAD_BEST_FITNESS_SCRIPT[];
-
-	/**
-	 * Remote training set size script.
-	 */
-	static const char TRAINING_SET_SIZE_SCRIPT[];
-
-	/**
-	 * Remote training set save script.
-	 */
-	static const char SAVE_TRAINING_SET_SCRIPT[];
-
-	/**
-	 * Remote training set load script.
-	 */
-	static const char LOAD_TRAINING_SET_SCRIPT[];
-
-private:
-
-	/**
-	 * String buffer.
-	 */
-	char buffer[ BUFFER_SIZE ];
+class Communicator {
 
 public:
 
@@ -135,9 +67,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 10 May 2009
+	 * @date 10 May 2013
 	 */
-	virtual void loadAnnList(std::vector<int> &list, int annId, char symbol[], TimePeriod period);
+	virtual void loadAnnList(std::vector<int> &list, int annId, char symbol[], TimePeriod period) = 0;
 
 	/**
 	 * Allocate memory and load ANN and DE objects.
@@ -166,9 +98,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 26 Aug 2009
+	 * @date 26 Aug 2013
 	 */
-	virtual void loadTrainerObjects(Counter &counters, ANN &ann, DE &de, int dbId, char symbol[], TimePeriod period, int neuronsAmount, int populationSize, int bars);
+	virtual void loadTrainerObjects(Counter &counters, ANN &ann, DE &de, int dbId, char symbol[], TimePeriod period, int neuronsAmount, int populationSize, int bars) = 0;
 
 	/**
 	 * Save single ANN record on the remote side server.
@@ -191,9 +123,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 10 May 2009
+	 * @date 10 May 2013
 	 */
-	virtual void saveSingleANN(char *symbol, TimePeriod period, double fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities);
+	virtual void saveSingleANN(char *symbol, TimePeriod period, double fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) = 0;
 
 	/**
 	 * Load ANN neurons amount from DB.
@@ -206,9 +138,9 @@ public:
 	 *
 	 * @email iliyan_mf@abv.bg
 	 *
-	 * @date 01 Aug 2009
+	 * @date 01 Aug 2013
 	 */
-	virtual int loadAnnNeuronsAmount(int annId);
+	virtual int loadAnnNeuronsAmount(int annId) = 0;
 
 	/**
 	 * Load single ANN objec record from remote server side.
@@ -233,9 +165,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 26 Aug 2009
+	 * @date 26 Aug 2013
 	 */
-	virtual void loadSingleANN(int annId, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities);
+	virtual void loadSingleANN(int annId, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) = 0;
 
 	/**
 	 * Load training set size from remote side server.
@@ -248,9 +180,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 23 Sep 2009
+	 * @date 23 Sep 2013
 	 */
-	virtual int loadTrainingSetSize(char *symbol, TimePeriod period);
+	virtual int loadTrainingSetSize(char *symbol, TimePeriod period) = 0;
 
 	/**
 	 * Save training set record on remote side server.
@@ -267,9 +199,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 22 Sep 2009
+	 * @date 22 Sep 2013
 	 */
-	virtual void saveTrainingSet(char symbol[], TimePeriod period, const std::vector<RateInfo> &rates, int size);
+	virtual void saveTrainingSet(char symbol[], TimePeriod period, const std::vector<RateInfo> &rates, int size) = 0;
 
 	/**
 	 * Load training set record from remote side server.
@@ -286,9 +218,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 22 Sep 2009
+	 * @date 22 Sep 2013
 	 */
-	virtual void loadTrainingSet(char symbol[], TimePeriod period, std::vector<RateInfo> &rates, int size);
+	virtual void loadTrainingSet(char symbol[], TimePeriod period, std::vector<RateInfo> &rates, int size) = 0;
 
 	/**
 	 * Load remote server best known fitness for particular ANN kind.
@@ -309,9 +241,9 @@ public:
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
-	 * @date 10 May 2009
+	 * @date 10 May 2013
 	 */
-	virtual double loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities);
+	virtual double loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) = 0;
 
 };
 

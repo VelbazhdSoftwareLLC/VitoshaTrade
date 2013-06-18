@@ -46,14 +46,21 @@ using namespace std;
 
 const char Trainer::REPORT_FILE_NAME[] = "VitoshaTradeTrainingReport.txt";
 
-Trainer::Trainer(const ModelParameters &parameters) {
-	strcpy(this->symbol, parameters.symbol);
-	this->period = parameters.period;
-
+Trainer::Trainer() {
 	/*
 	 * At start there is no report at all.
 	 */
 	lastBestFitnessReportTime = 0L;
+
+	/*
+	 * Estimate work done.
+	 */
+	counters.setValue("Training start time seconds", clock()/CLOCKS_PER_SEC);
+}
+
+void Trainer::setup(const ModelParameters &parameters) {
+	strcpy(this->symbol, parameters.symbol);
+	this->period = parameters.period;
 
 	/*
 	 * At the beginning there is no training set.
@@ -65,11 +72,6 @@ Trainer::Trainer(const ModelParameters &parameters) {
 	 */
 	http.loadTrainerObjects(counters, ann, de, parameters.dbId, symbol, period, parameters.neuronsAmount, parameters.populationSize, parameters.bars);
 	ann.setTrainingSetPointer( &ts );
-
-	/*
-	 * Estimate work done.
-	 */
-	counters.setValue("Training start time seconds", clock()/CLOCKS_PER_SEC);
 }
 
 void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {

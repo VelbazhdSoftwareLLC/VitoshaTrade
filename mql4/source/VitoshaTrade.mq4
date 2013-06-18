@@ -149,7 +149,7 @@ int init() {
 	/*
 	 * Initialize predictor.
 	 */
-	//_Z14startPredictoriPKciiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, PREDICT_BARS);
+	_Z14startPredictoriPKciiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, PREDICT_BARS);
 
 	return( 0 );
 }
@@ -179,7 +179,7 @@ int deinit() {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	//_Z13stopPredictorv();
+	_Z13stopPredictorv();
 
 	return( 0 );
 }

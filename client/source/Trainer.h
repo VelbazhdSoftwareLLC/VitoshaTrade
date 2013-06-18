@@ -131,7 +131,20 @@ public:
 	 *
 	 * @date 12 Sep 2009
 	 */
-	Trainer(const ModelParameters &parameters);
+	Trainer();
+
+	/**
+	 * Setup trainer by using database data or user defined parameters.
+	 *
+	 * @param parameters Calculation model parameters.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email tdb@tbsoft.eu
+	 *
+	 * @date 18 Jun 2013
+	 */
+	void setup(const ModelParameters &parameters);
 
 	/**
 	 * Update training set.
