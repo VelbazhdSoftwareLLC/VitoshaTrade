@@ -179,7 +179,7 @@ int deinit() {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	_Z13stopPredictorv();
+	//_Z13stopPredictorv();
 
 	return( 0 );
 }

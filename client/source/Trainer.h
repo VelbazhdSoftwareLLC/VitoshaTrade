@@ -123,8 +123,6 @@ public:
 	/**
 	 * Constructing trainer by using database data or user defined parameters.
 	 *
-	 * @param parameters Calculation model parameters.
-	 *
 	 * @author Todor Balabanov
 	 *
 	 * @email tdb@tbsoft.eu
