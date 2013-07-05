@@ -1,3 +1,5 @@
+-> Use Java for the client side and produce DLL by using tools like IKVM ( http://www.ikvm.net/ ).
+
 -> Implement crossover as map of random selected cells, instead of cutting point and add field to ANN database table structure.
 
 -> Last used exception number 211.
