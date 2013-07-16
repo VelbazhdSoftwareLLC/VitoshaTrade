@@ -94,7 +94,7 @@ rem ############################################################################
 rem # Linking.                                                                 #
 rem ############################################################################
 ar rcs libVitoshaTrade.a *.o
-dllwrap --output-def VitoshaTrade.def *.o ../libraries/libws2_32.a ../libraries/libpdh.a --no-export-all-symbols --add-stdcall-alias -o VitoshaTrade.dll -lstdc++
+dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a --no-export-all-symbols --add-stdcall-alias -o VitoshaTrade.dll -lstdc++
 
 rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
