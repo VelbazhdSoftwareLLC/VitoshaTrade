@@ -88,124 +88,9 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 	return realsize;
 }
 
-void HttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
-
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00043" );
-		// return;
-	// }
-
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00044" );
-		// return;
-	// }
-
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00045" );
-		// return;
-	// }
-
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
-
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00046" );
-		// return;
-	// }
-
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
-	// char *position = parameters;
-
-	// sprintf(position, "annid=%d&", annId);
-	// position += strlen(position);
-
-	// sprintf(position, "symbol=%s&", symbol);
-	// position += strlen(position);
-
-	// sprintf(position, "period=%d", period);
-	// position += strlen(position);
-
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", LIST_OF_ANNS_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00047" );
-		// return;
-	// }
-
-	// position = buffer;
-	// int result = 0;
-	// int numberOfBytes = 0;
-	// do {
-		// result = recv(client, position, BUFFER_SIZE-numberOfBytes-1, MSG_WAITALL);
-		// if (result == SOCKET_ERROR) {
-			// closesocket( client );
-			// WSACleanup();
-			// throw( "HttpCommunicator00048" );
-			// return;
-		// } else {
-			// numberOfBytes += result;
-			// position = buffer + numberOfBytes;
-		// }
-	// } while(result > 0);
-	// buffer[ numberOfBytes ] = '\0';
-
-	// /*
-	 // * Separate HTTP header from HTTP body.
-	 // */
-	// position = strstr(buffer, "\r\n\r\n");
-
-	// /*
-	 // * Parse list size.
-	 // */
-	// position = strtok(position, " \r\n");
-	// int numberOfIds = 0;
-	// if(position-buffer < numberOfBytes) {
-		// sscanf(position, "%d", &numberOfIds);
-	// }
-
-	// /*
-	 // * Parse list values and limit it to the size of output array.
-	 // */
-	// int i = 0;
-	// int value = 0;
-	// for (i=0; i<numberOfIds&&i<list.size(); i++) {
-		// list[i] = 0;
-		// position = strtok(NULL, " \r\n");
-		// if(position-buffer < numberOfBytes) {
-			// sscanf(position, "%d", &value);
-		// }
-		// list[i] = value;
-	// }
-
-	// /*
-	 // * Resize list if there are less available ANNs.
-	 // */
-	// if(i < list.size()) {
-		// list.resize( i );
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
-}
-
-int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
-	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
-	sprintf(parameters, "annid=%d", annId);
-
-	CURLcode result;
+const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script) {
 	CURL *curl;
+	CURLcode result;
 
 	struct MemoryStruct chunk;
 	chunk.memory = (char*)malloc(1);
@@ -216,14 +101,14 @@ int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
 	curl = curl_easy_init();
 
 	if(curl == NULL) {
-		// TODO Exception handling should be done.
+		throw( "HttpCommunicator00212" );
 	}
 
-	sprintf(buffer, "http://%s/%s", HOST, LOAD_NEURONS_AMOUNT_SCRIPT);
+	sprintf(buffer, "http://%s%s", host, script);
 	curl_easy_setopt(curl, CURLOPT_URL, buffer);
 	curl_easy_setopt(curl, CURLOPT_POST, 1);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(parameters));
+	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, fields);
+	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(fields));
 
 	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -234,18 +119,12 @@ int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
  	result = curl_easy_perform(curl);
 
 	if(result != CURLE_OK) {
-		// TODO Exception handling should be done.
+		throw( "HttpCommunicator00213" );
 	}
 
-	/*
-	 * Parse result.
-	 */
-	int amout = 0;
-	char *position = chunk.memory;
-	// TODO May be command should be like this: sscanf(position, "\n\n%d", &result);
-	sscanf(position, "%d", &amout);
-
 	curl_easy_cleanup(curl);
+
+	memcpy(response, chunk.memory, sizeof(char)*(chunk.size+1));
 
 	if(chunk.memory) {
 		free(chunk.memory);
@@ -253,432 +132,308 @@ int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
 
 	curl_global_cleanup();
 
+	return(response);
+}
+
+void HttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
+	char *position = parameters;
+
+	sprintf(position, "annid=%d&", annId);
+	position += strlen(position);
+
+	sprintf(position, "symbol=%s&", symbol);
+	position += strlen(position);
+
+	sprintf(position, "period=%d", period);
+	position += strlen(position);
+
+	HttpRequestResponse(buffer, parameters, HOST, LIST_OF_ANNS_SCRIPT);
+
+	int result = 0;
+	position = buffer;
+
+	int numberOfIds = 0;
+	// TODO May be command should be like this: sscanf(position, "\n\n%d", &numberOfIds);
+	sscanf(position, "%d", &numberOfIds);
+	position = strtok(NULL, " \r\n");
+
+	/*
+	 * Parse list values and limit it to the size of output array.
+	 */
+	int i = 0;
+	int value = 0;
+	for (i=0; i<numberOfIds&&i<list.size(); i++) {
+		list[i] = 0;
+		position = strtok(NULL, " \r\n");
+		sscanf(position, "%d", &value);
+		list[i] = value;
+	}
+
+	/*
+	 * Resize list if there are less available ANNs.
+	 */
+	if(i < list.size()) {
+		list.resize( i );
+	}
+}
+
+int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
+	sprintf(parameters, "annid=%d", annId);
+
+	HttpRequestResponse(buffer, parameters, HOST, LOAD_NEURONS_AMOUNT_SCRIPT);
+
+	/*
+	 * Parse result.
+	 */
+	int amout = 0;
+	char *position = buffer;
+	// TODO May be command should be like this: sscanf(position, "\n\n%d", &result);
+	sscanf(position, "%d", &amout);
+
 	return (amout);
 }
 
 void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, int dbId, char symbol[], TimePeriod period, int neuronsAmount, int populationSize, int bars) {
-	// vector<int> list(populationSize);
+	vector<int> list(populationSize);
 
-	// /*
-	 // * Load list with available ANNs.
-	 // */
-	// int numberOfNeurons = loadAnnNeuronsAmount(dbId);
-	// loadAnnList(list, dbId, symbol, period);
-	// if (list.size()>0 && numberOfNeurons>0) {
-		// neuronsAmount = numberOfNeurons;
+	/*
+	 * Load list with available ANNs.
+	 */
+	int numberOfNeurons = loadAnnNeuronsAmount(dbId);
+	loadAnnList(list, dbId, symbol, period);
+	if (list.size()>0 && numberOfNeurons>0) {
+		neuronsAmount = numberOfNeurons;
 
-		// ANN annInstance(&counters, neuronsAmount, bars, period);
-		// ann = annInstance;
-	// } else if (list.size() == 0) {
-		// /*
-		 // * It is good new network to have at least neurons for input and output.
-		 // */
-		// if(neuronsAmount < (TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS+TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS)) {
-			// neuronsAmount = TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS + TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS;
-		// }
+		ANN annInstance(&counters, neuronsAmount, bars, period);
+		ann = annInstance;
+	} else if (list.size() == 0) {
+		/*
+		 * It is good new network to have at least neurons for input and output.
+		 */
+		if(neuronsAmount < (TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS+TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS)) {
+			neuronsAmount = TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS + TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS;
+		}
 
-		// /*
-		 // * Create new network if no record presented in database.
-		 // * Input and output neurons should be specified on network creation.
-		 // */
-		// ANN annInstance(&counters, neuronsAmount, bars, period);
-		// ann = annInstance;
-		// ann.setupInput( TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS );
-		// ann.setupOutput( TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS );
-	// }
+		/*
+		 * Create new network if no record presented in database.
+		 * Input and output neurons should be specified on network creation.
+		 */
+		ANN annInstance(&counters, neuronsAmount, bars, period);
+		ann = annInstance;
+		ann.setupInput( TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS );
+		ann.setupOutput( TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS );
+	}
 
-	// /* Memory allocation. */ {
-		// DE deInstance(&counters, &ann, populationSize, 90.0, 90.0);
-		// de = deInstance;
-	// }
+	/* Memory allocation. */ {
+		DE deInstance(&counters, &ann, populationSize, 90.0, 90.0);
+		de = deInstance;
+	}
 
-	// /*
-	 // * Load DE with random values. It is useful in new ANN and DE creation.
-     // * Internal size of chromosomes should be given before initialization.
-     // */
-	// Population &population = de.getPopulation();
-    // for(int i=0; i<population.dimension(); i++) {
-        // WeightsMatrix weights( ann.getNeurons().dimension() );
-        // Chromosome chromosome(weights, (double)RAND_MAX);
-        // population[i] = chromosome;
-    // }
-    // TODO Find better way to initialize random population with proper size of weight matrices.
-	// population.initRandom();
-    // TODO This setter call may be is not needed.
-	// de.setPopulation( population );
+	/*
+	 * Load DE with random values. It is useful in new ANN and DE creation.
+     * Internal size of chromosomes should be given before initialization.
+     */
+	Population &population = de.getPopulation();
+    for(int i=0; i<population.dimension(); i++) {
+        WeightsMatrix weights( ann.getNeurons().dimension() );
+        Chromosome chromosome(weights, (double)RAND_MAX);
+        population[i] = chromosome;
+    }
+    //TODO Find better way to initialize random population with proper size of weight matrices.
+	population.initRandom();
+    //TODO This setter call may be is not needed.
+	de.setPopulation( population );
 
-	// /*
-	 // * Load DB ANNs.
-	 // */
-	// double fitness = (double)RAND_MAX;
-	// NeuronsList &neurons = ann.getNeurons();
-	// ActivitiesMatrix &activities = ann.getActivities();
-	// if (list.size()>0 && neurons.dimension()>0 && neurons.dimension()==neuronsAmount) {
-		// Population &population = de.getPopulation();
-		// for (int i=0; i<list.size(); i++) {
-			// WeightsMatrix &weights = population[i].getWeights();
-			// TODO Activities, symbol, period, number of neurons and flags can be loaded only once.
-			// loadSingleANN(list[i], symbol, period, fitness, neurons, weights, activities);
-			// population[i].setFitness( fitness );
-			// population[i].setWeights( weights );
-		// }
-		// de.setPopulation( population );
-	// }
+	/*
+	 * Load DB ANNs.
+	 */
+	double fitness = (double)RAND_MAX;
+	NeuronsList &neurons = ann.getNeurons();
+	ActivitiesMatrix &activities = ann.getActivities();
+	if (list.size()>0 && neurons.dimension()>0 && neurons.dimension()==neuronsAmount) {
+		Population &population = de.getPopulation();
+		for (int i=0; i<list.size(); i++) {
+			WeightsMatrix &weights = population[i].getWeights();
+			//TODO Activities, symbol, period, number of neurons and flags can be loaded only once.
+			loadSingleANN(list[i], symbol, period, fitness, neurons, weights, activities);
+			population[i].setFitness( fitness );
+			population[i].setWeights( weights );
+		}
+		de.setPopulation( population );
+	}
 }
 
 void HttpCommunicator::saveSingleANN(char *symbol, TimePeriod period, double fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char number[ 100 ];
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	char *position = parameters;
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00055" );
-		// return;
-	// }
+	sprintf(position, "symbol=%s&", symbol);
+	position += strlen(position);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00056" );
-		// return;
-	// }
+	sprintf(position, "period=%d&", period);
+	position += strlen(position);
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00057" );
-		// return;
-	// }
+	sprintf(position, "fitness=%lf&", fitness);
+	position += strlen(position);
 
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
+	sprintf(position, "number_of_neurons=%d&", neurons.dimension());
+	position += strlen(position);
 
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00058" );
-		// return;
-	// }
+	strcpy(buffer, "");
+	for (int i=0; i<neurons.dimension(); i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%d", neurons[i].getType());
+		strcat(buffer, number);
+	}
+	sprintf(position, "flags=%s&", buffer);
+	position += strlen(position);
 
-	// char number[ 100 ];
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// char *position = parameters;
+	strcpy(buffer, "");
+	for (int j=0; j<neurons.dimension(); j++) {
+		if (j > 0) {
+			strcat(buffer, "\n");
+		}
+		for (int i=0; i<neurons.dimension(); i++) {
+			if (i > 0) {
+				strcat(buffer, " ");
+			}
+			sprintf(number, "%lf", weights(i,j));
+			strcat(buffer, number);
+		}
+	}
+	sprintf(position, "weights=%s&", buffer);
+	position += strlen(position);
 
-	// sprintf(position, "symbol=%s&", symbol);
-	// position += strlen(position);
+	strcpy(buffer, "");
+	for (int j=0; j<neurons.dimension(); j++) {
+		if (j > 0) {
+			strcat(buffer, "\n");
+		}
+		for (int i=0; i<neurons.dimension(); i++) {
+			if (i > 0) {
+				strcat(buffer, " ");
+			}
+			sprintf(number, "%lf", activities(i,j));
+			strcat(buffer, number);
+		}
+	}
+	sprintf(position, "activities=%s", buffer);
+	position += strlen(position);
 
-	// sprintf(position, "period=%d&", period);
-	// position += strlen(position);
-
-	// sprintf(position, "fitness=%lf&", fitness);
-	// position += strlen(position);
-
-	// sprintf(position, "number_of_neurons=%d&", neurons.dimension());
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<neurons.dimension(); i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%d", neurons[i].getType());
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "flags=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int j=0; j<neurons.dimension(); j++) {
-		// if (j > 0) {
-			// strcat(buffer, "\n");
-		// }
-		// for (int i=0; i<neurons.dimension(); i++) {
-			// if (i > 0) {
-				// strcat(buffer, " ");
-			// }
-			// sprintf(number, "%lf", weights(i,j));
-			// strcat(buffer, number);
-		// }
-	// }
-	// sprintf(position, "weights=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int j=0; j<neurons.dimension(); j++) {
-		// if (j > 0) {
-			// strcat(buffer, "\n");
-		// }
-		// for (int i=0; i<neurons.dimension(); i++) {
-			// if (i > 0) {
-				// strcat(buffer, " ");
-			// }
-			// sprintf(number, "%lf", activities(i,j));
-			// strcat(buffer, number);
-		// }
-	// }
-	// sprintf(position, "activities=%s", buffer);
-	// position += strlen(position);
-
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", SAVE_SINGLE_ANN_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00059" );
-		// return;
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
+	HttpRequestResponse(buffer, parameters, HOST, SAVE_SINGLE_ANN_SCRIPT);
 }
 
 void HttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	sprintf(parameters, "annid=%d", annId);
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00060" );
-		// return;
-	// }
+	HttpRequestResponse(buffer, parameters, HOST, LOAD_SINGLE_ANN_SCRIPT);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00061" );
-		// return;
-	// }
+	char *position = buffer;
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00062" );
-		// return;
-	// }
+	int available = 0;
+	//TODO May be it is wrong.
+	position = strtok (position, " \r\n");
+	sscanf(position, "%d", &available);
 
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
+	if (available != 0) {
+		position = strtok (NULL, " \r\n");
+		strcpy(symbol, "");
+		sscanf(position, "%s", symbol);
 
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00063" );
-		// return;
-	// }
+		position = strtok (NULL, " \r\n");
+		period = NO;
+		sscanf(position, "%d", &period);
 
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// sprintf(parameters, "annid=%d", annId);
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", LOAD_SINGLE_ANN_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00064" );
-		// return;
-	// }
+		position = strtok (NULL, " \r\n");
+		fitness = (double)RAND_MAX;
+		sscanf(position, "%lf", &fitness);
 
-	// char *position = buffer;
-	// int result = 0;
-	// int numberOfBytes = 0;
-	// do {
-		// result = recv(client, position, BUFFER_SIZE-numberOfBytes-1, MSG_WAITALL);
-		// if (result == SOCKET_ERROR) {
-			// closesocket( client );
-			// WSACleanup();
-			// throw( "HttpCommunicator00065" );
-			// return;
-		// } else {
-			// numberOfBytes += result;
-			// position = buffer + numberOfBytes;
-		// }
-	// } while(result > 0);
-	// buffer[ numberOfBytes ] = '\0';
+		int numberOfNeurons = 0;
+		position = strtok (NULL, " \r\n");
+		sscanf(position, "%d", &numberOfNeurons);
 
-	// /*
-	 // * Separate HTTP header from HTTP body.
-	 // */
-	// position = strstr(buffer, "\r\n\r\n");
+		int intValue = 0;
+		for (int i=0; i<numberOfNeurons; i++) {
+			position = strtok (NULL, " \r\n");
+			intValue = 0;
+			sscanf(position, "%d", &intValue);
+			switch (intValue) {
+			case REGULAR:
+				neurons[i].setType( REGULAR );
+				break;
+			case BIAS:
+				neurons[i].setType( BIAS );
+				break;
+			case INPUT:
+				neurons[i].setType( INPUT );
+				break;
+			case INPUT_BIAS:
+				neurons[i].setType( INPUT_BIAS );
+				break;
+			case OUTPUT:
+				neurons[i].setType( OUTPUT );
+				break;
+			case OUTPUT_BIAS:
+				neurons[i].setType( OUTPUT_BIAS );
+				break;
+			case OUTPUT_INPUT:
+				neurons[i].setType( OUTPUT_INPUT );
+				break;
+			case OUTPUT_INPUT_BIAS:
+				neurons[i].setType( OUTPUT_INPUT_BIAS );
+				break;
+			default:
+				neurons[i].setType( REGULAR );
+				break;
+			}
+		}
 
-	// int available = 0;
-	// position = strtok (position, " \r\n");
-	// if(position-buffer < numberOfBytes) {
-		// sscanf(position, "%d", &available);
-	// }
-	// if (available != 0) {
-		// position = strtok (NULL, " \r\n");
-		// strcpy(symbol, "");
-		// if(position-buffer < numberOfBytes) {
-			// sscanf(position, "%s", symbol);
-		// }
+		double doubleValue = 0.0;
+		for (int j=0; j<numberOfNeurons; j++) {
+			for (int i=0; i<numberOfNeurons; i++) {
+				position = strtok (NULL, " \r\n");
+				doubleValue = 0.0;
+				sscanf(position, "%lf", &doubleValue);
+				weights(i,j) = doubleValue;
+			}
+		}
 
-		// position = strtok (NULL, " \r\n");
-		// period = NO;
-		// if(position-buffer < numberOfBytes) {
-			// sscanf(position, "%d", &period);
-		// }
+		for (int j=0; j<numberOfNeurons; j++) {
+			for (int i=0; i<numberOfNeurons; i++) {
+				position = strtok (NULL, " \r\n");
+				doubleValue = 0.0;
+				sscanf(position, "%lf", &doubleValue);
+				activities(i,j) = doubleValue;
+			}
+		}
+	}
 
-		// position = strtok (NULL, " \r\n");
-		// fitness = (double)RAND_MAX;
-		// if(position-buffer < numberOfBytes) {
-			// sscanf(position, "%lf", &fitness);
-		// }
-
-		// int numberOfNeurons = 0;
-		// position = strtok (NULL, " \r\n");
-		// if(position-buffer < numberOfBytes) {
-			// sscanf(position, "%d", &numberOfNeurons);
-		// }
-
-		// int intValue = 0;
-		// for (int i=0; i<numberOfNeurons; i++) {
-			// position = strtok (NULL, " \r\n");
-			// intValue = 0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%d", &intValue);
-			// }
-			// switch (intValue) {
-			// case REGULAR:
-				// neurons[i].setType( REGULAR );
-				// break;
-			// case BIAS:
-				// neurons[i].setType( BIAS );
-				// break;
-			// case INPUT:
-				// neurons[i].setType( INPUT );
-				// break;
-			// case INPUT_BIAS:
-				// neurons[i].setType( INPUT_BIAS );
-				// break;
-			// case OUTPUT:
-				// neurons[i].setType( OUTPUT );
-				// break;
-			// case OUTPUT_BIAS:
-				// neurons[i].setType( OUTPUT_BIAS );
-				// break;
-			// case OUTPUT_INPUT:
-				// neurons[i].setType( OUTPUT_INPUT );
-				// break;
-			// case OUTPUT_INPUT_BIAS:
-				// neurons[i].setType( OUTPUT_INPUT_BIAS );
-				// break;
-			// default:
-				// neurons[i].setType( REGULAR );
-				// break;
-			// }
-		// }
-
-		// double doubleValue = 0.0;
-		// for (int j=0; j<numberOfNeurons; j++) {
-			// for (int i=0; i<numberOfNeurons; i++) {
-				// position = strtok (NULL, " \r\n");
-				// doubleValue = 0.0;
-				// if(position-buffer < numberOfBytes) {
-					// sscanf(position, "%lf", &doubleValue);
-				// }
-				// weights(i,j) = doubleValue;
-			// }
-		// }
-
-		// for (int j=0; j<numberOfNeurons; j++) {
-			// for (int i=0; i<numberOfNeurons; i++) {
-				// position = strtok (NULL, " \r\n");
-				// doubleValue = 0.0;
-				// if(position-buffer < numberOfBytes) {
-					// sscanf(position, "%lf", &doubleValue);
-				// }
-				// activities(i,j) = doubleValue;
-			// }
-		// }
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
-
-	// if (available == 0) {
-		// throw( "HttpCommunicator00066" );
-	// }
+	if (available == 0) {
+		throw( "HttpCommunicator00066" );
+	}
 }
 
 int HttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	sprintf(parameters, "symbol=%s&period=%d", symbol, period);
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00138" );
-		// return( 0 );
-	// }
+	HttpRequestResponse(buffer, parameters, HOST, TRAINING_SET_SIZE_SCRIPT);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00139" );
-		// return( 0 );
-	// }
+	/*
+	 * Parse result.
+	 */
+	int size = 0;
+	char *position = buffer;
+	// TODO May be command should be like this: sscanf(position, "\n\n%d", &size
+	sscanf(position, "%d", &size);
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00140" );
-		// return( 0 );
-	// }
-
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
-
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00141" );
-		// return( 0 );
-	// }
-
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// sprintf(parameters, "symbol=%s&period=%d", symbol, period);
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", TRAINING_SET_SIZE_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00142" );
-		// return( 0 );
-	// }
-
-	// char *position = buffer;
-	// int result = 0;
-	// int numberOfBytes = 0;
-	// do {
-		// result = recv(client, position, BUFFER_SIZE-numberOfBytes-1, MSG_WAITALL);
-		// if (result == SOCKET_ERROR) {
-			// closesocket( client );
-			// WSACleanup();
-			// throw( "HttpCommunicator00143" );
-			// return( 0 );
-		// } else {
-			// numberOfBytes += result;
-			// position = buffer + numberOfBytes;
-		// }
-	// } while(result > 0);
-	// buffer[ numberOfBytes ] = '\0';
-
-	// /*
-	 // * Separate HTTP header from HTTP body.
-	 // */
-	// position = strstr(buffer, "\r\n\r\n");
-
-	// int size = 0;
-	// position = strtok (position, " \r\n");
-	// if(position-buffer < numberOfBytes) {
-		// sscanf(position, "%d", &size);
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
-
-	// return( size );
+	return( size );
 }
 
 void HttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const vector<RateInfo> &rates, int size) {
@@ -948,120 +703,53 @@ void HttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<
 }
 
 double HttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char number[ 100 ];
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	char *position = parameters;
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00067" );
-		// return( (double)RAND_MAX );
-	// }
+	sprintf(position, "symbol=%s&", symbol);
+	position += strlen(position);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00068" );
-		// return( (double)RAND_MAX );
-	// }
+	sprintf(position, "period=%d&", period);
+	position += strlen(position);
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00069" );
-		// return( (double)RAND_MAX );
-	// }
+	sprintf(position, "number_of_neurons=%d&", neurons.dimension());
+	position += strlen(position);
 
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
+	strcpy(buffer, "");
+	for (int i=0; i<neurons.dimension(); i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%d", neurons[i].getType());
+		strcat(buffer, number);
+	}
+	sprintf(position, "flags=%s&", buffer);
+	position += strlen(position);
 
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00070" );
-		// return( (double)RAND_MAX );
-	// }
+	strcpy(buffer, "");
+	for (int j=0; j<neurons.dimension(); j++) {
+		if (j > 0) {
+			strcat(buffer, "\n");
+		}
+		for (int i=0; i<neurons.dimension(); i++) {
+			if (i > 0) {
+				strcat(buffer, " ");
+			}
+			sprintf(number, "%lf", activities(i,j));
+			strcat(buffer, number);
+		}
+	}
+	sprintf(position, "activities=%s", buffer);
+	position += strlen(position);
+	strcpy(buffer, "");
 
-	// char number[ 100 ];
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// char *position = parameters;
+	HttpRequestResponse(buffer, parameters, HOST, LOAD_BEST_FITNESS_SCRIPT);
 
-	// sprintf(position, "symbol=%s&", symbol);
-	// position += strlen(position);
+	position = buffer;
+	double bestFitness = (double)RAND_MAX;
+	position = strtok (position, " \r\n");
+	sscanf(position, "%lf", &bestFitness);
 
-	// sprintf(position, "period=%d&", period);
-	// position += strlen(position);
-
-	// sprintf(position, "number_of_neurons=%d&", neurons.dimension());
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<neurons.dimension(); i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%d", neurons[i].getType());
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "flags=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int j=0; j<neurons.dimension(); j++) {
-		// if (j > 0) {
-			// strcat(buffer, "\n");
-		// }
-		// for (int i=0; i<neurons.dimension(); i++) {
-			// if (i > 0) {
-				// strcat(buffer, " ");
-			// }
-			// sprintf(number, "%lf", activities(i,j));
-			// strcat(buffer, number);
-		// }
-	// }
-	// sprintf(position, "activities=%s", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", LOAD_BEST_FITNESS_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00071" );
-		// return( (double)RAND_MAX );
-	// }
-
-	// position = buffer;
-	// int result = 0;
-	// int numberOfBytes = 0;
-	// do {
-		// result = recv(client, position, BUFFER_SIZE-numberOfBytes-1, MSG_WAITALL);
-		// if (result == SOCKET_ERROR) {
-			// closesocket( client );
-			// WSACleanup();
-			// throw( "HttpCommunicator00072" );
-			// return( (double)RAND_MAX );
-		// } else {
-			// numberOfBytes += result;
-			// position = buffer + numberOfBytes;
-		// }
-	// } while(result > 0);
-	// buffer[ numberOfBytes ] = '\0';
-
-	// /*
-	 // * Separate HTTP header from HTTP body.
-	 // */
-	// position = strstr(buffer, "\r\n\r\n");
-
-	// double bestFitness = (double)RAND_MAX;
-	// position = strtok (position, " \r\n");
-	// if(position-buffer < numberOfBytes) {
-		// sscanf(position, "%lf", &bestFitness);
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
-
-	// return( bestFitness );
+	return( bestFitness );
 }

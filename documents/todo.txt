@@ -2,7 +2,7 @@
 
 -> Implement crossover as map of random selected cells, instead of cutting point and add field to ANN database table structure.
 
--> Last used exception number 211.
+-> Last used exception number 213.
 
 -> Change period_id field in currency_pairs table to time_periods_id.
 

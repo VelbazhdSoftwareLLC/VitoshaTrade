@@ -118,6 +118,29 @@ private:
 	 */
 	char buffer[ BUFFER_SIZE ];
 
+private:
+
+	/**
+	 * Universal HTTP request-response function.
+	 *
+	 * @param response Response string as out parameter.
+	 *
+	 * @param fields Key-valeu pairs sent by HTTP POST request.
+	 *
+	 * @param host Remote site host name.
+	 *
+	 * @param script Remote site script path and name.
+	 *
+	 * @retrun Pointer to response array.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email tdb@tbsoft.eu
+	 *
+	 * @date 17 May 2013
+	 */
+	const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
+
 public:
 
 	/**
