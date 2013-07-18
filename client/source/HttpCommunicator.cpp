@@ -149,25 +149,22 @@ void HttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], 
 	position += strlen(position);
 
 	HttpRequestResponse(buffer, parameters, HOST, LIST_OF_ANNS_SCRIPT);
-
-	int result = 0;
 	position = buffer;
+	while(position[0]=='\r' || position[0]=='\n') position++;
 
 	int numberOfIds = 0;
-	// TODO May be command should be like this: sscanf(position, "\n\n%d", &numberOfIds);
 	sscanf(position, "%d", &numberOfIds);
-	position = strtok(NULL, " \r\n");
 
 	/*
 	 * Parse list values and limit it to the size of output array.
 	 */
 	int i = 0;
 	int value = 0;
-	for (i=0; i<numberOfIds&&i<list.size(); i++) {
-		list[i] = 0;
-		position = strtok(NULL, " \r\n");
+	for (i=0; i<numberOfIds; i++) {
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		sscanf(position, "%d", &value);
-		list[i] = value;
+		list.push_back( value );
 	}
 
 	/*
@@ -437,269 +434,148 @@ int HttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
 }
 
 void HttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const vector<RateInfo> &rates, int size) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char number[ 100 ];
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	char *position = parameters;
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00126" );
-		// return;
-	// }
+	sprintf(position, "symbol=%s&", symbol);
+	position += strlen(position);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00127" );
-		// return;
-	// }
+	sprintf(position, "period=%d&", period);
+	position += strlen(position);
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00128" );
-		// return;
-	// }
+	sprintf(position, "number_of_examples=%d&", size);
+	position += strlen(position);
 
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%d", rates[i].time);
+		strcat(buffer, number);
+	}
+	sprintf(position, "time=%s&", buffer);
+	position += strlen(position);
 
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00129" );
-		// return;
-	// }
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%lf", rates[i].open);
+		strcat(buffer, number);
+	}
+	sprintf(position, "open=%s&", buffer);
+	position += strlen(position);
 
-	// char number[ 100 ];
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// char *position = parameters;
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%lf", rates[i].low);
+		strcat(buffer, number);
+	}
+	sprintf(position, "low=%s&", buffer);
+	position += strlen(position);
 
-	// sprintf(position, "symbol=%s&", symbol);
-	// position += strlen(position);
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%lf", rates[i].high);
+		strcat(buffer, number);
+	}
+	sprintf(position, "high=%s&", buffer);
+	position += strlen(position);
 
-	// sprintf(position, "period=%d&", period);
-	// position += strlen(position);
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%lf", rates[i].close);
+		strcat(buffer, number);
+	}
+	sprintf(position, "close=%s&", buffer);
+	position += strlen(position);
 
-	// sprintf(position, "number_of_examples=%d&", size);
-	// position += strlen(position);
+	strcpy(buffer, "");
+	for (int i=0; i<size; i++) {
+		if (i > 0) {
+			strcat(buffer, " ");
+		}
+		sprintf(number, "%lf", rates[i].volume);
+		strcat(buffer, number);
+	}
+	sprintf(position, "volume=%s", buffer);
+	position += strlen(position);
 
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%d", rates[i].time);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "time=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%lf", rates[i].open);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "open=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%lf", rates[i].low);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "low=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%lf", rates[i].high);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "high=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%lf", rates[i].close);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "close=%s&", buffer);
-	// position += strlen(position);
-
-	// strcpy(buffer, "");
-	// for (int i=0; i<size; i++) {
-		// if (i > 0) {
-			// strcat(buffer, " ");
-		// }
-		// sprintf(number, "%lf", rates[i].volume);
-		// strcat(buffer, number);
-	// }
-	// sprintf(position, "volume=%s", buffer);
-	// position += strlen(position);
-
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", SAVE_TRAINING_SET_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00130" );
-		// return;
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
+	HttpRequestResponse(buffer, parameters, HOST, SAVE_TRAINING_SET_SCRIPT);
 }
 
 void HttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<RateInfo> &rates, int size) {
-	// SOCKADDR_IN address;
-	// SOCKET client;
-	// WSADATA data;
+	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
+	sprintf(parameters, "symbol=%s&period=%d", symbol, period);
 
-	// if (WSAStartup(MAKEWORD(1,1), &data) != 0) {
-		// throw( "HttpCommunicator00131" );
-		// return;
-	// }
+	HttpRequestResponse(buffer, parameters, HOST, LOAD_TRAINING_SET_SCRIPT);
 
-	// struct hostent *host = gethostbyname( HOST );
-	// if (host == NULL) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00132" );
-		// return;
-	// }
+	char *position = buffer;
 
-	// client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	// if (client == INVALID_SOCKET) {
-		// WSACleanup();
-		// throw( "HttpCommunicator00133" );
-		// return;
-	// }
+	int available = 0;
+	position = strtok (position, " \r\n");
+	sscanf(position, "%d", &available);
+	if (available != 0) {
+		if (available < size) {
+			size = available;
+		}
 
-	// memset(&address, 0, sizeof(address));
-	// address.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-	// address.sin_family = AF_INET;
-	// address.sin_port = htons( PORT );
+		int intValue = 0;
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			intValue = 0;
+			sscanf(position, "%d", &intValue);
+			rates[i].time = intValue;
+		}
 
-	// if (connect(client, (LPSOCKADDR)&address, sizeof(address)) != 0) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00134" );
-		// return;
-	// }
+		double doubleValue = 0.0;
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			doubleValue = 0.0;
+			sscanf(position, "%lf", &doubleValue);
+			rates[i].open = doubleValue;
+		}
 
-	// char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
-	// sprintf(parameters, "symbol=%s&period=%d", symbol, period);
-	// sprintf(buffer, "POST %s HTTP/1.0\nHost: %s\r\nContent-Length: %d\r\nConnection: Keep-Alive\r\nContent-Type: application/x-www-form-urlencoded\r\n\r\n%s\r\n", LOAD_TRAINING_SET_SCRIPT, HOST, strlen(parameters), parameters);
-	// if (send(client, buffer, strlen(buffer), 0) == SOCKET_ERROR) {
-		// closesocket( client );
-		// WSACleanup();
-		// throw( "HttpCommunicator00135" );
-		// return;
-	// }
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			doubleValue = 0.0;
+			sscanf(position, "%lf", &doubleValue);
+			rates[i].low = doubleValue;
+		}
 
-	// char *position = buffer;
-	// int result = 0;
-	// int numberOfBytes = 0;
-	// do {
-		// result = recv(client, position, BUFFER_SIZE-numberOfBytes-1, MSG_WAITALL);
-		// if (result == SOCKET_ERROR) {
-			// closesocket( client );
-			// WSACleanup();
-			// throw( "HttpCommunicator00136" );
-			// return;
-		// } else {
-			// numberOfBytes += result;
-			// position = buffer + numberOfBytes;
-		// }
-	// } while(result > 0);
-	// buffer[ numberOfBytes ] = '\0';
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			doubleValue = 0.0;
+			sscanf(position, "%lf", &doubleValue);
+			rates[i].high = doubleValue;
+		}
 
-	// /*
-	 // * Separate HTTP header from HTTP body.
-	 // */
-	// position = strstr(buffer, "\r\n\r\n");
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			doubleValue = 0.0;
+			sscanf(position, "%lf", &doubleValue);
+			rates[i].close = doubleValue;
+		}
 
-	// int available = 0;
-	// position = strtok (position, " \r\n");
-	// if(position-buffer < numberOfBytes) {
-		// sscanf(position, "%d", &available);
-	// }
-	// if (available != 0) {
-		// if (available < size) {
-			// size = available;
-		// }
-
-		// int intValue = 0;
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// intValue = 0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%d", &intValue);
-			// }
-			// rates[i].time = intValue;
-		// }
-
-		// double doubleValue = 0.0;
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// doubleValue = 0.0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%lf", &doubleValue);
-			// }
-			// rates[i].open = doubleValue;
-		// }
-
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// doubleValue = 0.0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%lf", &doubleValue);
-			// }
-			// rates[i].low = doubleValue;
-		// }
-
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// doubleValue = 0.0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%lf", &doubleValue);
-			// }
-			// rates[i].high = doubleValue;
-		// }
-
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// doubleValue = 0.0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%lf", &doubleValue);
-			// }
-			// rates[i].close = doubleValue;
-		// }
-
-		// for (int i=0; i<size; i++) {
-			// position = strtok (NULL, " \r\n");
-			// doubleValue = 0.0;
-			// if(position-buffer < numberOfBytes) {
-				// sscanf(position, "%lf", &doubleValue);
-			// }
-			// rates[i].volume = doubleValue;
-		// }
-	// }
-
-	// closesocket( client );
-	// WSACleanup();
+		for (int i=0; i<size; i++) {
+			position = strtok (NULL, " \r\n");
+			doubleValue = 0.0;
+			sscanf(position, "%lf", &doubleValue);
+			rates[i].volume = doubleValue;
+		}
+	}
 }
 
 double HttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) {
