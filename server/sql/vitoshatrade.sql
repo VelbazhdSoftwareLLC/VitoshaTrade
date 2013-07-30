@@ -88,7 +88,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnnKindId`(`symbol` VARCHAR(255
 begin
 	declare id int;
 
-        select ann_kind.id into id from ann_kind, currency_pairs, time_periods where ann_kind.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id and currency_pairs.symbol=symbol and time_periods.minutes=period and ann_kind.number_of_neurons=number_of_neurons and ann_kind.flags=flags and activities=activities;
+        select ann_kind.id into id from ann_kind, currency_pairs, time_periods where ann_kind.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id and currency_pairs.symbol=symbol and time_periods.minutes=period and ann_kind.number_of_neurons=number_of_neurons and ann_kind.flags=flags and ann_kind.activities=activities;
         
         if id is null then
         	set id = 0;
@@ -114,7 +114,7 @@ begin
 
 end$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `listAnns`(`id` INT) RETURNS text CHARSET utf8 COLLATE utf8_unicode_ci
+CREATE DEFINER=`root`@`localhost` FUNCTION `listAnns`(`id` INT) RETURNS text CHARSET utf8 COLLATE utf8_general_ci
     READS SQL DATA
     COMMENT 'List ids of all ANN from particular type.'
 begin
@@ -170,10 +170,10 @@ CREATE TABLE IF NOT EXISTS `ann` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Artificial neural network unique identifier.',
   `ann_kind_id` int(11) NOT NULL COMMENT 'Artificial neural network kind foreign key.',
   `fitness` double unsigned NOT NULL COMMENT 'Artificial neural network weights fitness.',
-  `weights` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Artificial neural network weights.',
+  `weights` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Artificial neural network weights.',
   PRIMARY KEY (`id`),
   KEY `ann_kind_id` (`ann_kind_id`,`fitness`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Artificial neural network.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Artificial neural network.' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -185,11 +185,11 @@ CREATE TABLE IF NOT EXISTS `ann_kind` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Artificial neural network unique identifier.',
   `currency_pairs_id` int(11) NOT NULL COMMENT 'MetaTrader 4 chart currency pair ID.',
   `number_of_neurons` int(10) unsigned NOT NULL COMMENT 'Number of neurons used for artificial neural network.',
-  `flags` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Neurons flags (bias, input, output).',
-  `activities` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Artificial neural network weights activities.',
+  `flags` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Neurons flags (bias, input, output).',
+  `activities` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Artificial neural network weights activities.',
   PRIMARY KEY (`id`),
   KEY `symbol` (`currency_pairs_id`,`number_of_neurons`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Artificial neural network kind.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Artificial neural network kind.' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -199,11 +199,11 @@ CREATE TABLE IF NOT EXISTS `ann_kind` (
 
 CREATE TABLE IF NOT EXISTS `currency_pairs` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Currency pairs unique identifier.',
-  `symbol` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'MetaTrader 4 chart symbol.',
+  `symbol` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'MetaTrader 4 chart symbol.',
   `period_id` int(11) NOT NULL COMMENT 'Time period ID.',
-  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Describe what kind of currency pair.',
+  `description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'Describe what kind of currency pair.',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -214,10 +214,10 @@ CREATE TABLE IF NOT EXISTS `currency_pairs` (
 CREATE TABLE IF NOT EXISTS `neurons_coordinates` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier.',
   `ann_id` int(11) NOT NULL COMMENT 'Link to ANN table.',
-  `coordinates` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Neurons coordinates (x, y).',
+  `coordinates` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Neurons coordinates (x, y).',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ann_id` (`ann_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Backend neurons visualisation information.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Backend neurons visualisation information.' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -228,9 +228,9 @@ CREATE TABLE IF NOT EXISTS `neurons_coordinates` (
 CREATE TABLE IF NOT EXISTS `time_periods` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier.',
   `minutes` int(11) NOT NULL COMMENT 'Number of minutes.',
-  `period` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Time period as symbols.',
+  `period` varchar(10) COLLATE utf8_general_ci NOT NULL COMMENT 'Time period as symbols.',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Time periods minutes to symbols mapping.' AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Time periods minutes to symbols mapping.' AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `time_periods`
@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `training_options` (
   `after_bars_prediction` int(10) NOT NULL COMMENT 'Prediction after number of bars (it can be negative).',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ann_id` (`ann_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Artificial neural network training options.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Artificial neural network training options.' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -273,14 +273,14 @@ CREATE TABLE IF NOT EXISTS `training_set` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier.',
   `currency_pairs_id` int(11) NOT NULL COMMENT 'Currency pair ID.',
   `number_of_examples` int(11) NOT NULL COMMENT 'Number of training examples.',
-  `time` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Time values of the time series.',
-  `open` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Open values of time series.',
-  `low` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Low values of time series.',
-  `high` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'High values of time series.',
-  `close` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Close values of time series.',
-  `volume` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Volume values of time series.',
+  `time` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Time values of the time series.',
+  `open` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Open values of time series.',
+  `low` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Low values of time series.',
+  `high` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'High values of time series.',
+  `close` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Close values of time series.',
+  `volume` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'Volume values of time series.',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Training set examples table.' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Training set examples table.' AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

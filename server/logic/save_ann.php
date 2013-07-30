@@ -97,6 +97,7 @@ $flags = $buffer;
 /*
  * Validate weights matrix.
  */
+//TODO Be very careful with matrix transpose (C++ vs PHP).
 $tok = strtok($weights, " \r\n");
 $buffer = "";
 for ($j=0; $j<$number_of_neurons; $j++) {
@@ -111,7 +112,7 @@ for ($j=0; $j<$number_of_neurons; $j++) {
 	}
 
 	$buffer = trim($buffer, " \r\n");
-	$buffer .= "\n";
+	$buffer .= "\r\n";
 }
 $buffer = trim($buffer, " \r\n");
 $weights = $buffer;
@@ -121,6 +122,7 @@ $weights = $buffer;
  */
 $tok = strtok($activities, " \r\n");
 $buffer = "";
+//TODO Be very careful with matrix transpose (C++ vs PHP).
 for ($j=0; $j<$number_of_neurons; $j++) {
 	for ($i=0; $i<$number_of_neurons; $i++) {
 		if ($tok != false) {
@@ -133,7 +135,7 @@ for ($j=0; $j<$number_of_neurons; $j++) {
 	}
 
 	$buffer = trim($buffer, " \r\n");
-	$buffer .= "\n";
+	$buffer .= "\r\n";
 }
 $buffer = trim($buffer, " \r\n");
 $activities = $buffer;
