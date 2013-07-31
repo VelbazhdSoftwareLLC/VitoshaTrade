@@ -332,32 +332,36 @@ void HttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &period
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_SINGLE_ANN_SCRIPT);
 
 	char *position = buffer;
+	while(position[0]=='\r' || position[0]=='\n') position++;
 
 	int available = 0;
-	//TODO May be it is wrong.
-	position = strtok (position, " \r\n");
 	sscanf(position, "%d", &available);
 
 	if (available != 0) {
-		position = strtok (NULL, " \r\n");
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		strcpy(symbol, "");
 		sscanf(position, "%s", symbol);
 
-		position = strtok (NULL, " \r\n");
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		period = NO;
 		sscanf(position, "%d", &period);
 
-		position = strtok (NULL, " \r\n");
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		fitness = (double)RAND_MAX;
 		sscanf(position, "%lf", &fitness);
 
 		int numberOfNeurons = 0;
-		position = strtok (NULL, " \r\n");
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		sscanf(position, "%d", &numberOfNeurons);
 
 		int intValue = 0;
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		for (int i=0; i<numberOfNeurons; i++) {
-			position = strtok (NULL, " \r\n");
 			intValue = 0;
 			sscanf(position, "%d", &intValue);
 			switch (intValue) {
@@ -389,24 +393,41 @@ void HttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &period
 				neurons[i].setType( REGULAR );
 				break;
 			}
-		}
 
-		double doubleValue = 0.0;
-		for (int j=0; j<numberOfNeurons; j++) {
-			for (int i=0; i<numberOfNeurons; i++) {
-				position = strtok (NULL, " \r\n");
-				doubleValue = 0.0;
-				sscanf(position, "%lf", &doubleValue);
-				weights(i,j) = doubleValue;
+			if(i < (numberOfNeurons-1)) {
+				position = strstr(position, " ")+1;
 			}
 		}
 
+		double doubleValue = 0.0;
+		position = strstr(position, "\n");
+		while(position[0]=='\r' || position[0]=='\n') position++;
 		for (int j=0; j<numberOfNeurons; j++) {
 			for (int i=0; i<numberOfNeurons; i++) {
-				position = strtok (NULL, " \r\n");
+				doubleValue = 0.0;
+				sscanf(position, "%lf", &doubleValue);
+				weights(i,j) = doubleValue;
+
+				if(i < (numberOfNeurons-1)) {
+					position = strstr(position, " ")+1;
+				} else {
+					position = strstr(position, "\n");
+				}
+			}
+		}
+
+		while(position[0]=='\r' || position[0]=='\n') position++;
+		for (int j=0; j<numberOfNeurons; j++) {
+			for (int i=0; i<numberOfNeurons; i++) {
 				doubleValue = 0.0;
 				sscanf(position, "%lf", &doubleValue);
 				activities(i,j) = doubleValue;
+
+				if(i < (numberOfNeurons-1)) {
+					position = strstr(position, " ")+1;
+				} else {
+					position = strstr(position, "\n");
+				}
 			}
 		}
 	}
@@ -427,7 +448,6 @@ int HttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
 	 */
 	int size = 0;
 	char *position = buffer;
-	// TODO May be command should be like this: sscanf(position, "\n\n%d", &size
 	sscanf(position, "%d", &size);
 
 	return( size );
