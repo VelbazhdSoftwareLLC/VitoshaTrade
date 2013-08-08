@@ -135,7 +135,9 @@ begin
 	select ann_kind.id into ann_kind_id from ann_kind, currency_pairs, time_periods where currency_pairs.symbol=symbol and time_periods.minutes=period and ann_kind.number_of_neurons=number_of_neurons and ann_kind.flags=flags and ann_kind.activities=activities and ann_kind.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id;
 
         select min(ann.fitness) into best from ann where ann.ann_kind_id=ann_kind_id;
-        
+
+        -- TODO There is a bug in calling this procedure from phpMyAdmin and from calls.html.
+
         if best is null then
         	set best = 10000;
         end if;

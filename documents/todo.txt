@@ -69,3 +69,5 @@
 -> Check all preconditions in profiling segments.
 
 -> JavaDoc for all functions which are using exceptions.
+
+-> Fix the bug in loadBestFitness procedure. Call from phpMyAdmin works fine, but it is not the case in call from calls.html.
