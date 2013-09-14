@@ -38,6 +38,7 @@ class ANN;
 
 #include "RateInfo.h"
 #include "TimePeriod.h"
+#include "ModelParameters.h"
 
 /**
  * Communication class used for abstract data transfer.
@@ -80,19 +81,11 @@ public:
 	 * @param  de Not allocated differential evolution object pointer with
 	 * value NULL.
 	 *
-	 * @param dbId Database identifier of specific record.
-	 *
 	 * @param symbol MetaTrader 4 chart currency pair symbol.
 	 *
 	 * @param period MetaTrader 4 chart time period.
 	 *
-	 * @param neuronsAmount Number of neurons to be used in artificial network
-	 * creation.
-	 *
-	 * @param populationSize Population size to be used in differential
-	 * evolution creation.
-	 *
-	 * @param bars Prediction bars interval.
+	 * @param parameters All other netwrok parameters.
 	 *
 	 * @author Todor Balabanov
 	 *
@@ -100,7 +93,7 @@ public:
 	 *
 	 * @date 26 Aug 2013
 	 */
-	virtual void loadTrainerObjects(Counter &counters, ANN &ann, DE &de, int dbId, char symbol[], TimePeriod period, int neuronsAmount, int populationSize, int bars) = 0;
+	virtual void loadTrainerObjects(Counter &counters, ANN &ann, DE &de, char symbol[], TimePeriod period, const ModelParameters &parameters) = 0;
 
 	/**
 	 * Save single ANN record on the remote side server.

@@ -63,6 +63,8 @@ MT4_EXPFUNC void __stdcall about();
  *
  * @param populationSize Population size to be used if predictor will not be loaded from database.
  *
+ * @param bars Learning bars interval.
+ *
  * @param bars Prediction bars interval.
  *
  * @author Todor Balabanov
@@ -71,7 +73,7 @@ MT4_EXPFUNC void __stdcall about();
  *
  * @date 07 Apr 2009
  */
-MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int bars);
+MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars);
 
 /**
  * Stop predictor and its loop.

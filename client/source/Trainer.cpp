@@ -70,7 +70,7 @@ void Trainer::setup(const ModelParameters &parameters) {
 	/*
 	 * Create object structure.
 	 */
-	http.loadTrainerObjects(counters, ann, de, parameters.dbId, symbol, period, parameters.neuronsAmount, parameters.populationSize, parameters.bars);
+	http.loadTrainerObjects(counters, ann, de, symbol, period, parameters);
 	ann.setTrainingSetPointer( &ts );
 }
 

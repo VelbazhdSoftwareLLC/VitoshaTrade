@@ -65,7 +65,7 @@ extern color DOWN_COLOR = Orange;
 /**
  * ANN neurons amout input parameter.
  */
-extern int NEURONS_AMOUNT = 20;
+extern int NEURONS_AMOUNT = 35;
 
 /**
  * DE population size indicator input parameter.
@@ -76,6 +76,11 @@ extern int POPULATION_SIZE = 45;
  * Number of bars to be used for trainign.
  */
 extern int TRAINING_BARS = 250;
+
+/**
+ * Predict interval in bars.
+ */
+extern int INSPECT_BARS = 25;
 
 /**
  * Predict interval in bars.
@@ -137,6 +142,10 @@ int init() {
 		TRAINING_BARS = Bars;
 	}
 
+	if (INSPECT_BARS < 0) {
+		INSPECT_BARS = 0;
+	}
+
 	if (PREDICT_BARS < 0) {
 		PREDICT_BARS = 0;
 	}
@@ -149,7 +158,7 @@ int init() {
 	/*
 	 * Initialize predictor.
 	 */
-	_Z14startPredictoriPKciiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, PREDICT_BARS);
+	_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }

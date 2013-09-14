@@ -85,6 +85,7 @@ void ANN::create(int neuronsAmount) {
 ANN::ANN() {
 	this->counters = NULL;
 	this->ts = NULL;
+	this->learn = 0;
 	this->bars = 0;
 	this->period = NO;
 
@@ -97,6 +98,7 @@ ANN::ANN() {
 ANN::ANN(const ANN &ann) {
 	this->counters = ann.counters;
 	this->ts = ann.ts;
+	this->learn = ann.learn;
 	this->bars = ann.bars;
 	this->period = ann.period;
 	this->neurons = ann.neurons;
@@ -105,7 +107,7 @@ ANN::ANN(const ANN &ann) {
 	this->prediction = ann.prediction;
 }
 
-ANN::ANN(Counter *counters, int neuronsAmount, int bars, TimePeriod period) {
+ANN::ANN(Counter *counters, int neuronsAmount, int learn, int bars, TimePeriod period) {
 	/*
 	 * Check counters pointer for point valid object.
 	 */
@@ -119,6 +121,7 @@ ANN::ANN(Counter *counters, int neuronsAmount, int bars, TimePeriod period) {
 	 */
 	this->counters = counters;
 	this->ts = NULL;
+	this->learn = learn;
 	this->bars = bars;
 	this->period = period;
 
@@ -128,7 +131,7 @@ ANN::ANN(Counter *counters, int neuronsAmount, int bars, TimePeriod period) {
 	create(neuronsAmount);
 }
 
-ANN::ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int bars, TimePeriod period) {
+ANN::ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int learn, int bars, TimePeriod period) {
 	/*
 	 * Check counters pointer for point valid object.
 	 */
@@ -147,6 +150,7 @@ ANN::ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int bars, TimePe
 
 	this->counters = counters;
 	this->ts = ts;
+	this->learn = learn;
 	this->bars = bars;
 	this->period = period;
 
@@ -646,6 +650,7 @@ ANN::~ANN() {
 ANN& ANN::operator=(const ANN &ann) {
 	this->counters = ann.counters;
 	this->ts = ann.ts;
+	this->learn = ann.learn;
 	this->bars = ann.bars;
 	this->period = ann.period;
 	this->neurons = ann.neurons;

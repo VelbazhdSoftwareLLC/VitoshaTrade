@@ -192,18 +192,19 @@ int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
 	return (amout);
 }
 
-void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, int dbId, char symbol[], TimePeriod period, int neuronsAmount, int populationSize, int bars) {
-	vector<int> list(populationSize);
+void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, char symbol[], TimePeriod period, const ModelParameters &parameters) {
+	vector<int> list(parameters.populationSize);
+	int neuronsAmount = parameters.neuronsAmount;
 
 	/*
 	 * Load list with available ANNs.
 	 */
-	int numberOfNeurons = loadAnnNeuronsAmount(dbId);
-	loadAnnList(list, dbId, symbol, period);
+	int numberOfNeurons = loadAnnNeuronsAmount(parameters.dbId);
+	loadAnnList(list, parameters.dbId, symbol, period);
 	if (list.size()>0 && numberOfNeurons>0) {
 		neuronsAmount = numberOfNeurons;
 
-		ANN annInstance(&counters, neuronsAmount, bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
 		ann = annInstance;
 	} else if (list.size() == 0) {
 		/*
@@ -217,14 +218,14 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, i
 		 * Create new network if no record presented in database.
 		 * Input and output neurons should be specified on network creation.
 		 */
-		ANN annInstance(&counters, neuronsAmount, bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
 		ann = annInstance;
 		ann.setupInput( TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS );
 		ann.setupOutput( TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS );
 	}
 
 	/* Memory allocation. */ {
-		DE deInstance(&counters, &ann, populationSize, 90.0, 90.0);
+		DE deInstance(&counters, &ann, parameters.populationSize, 90.0, 90.0);
 		de = deInstance;
 	}
 

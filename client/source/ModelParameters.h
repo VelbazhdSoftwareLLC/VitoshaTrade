@@ -73,6 +73,11 @@ struct ModelParameters {
 	int populationSize;
 
 	/**
+	 * Number of past bars where history information will be used for the training.
+	 */
+	int learn;
+
+	/**
 	 * Number of future bars where prediction will be needed.
 	 */
 	int bars;

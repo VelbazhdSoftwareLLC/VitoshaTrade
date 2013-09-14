@@ -89,6 +89,11 @@ private:
 	TrainingSet *ts;
 
 	/**
+	 * Input history bars interval.
+	 */
+	int learn;
+
+	/**
 	 * Prediction bars interval.
 	 */
 	int bars;
@@ -124,14 +129,6 @@ public:
 	 * Class constructor. Memory allocation and internal variables initialization.
 	 * Constructor is used to create artificial neural network for using.
 	 *
-	 * @param counters Link to real counters object.
-	 *
-	 * @param neuronsAmount How many neurons network has including bias neuron.
-	 *
-	 * @param bars Prediction bars interval.
-	 *
-	 * @param period Prediction period.
-	 *
 	 * @author Todor Balabanov
 	 *
 	 * @email tdb@tbsoft.eu
@@ -162,6 +159,8 @@ public:
 	 *
 	 * @param neuronsAmount How many neurons network has including bias neuron.
 	 *
+	 * @param learn Input training history bars interval.
+	 *
 	 * @param bars Prediction bars interval.
 	 *
 	 * @param period Prediction period.
@@ -172,7 +171,7 @@ public:
 	 *
 	 * @date 26 Feb 2009
 	 */
-	ANN(Counter *counters, int neuronsAmount, int bars, TimePeriod period);
+	ANN(Counter *counters, int neuronsAmount, int learn, int bars, TimePeriod period);
 
 	/**
 	 * Class constructor. Memory allocation and internal variables initialization.
@@ -184,6 +183,8 @@ public:
 	 *
 	 * @param neuronsAmount How many neurons network has including bias neuron.
 	 *
+	 * @param learn Input training history bars interval.
+	 *
 	 * @param bars Prediction bars interval.
 	 *
 	 * @param period Prediction period.
@@ -194,7 +195,7 @@ public:
 	 *
 	 * @date 22 Apr 2009
 	 */
-	ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int bars, TimePeriod period);
+	ANN(Counter *counters, TrainingSet *ts, int neuronsAmount, int learn, int bars, TimePeriod period);
 
 	/**
 	 * Neurons list getter.
