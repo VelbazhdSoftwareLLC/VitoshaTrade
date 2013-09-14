@@ -201,11 +201,13 @@ CREATE TABLE IF NOT EXISTS `ann_kind` (
 
 CREATE TABLE IF NOT EXISTS `currency_pairs` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Currency pairs unique identifier.',
-  `symbol` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'MetaTrader 4 chart symbol.',
+  `symbol` varchar(255) NOT NULL COMMENT 'MetaTrader 4 chart symbol.',
   `period_id` int(11) NOT NULL COMMENT 'Time period ID.',
-  `description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'Describe what kind of currency pair.',
+  `offset` decimal(10,0) NOT NULL COMMENT 'Chart offset to map in ANN with 0.0-1.0 interval.',
+  `scale` decimal(10,0) NOT NULL COMMENT 'Chart scaling to map in ANN with 0.0-1.0 interval.',
+  `description` varchar(255) NOT NULL COMMENT 'Describe what kind of currency pair.',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
