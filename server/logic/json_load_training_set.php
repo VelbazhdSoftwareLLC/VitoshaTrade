@@ -88,7 +88,7 @@ if ($result != false) {
 	 * Time values of training examples.
 	 */
 	$response .= '"time": [';
-	$values = split(" ", trim($result[0][1],"\r\n"));
+	$values = explode(" ", trim($result[0][1],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -100,7 +100,7 @@ if ($result != false) {
 	 * Open values of training examples.
 	 */
 	$response .= '"open": [';
-	$values = split(" ", trim($result[0][2],"\r\n"));
+	$values = explode(" ", trim($result[0][2],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -112,7 +112,7 @@ if ($result != false) {
 	 * Low values of training examples.
 	 */
 	$response .= '"low": [';
-	$values = split(" ", trim($result[0][3],"\r\n"));
+	$values = explode(" ", trim($result[0][3],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -124,7 +124,7 @@ if ($result != false) {
 	 * High values of training examples.
 	 */
 	$response .= '"high": [';
-	$values = split(" ", trim($result[0][4],"\r\n"));
+	$values = explode(" ", trim($result[0][4],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -136,7 +136,7 @@ if ($result != false) {
 	 * Close values of training examples.
 	 */
 	$response .= '"close": [';
-	$values = split(" ", trim($result[0][5],"\r\n"));
+	$values = explode(" ", trim($result[0][5],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -148,7 +148,7 @@ if ($result != false) {
 	 * Volume values of training examples.
 	 */
 	$response .= '"volume": [';
-	$values = split(" ", trim($result[0][6],"\r\n"));
+	$values = explode(" ", trim($result[0][6],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}

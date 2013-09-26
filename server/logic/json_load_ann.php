@@ -103,7 +103,7 @@ if ($result != false) {
 	 * Artificial neural network neurons flags.
 	 */
 	$response .= '"flags": [';
-	$values = split(" ", trim($result[0][4],"\r\n"));
+	$values = explode(" ", trim($result[0][4],"\r\n"));
 	foreach($values as $value) {
 		$response .= '"'.$value.'",';
 	}
@@ -116,10 +116,10 @@ if ($result != false) {
 	 */
 	$response .= '"weights": [';
 	$response .= "\n";
-	$lines = split("\r\n", trim($result[0][5],"\r\n"));
+	$lines = explode("\r\n", trim($result[0][5],"\r\n"));
 	foreach($lines as $line) {
 		$response .= '[';
-		$values = split(" ", $line);
+		$values = explode(" ", $line);
 		foreach($values as $value) {
 			$response .= '"'.$value.'",';
 		}
@@ -137,10 +137,10 @@ if ($result != false) {
 	 */
 	$response .= '"activities": [';
 	$response .= "\n";
-	$lines = split("\r\n", trim($result[0][6],"\r\n"));
+	$lines = explode("\r\n", trim($result[0][6],"\r\n"));
 	foreach($lines as $line) {
 		$response .= '[';
-		$values = split(" ", $line);
+		$values = explode(" ", $line);
 		foreach($values as $value) {
 			$response .= '"'.$value.'",';
 		}
