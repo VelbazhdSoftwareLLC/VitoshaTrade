@@ -29,8 +29,8 @@
  *                                                                             *
  ******************************************************************************/
 
-#ifndef HTTP_COMMUNICATOR_H
-#define HTTP_COMMUNICATOR_H
+#ifndef JSON_HTTP_COMMUNICATOR_H
+#define JSON_HTTP_COMMUNICATOR_H
 
 #include <vector>
 
@@ -139,7 +139,7 @@ private:
 	 *
 	 * @date 16 Sep 2013
 	 */
-	const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
+	const char* HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
 
 public:
 

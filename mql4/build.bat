@@ -87,6 +87,7 @@ rem ############################################################################
 rem # Compiling.                                                               #
 rem ############################################################################
 SET INCLUDES = -I../../client/source/
+g++ %INCLUDES% -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1
 g++ %INCLUDES% -c ../../client/source/*.cpp -DBUILDING_DLL=1
 g++ %INCLUDES% -c ../source/*.cpp -DBUILDING_DLL=1
 

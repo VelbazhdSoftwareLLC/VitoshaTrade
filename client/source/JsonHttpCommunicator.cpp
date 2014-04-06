@@ -36,6 +36,7 @@
 #include <climits>
 
 #include "curl/curl.h"
+#include "libjson/libjson.h"
 
 using namespace std;
 
@@ -45,27 +46,30 @@ using namespace std;
 #include "ActivitiesMatrix.h"
 #include "TrainingExample.h"
 
-#include "HttpCommunicator.h"
+#include "JsonHttpCommunicator.h"
+
+//TODO Remove this object. It was used only to compile JSON library.
+JSONNode node = libjson::parse("");
 
 #define MSG_WAITALL 0x0
 
-const char HttpCommunicator::HOST[] = "localhost";
+const char JsonHttpCommunicator::HOST[] = "localhost";
 
-const char HttpCommunicator::LIST_OF_ANNS_SCRIPT[] = "/logic/json_number_of_anns.php";
+const char JsonHttpCommunicator::LIST_OF_ANNS_SCRIPT[] = "/logic/json_number_of_anns.php";
 
-const char HttpCommunicator::SAVE_SINGLE_ANN_SCRIPT[] = "/logic/json_save_ann.php";
+const char JsonHttpCommunicator::SAVE_SINGLE_ANN_SCRIPT[] = "/logic/json_save_ann.php";
 
-const char HttpCommunicator::LOAD_NEURONS_AMOUNT_SCRIPT[] = "/logic/json_load_neurons_amount.php";
+const char JsonHttpCommunicator::LOAD_NEURONS_AMOUNT_SCRIPT[] = "/logic/json_load_neurons_amount.php";
 
-const char HttpCommunicator::LOAD_SINGLE_ANN_SCRIPT[] = "/logic/json_load_ann.php";
+const char JsonHttpCommunicator::LOAD_SINGLE_ANN_SCRIPT[] = "/logic/json_load_ann.php";
 
-const char HttpCommunicator::LOAD_BEST_FITNESS_SCRIPT[] = "/logic/json_load_best_fitness.php";
+const char JsonHttpCommunicator::LOAD_BEST_FITNESS_SCRIPT[] = "/logic/json_load_best_fitness.php";
 
-const char HttpCommunicator::TRAINING_SET_SIZE_SCRIPT[] = "/logic/json_training_set_size.php";
+const char JsonHttpCommunicator::TRAINING_SET_SIZE_SCRIPT[] = "/logic/json_training_set_size.php";
 
-const char HttpCommunicator::SAVE_TRAINING_SET_SCRIPT[] = "/logic/json_save_training_set.php";
+const char JsonHttpCommunicator::SAVE_TRAINING_SET_SCRIPT[] = "/logic/json_save_training_set.php";
 
-const char HttpCommunicator::LOAD_TRAINING_SET_SCRIPT[] = "/logic/json_load_training_set.php";
+const char JsonHttpCommunicator::LOAD_TRAINING_SET_SCRIPT[] = "/logic/json_load_training_set.php";
 
 struct MemoryStruct {
 	char *memory;
@@ -88,7 +92,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 	return realsize;
 }
 
-const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script) {
+const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script) {
 	CURL *curl;
 	CURLcode result;
 
@@ -101,7 +105,7 @@ const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fi
 	curl = curl_easy_init();
 
 	if(curl == NULL) {
-		throw( "HttpCommunicator00212" );
+		throw( "JsonHttpCommunicator00___" );
 	}
 
 	sprintf(buffer, "http://%s%s", host, script);
@@ -119,7 +123,7 @@ const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fi
  	result = curl_easy_perform(curl);
 
 	if(result != CURLE_OK) {
-		throw( "HttpCommunicator00213" );
+		throw( "JsonHttpCommunicator00___" );
 	}
 
 	curl_easy_cleanup(curl);
@@ -135,7 +139,7 @@ const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fi
 	return(response);
 }
 
-void HttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
+void JsonHttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
 	char *position = parameters;
 
@@ -153,7 +157,7 @@ void HttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], 
 	//TODO Use JSON parser to extract response information.
 }
 
-int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
+int JsonHttpCommunicator::loadAnnNeuronsAmount(int annId) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
 	sprintf(parameters, "annid=%d", annId);
 
@@ -169,7 +173,7 @@ int HttpCommunicator::loadAnnNeuronsAmount(int annId) {
 	return (amout);
 }
 
-void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, char symbol[], TimePeriod period, const ModelParameters &parameters) {
+void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, char symbol[], TimePeriod period, const ModelParameters &parameters) {
 	vector<int> list(parameters.populationSize);
 	int neuronsAmount = parameters.neuronsAmount;
 
@@ -240,7 +244,7 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, c
 	}
 }
 
-void HttpCommunicator::saveSingleANN(char *symbol, TimePeriod period, double fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
+void JsonHttpCommunicator::saveSingleANN(char *symbol, TimePeriod period, double fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
 	char number[ 100 ];
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	char *position = parameters;
@@ -303,20 +307,21 @@ void HttpCommunicator::saveSingleANN(char *symbol, TimePeriod period, double fit
 	HttpRequestResponse(buffer, parameters, HOST, SAVE_SINGLE_ANN_SCRIPT);
 }
 
-void HttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
+void JsonHttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	sprintf(parameters, "annid=%d", annId);
 
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_SINGLE_ANN_SCRIPT);
 
+	int available = 0;
 	//TODO Use JSON parser to extract response information.
 
 	if (available == 0) {
-		throw( "HttpCommunicator00066" );
+		throw( "JsonHttpCommunicator00___" );
 	}
 }
 
-int HttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
+int JsonHttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	sprintf(parameters, "symbol=%s&period=%d", symbol, period);
 
@@ -331,7 +336,7 @@ int HttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
 	return( size );
 }
 
-void HttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const vector<RateInfo> &rates, int size) {
+void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const vector<RateInfo> &rates, int size) {
 	char number[ 100 ];
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	char *position = parameters;
@@ -414,7 +419,7 @@ void HttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const v
 	HttpRequestResponse(buffer, parameters, HOST, SAVE_TRAINING_SET_SCRIPT);
 }
 
-void HttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<RateInfo> &rates, int size) {
+void JsonHttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<RateInfo> &rates, int size) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	sprintf(parameters, "symbol=%s&period=%d", symbol, period);
 
@@ -423,7 +428,7 @@ void HttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<
 	//TODO Use JSON parser to extract response information.
 }
 
-double HttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) {
+double JsonHttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) {
 	char number[ 100 ];
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	char *position = parameters;
@@ -467,6 +472,7 @@ double HttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, 
 
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_BEST_FITNESS_SCRIPT);
 
+	double bestFitness = (double)RAND_MAX;
 	//TODO Use JSON parser to extract response information.
 
 	return( bestFitness );

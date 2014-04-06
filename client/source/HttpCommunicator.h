@@ -139,7 +139,7 @@ private:
 	 *
 	 * @date 17 May 2013
 	 */
-	const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
+	const char* HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
 
 public:
 
