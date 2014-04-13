@@ -42,7 +42,7 @@ struct ModelParameters;
 #include "RateInfo.h"
 #include "TimePeriod.h"
 #include "TrainingSet.h"
-#include "HttpCommunicator.h"
+#include "JsonHttpCommunicator.h"
 
 /**
  * Artificial neural network trainer.
@@ -111,7 +111,7 @@ private:
 	/**
 	 * HTTP communication dynamic instance.
 	 */
-	HttpCommunicator http;
+	JsonHttpCommunicator http;
 
 	/**
 	 * Last best local fitness report UNIX time.

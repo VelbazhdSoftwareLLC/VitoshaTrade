@@ -45,6 +45,9 @@ rem ############################################################################
 md "%~dp2common\"
 md "%~dp2logic\"
 md "%~dp2images\"
+md "%~dp2ajax\"
+md "%~dp2ajax\images\"
+md "%~dp2backend\"
 
 rem ############################################################################
 rem # Deploy server side scripts. The parameter %2 PHP Apache htdocs folder.   #
@@ -70,6 +73,20 @@ rename "%~dp2\*.php3" *.php
 del "%~dp2\*.php3"
 
 rem ############################################################################
+rem # Deploy AJAX client scripts. The parameter %2 PHP Apache htdocs folder.   #
+rem ############################################################################
+del "%~dp2ajax\*.js"
+del "%~dp2ajax\*.html"
+del "%~dp2ajax\*.css"
+del "%~dp2ajax\images\*.jpg"
+del "%~dp2ajax\images\*.gif"
+copy ..\ajax\source\images\*.jpg "%~dp2ajax\images\"
+copy ..\ajax\source\images\*.gif "%~dp2ajax\images\"
+copy ..\ajax\source\*.js "%~dp2ajax\"
+copy ..\ajax\source\*.html "%~dp2ajax\"
+copy ..\ajax\source\*.css "%~dp2ajax\"
+
+rem ############################################################################
 rem # Change working directory to binaries.                                    #
 rem ############################################################################
 md binaries
@@ -87,7 +104,7 @@ rem ############################################################################
 rem # Compiling.                                                               #
 rem ############################################################################
 SET INCLUDES = -I../../client/source/
-g++ %INCLUDES% -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1
+g++ %INCLUDES% -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
 g++ %INCLUDES% -c ../../client/source/*.cpp -DBUILDING_DLL=1
 g++ %INCLUDES% -c ../source/*.cpp -DBUILDING_DLL=1
 
@@ -124,12 +141,12 @@ jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass Vitosh
 rem ############################################################################
 rem # Depoly Java based back end system.                                       #
 rem ############################################################################
-del "%~dp2\VitoshaTrade.jar"
-del "%~dp2\VitoshaTrade.cer"
-del "%~dp2\*.html"
-copy .\VitoshaTrade.jar "%~dp2"
-copy ..\keys\VitoshaTrade.cer "%~dp2"
-copy ..\source\*.html "%~dp2"
+del "%~dp2\backend\*.jar"
+del "%~dp2\backend\*.cer"
+del "%~dp2\backend\*.html"
+copy .\VitoshaTrade.jar "%~dp2\backend\"
+copy ..\keys\VitoshaTrade.cer "%~dp2\backend\"
+copy ..\source\*.html "%~dp2\backend\"
 
 rem ############################################################################
 rem # Clean to binaries directory.                                             #

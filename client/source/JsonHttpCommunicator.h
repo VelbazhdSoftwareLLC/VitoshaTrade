@@ -34,6 +34,8 @@
 
 #include <vector>
 
+#include "libjson/libjson.h"
+
 #include "Communicator.h"
 
 /**
@@ -140,6 +142,23 @@ private:
 	 * @date 16 Sep 2013
 	 */
 	const char* HttpRequestResponse(char *response, const char* fields, const char* host, const char* script);
+
+	/**
+	 * Load remote best fitness helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param fitness Output parameter for remote best fitness value.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email tdb@tbsoft.eu
+	 *
+	 * @date 13 Apr 2014
+	 */
+	void parseJsonLoadRemoteBestFitness(const JSONNode &node, double &fitness, const bool initialCall);
 
 public:
 

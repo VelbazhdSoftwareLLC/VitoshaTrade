@@ -6,7 +6,7 @@
 
 -> Add simulated annealing for the training.
 
--> Last used exception number 213.
+-> Last used exception number 216.
 
 -> Change period_id field in currency_pairs table to time_periods_id.
 

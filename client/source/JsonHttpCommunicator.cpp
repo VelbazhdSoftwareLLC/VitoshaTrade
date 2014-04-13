@@ -48,9 +48,6 @@ using namespace std;
 
 #include "JsonHttpCommunicator.h"
 
-//TODO Remove this object. It was used only to compile JSON library.
-JSONNode node = libjson::parse("");
-
 #define MSG_WAITALL 0x0
 
 const char JsonHttpCommunicator::HOST[] = "localhost";
@@ -105,7 +102,7 @@ const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char
 	curl = curl_easy_init();
 
 	if(curl == NULL) {
-		throw( "JsonHttpCommunicator00___" );
+		throw( "JsonHttpCommunicator00214" );
 	}
 
 	sprintf(buffer, "http://%s%s", host, script);
@@ -123,7 +120,7 @@ const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char
  	result = curl_easy_perform(curl);
 
 	if(result != CURLE_OK) {
-		throw( "JsonHttpCommunicator00___" );
+		throw( "JsonHttpCommunicator00215" );
 	}
 
 	curl_easy_cleanup(curl);
@@ -137,6 +134,26 @@ const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char
 	curl_global_cleanup();
 
 	return(response);
+}
+
+void JsonHttpCommunicator::parseJsonLoadRemoteBestFitness(const JSONNode &node, double &fitness, const bool initialCall) {
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "fitness"){
+			fitness = i->as_float();
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadRemoteBestFitness(*i, fitness, false);
+		}
+	}
 }
 
 void JsonHttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
@@ -317,7 +334,7 @@ void JsonHttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &pe
 	//TODO Use JSON parser to extract response information.
 
 	if (available == 0) {
-		throw( "JsonHttpCommunicator00___" );
+		throw( "JsonHttpCommunicator00216" );
 	}
 }
 
@@ -473,7 +490,9 @@ double JsonHttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod peri
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_BEST_FITNESS_SCRIPT);
 
 	double bestFitness = (double)RAND_MAX;
-	//TODO Use JSON parser to extract response information.
+
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadRemoteBestFitness(node, bestFitness, true);
 
 	return( bestFitness );
 }
