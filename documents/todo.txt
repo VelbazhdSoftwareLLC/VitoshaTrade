@@ -1,3 +1,5 @@
+-> Replace all char* strings with string objects.
+
 -> Implement two steps of mutation with hard coded zeros for some of the weights (indirect control of ANN topology).
 
 -> Use mean absolute percentage error (MAPE) for ANN fitness value.

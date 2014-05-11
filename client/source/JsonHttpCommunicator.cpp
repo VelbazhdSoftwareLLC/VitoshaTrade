@@ -38,8 +38,6 @@
 #include "curl/curl.h"
 #include "libjson/libjson.h"
 
-using namespace std;
-
 #include "DE.h"
 #include "ANN.h"
 #include "NeuronsList.h"
@@ -156,7 +154,226 @@ void JsonHttpCommunicator::parseJsonLoadRemoteBestFitness(const JSONNode &node, 
 	}
 }
 
-void JsonHttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol[], TimePeriod period) {
+void JsonHttpCommunicator::parseJsonLoadAnnNeuronsAmount(const JSONNode &node, int &amount, const bool initialCall) {
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "neuronsAmount"){
+			amount = i->as_int();
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadAnnNeuronsAmount(*i, amount, false);
+		}
+	}
+}
+
+void JsonHttpCommunicator::parseJsonLoadTrainingSetSize(const JSONNode &node, int &size, const bool initialCall) {
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "numberOfExamples"){
+			size = i->as_int();
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadTrainingSetSize(*i, size, false);
+		}
+	}
+}
+
+void JsonHttpCommunicator::parseJsonLoadAnnList(const JSONNode &node, std::vector<int> &list, const bool initialCall) {
+	static int size = 0;
+	static int identifiersCounter = 0;
+	static std::string array = "";
+	if(initialCall == true) {
+		size = 0;
+		identifiersCounter = 0;
+		array = "";
+	}
+
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "size"){
+			size = i->as_int();
+		} else if (node_name == "identifiers") {
+			array = "identifiers";
+		} else if (array == "identifiers") {
+			list.push_back( i->as_int() );
+			identifiersCounter++;
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadAnnList(*i, list, false);
+		}
+	}
+}
+
+void JsonHttpCommunicator::parseJsonLoadTrainingSet(const JSONNode &node, std::vector<RateInfo> &rates, const bool initialCall) {
+	static std::string array = "";
+	static int timeCounter = 0;
+	static int openCounter = 0;
+	static int lowCounter = 0;
+	static int highCounter = 0;
+	static int closeCounter = 0;
+	static int volumeCounter = 0;
+
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "numberOfExamples"){
+			//TODO May be it is better to clear the vector.
+			//TODO Find better way to deal with the parallel arrays.
+			for(int j=i->as_int(); j>0; j--) {
+				//TODO Possible problems with local variables.
+				rates.push_back( RateInfo() );
+			}
+		} else if (node_name == "time") {
+			array = "time";
+		} else if (node_name == "open") {
+			array = "open";
+		} else if (node_name == "low") {
+			array = "low";
+		} else if (node_name == "high") {
+			array = "high";
+		} else if (node_name == "close") {
+			array = "close";
+		} else if (node_name == "volume") {
+			array = "volume";
+		} else if (array == "time") {
+			rates[timeCounter].time = i->as_int();
+			timeCounter++;
+		} else if (array == "open") {
+			rates[openCounter].open = i->as_float();
+			openCounter++;
+		} else if (array == "low") {
+			rates[lowCounter].low = i->as_float();
+			lowCounter++;
+		} else if (array == "high") {
+			rates[highCounter].high = i->as_float();
+			highCounter++;
+		} else if (array == "close") {
+			rates[closeCounter].close = i->as_float();
+			closeCounter++;
+		} else if (array == "volume") {
+			rates[volumeCounter].volume = i->as_int();
+			volumeCounter++;
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadTrainingSet(*i, rates, false);
+		}
+	}
+}
+
+void JsonHttpCommunicator::parseJsonLoadSingleANN(const JSONNode &node, bool &available, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities, const bool initialCall) {
+	static int size = 0;
+	static int numberOfNeurons = 0;
+	static int flagsCounter = 0;
+	static int weightsCounter = 0;
+	static int activitiesCounter = 0;
+	static std::string array = "";
+	if(initialCall == true) {
+		size = 0;
+		numberOfNeurons = 0;
+		flagsCounter = 0;
+		weightsCounter = 0;
+		activitiesCounter = 0;
+		array = "";
+	}
+
+	if(available == false) {
+		return;
+	}
+
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+		std::string node_name = i -> name();
+
+		/*
+		 * Store values into proper object filds.
+		 */
+		if (node_name == "size"){
+			size = i->as_int();
+			if(size == 0) {
+				available = false;
+			}
+		} else if (node_name == "symbol"){
+			std::cout << i->as_string();
+			std::cout << std::endl;
+		} else if (node_name == "period") {
+			std::cout << i->as_int();
+			std::cout << std::endl;
+		} else if (node_name == "fitness") {
+			std::cout << i->as_float();
+			std::cout << std::endl;
+		} else if (node_name == "numberOfNeurons") {
+			numberOfNeurons = i->as_int();
+			std::cout << i->as_int();
+			std::cout << std::endl;
+		} else if (node_name == "flags") {
+			array = "flags";
+		} else if (node_name == "weights") {
+			array = "weights";
+		} else if (node_name == "activities") {
+			array = "activities";
+		} else if (array == "flags") {
+			std::cout << array << "\t" << i->as_int();
+			std::cout << std::endl;
+			flagsCounter++;
+			//TODO After reading all numbers array value should be empty string.
+		} else if (array == "weights") {
+			//TODO There is a problem with extra reading of one more zero.
+			if((weightsCounter%(numberOfNeurons+1)) != 0) {
+				std::cout << array << "\t" << i->as_float();
+				std::cout << std::endl;
+			}
+			weightsCounter++;
+			//TODO After reading all numbers array value should be empty string.
+		} else if (array == "activities") {
+			//TODO There is a problem with extra reading of one more zero.
+			if((activitiesCounter%(numberOfNeurons+1)) != 0) {
+				std::cout << array << "\t" << i->as_float();
+				std::cout << std::endl;
+			}
+			activitiesCounter++;
+			//TODO After reading all numbers array value should be empty string.
+		}
+
+		/*
+		 * Recursively call ourselves to dig deeper into the tree.
+		 */
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+			parseJsonLoadSingleANN(*i, available, symbol, period, fitness, neurons, weights, activities, true);
+		}
+	}
+}
+
+void JsonHttpCommunicator::loadAnnList(std::vector<int> &list, int annId, char symbol[], TimePeriod period) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ];
 	char *position = parameters;
 
@@ -171,7 +388,9 @@ void JsonHttpCommunicator::loadAnnList(vector<int> &list, int annId, char symbol
 
 	HttpRequestResponse(buffer, parameters, HOST, LIST_OF_ANNS_SCRIPT);
 
-	//TODO Use JSON parser to extract response information.
+	list.clear();
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadAnnList(node, list, true);
 }
 
 int JsonHttpCommunicator::loadAnnNeuronsAmount(int annId) {
@@ -183,15 +402,16 @@ int JsonHttpCommunicator::loadAnnNeuronsAmount(int annId) {
 	/*
 	 * Parse result.
 	 */
-	int amout = 0;
+	int amount = 0;
 
-	//TODO Use JSON parser to extract response information.
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadAnnNeuronsAmount(node, amount, true);
 
-	return (amout);
+	return (amount);
 }
 
 void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, char symbol[], TimePeriod period, const ModelParameters &parameters) {
-	vector<int> list(parameters.populationSize);
+	std::vector<int> list(parameters.populationSize);
 	int neuronsAmount = parameters.neuronsAmount;
 
 	/*
@@ -330,10 +550,11 @@ void JsonHttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &pe
 
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_SINGLE_ANN_SCRIPT);
 
-	int available = 0;
+	bool available = true;
+
 	//TODO Use JSON parser to extract response information.
 
-	if (available == 0) {
+	if (available == false) {
 		throw( "JsonHttpCommunicator00216" );
 	}
 }
@@ -348,12 +569,14 @@ int JsonHttpCommunicator::loadTrainingSetSize(char *symbol, TimePeriod period) {
 	 * Parse result.
 	 */
 	int size = 0;
-	//TODO Use JSON parser to extract response information.
+
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadTrainingSetSize(node, size, true);
 
 	return( size );
 }
 
-void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const vector<RateInfo> &rates, int size) {
+void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const std::vector<RateInfo> &rates, int size) {
 	char number[ 100 ];
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	char *position = parameters;
@@ -436,13 +659,15 @@ void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, con
 	HttpRequestResponse(buffer, parameters, HOST, SAVE_TRAINING_SET_SCRIPT);
 }
 
-void JsonHttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, vector<RateInfo> &rates, int size) {
+void JsonHttpCommunicator::loadTrainingSet(char symbol[], TimePeriod period, std::vector<RateInfo> &rates, int size) {
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	sprintf(parameters, "symbol=%s&period=%d", symbol, period);
 
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_TRAINING_SET_SCRIPT);
 
-	//TODO Use JSON parser to extract response information.
+	rates.clear();
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadTrainingSet(node, rates, true);
 }
 
 double JsonHttpCommunicator::loadRemoteBestFitness(char *symbol, TimePeriod period, NeuronsList &neurons, ActivitiesMatrix &activities) {

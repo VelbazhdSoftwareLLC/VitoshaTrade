@@ -36,6 +36,7 @@
 
 #include "libjson/libjson.h"
 
+#include "RateInfo.h"
 #include "Communicator.h"
 
 /**
@@ -159,6 +160,76 @@ private:
 	 * @date 13 Apr 2014
 	 */
 	void parseJsonLoadRemoteBestFitness(const JSONNode &node, double &fitness, const bool initialCall);
+
+	/**
+	 * Load ANN neurons amount helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param amount Output parameter for amount of nurons in particular ANN.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 May 2014
+	 */
+	void parseJsonLoadAnnNeuronsAmount(const JSONNode &node, int &amount, const bool initialCall);
+
+	/**
+	 * Load training set size helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param size Output parameter for training set size.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 May 2014
+	 */
+	void parseJsonLoadTrainingSetSize(const JSONNode &node, int &size, const bool initialCall);
+
+	/**
+	 * Load ANN ids list helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param list Output parameter for ANN ids list.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 May 2014
+	 */
+	void parseJsonLoadAnnList(const JSONNode &node, std::vector<int> &list, const bool initialCall);
+
+	/**
+	 * Load training set helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param rates Output parameter for training set.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 May 2014
+	 */
+	void parseJsonLoadTrainingSet(const JSONNode &node, std::vector<RateInfo> &rates, const bool initialCall);
+
+	void parseJsonLoadSingleANN(const JSONNode &node, bool &available, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities, const bool initialCall);
 
 public:
 
