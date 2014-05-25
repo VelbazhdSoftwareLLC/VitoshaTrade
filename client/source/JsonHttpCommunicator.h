@@ -229,6 +229,35 @@ private:
 	 */
 	void parseJsonLoadTrainingSet(const JSONNode &node, std::vector<RateInfo> &rates, const bool initialCall);
 
+	/**
+	 * Load training set helper function.
+	 *
+	 * @param node JSON message as node.
+	 *
+	 * @param available Is ANN available with this id.
+	 *
+	 * @param symbol Currency pair symbol.
+	 *
+	 * @param period Currency chart period.
+	 *
+	 * @param fitness Weights set fitness value.
+	 *
+	 * @param numberOfNeurons Number of neurons used as topology. Neurons amount will be used only for new crated ANN.
+	 *
+	 * @param flags Nurons flags.
+	 *
+	 * @param weights Weights set.
+	 *
+	 * @param activities Weights activities.
+	 *
+	 * @param initialCall Falg for recursive initial call.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 25 May 2014
+	 */
 	void parseJsonLoadSingleANN(const JSONNode &node, bool &available, char *symbol, TimePeriod &period, double &fitness, NeuronsList &neurons, WeightsMatrix &weights, ActivitiesMatrix &activities, const bool initialCall);
 
 public:

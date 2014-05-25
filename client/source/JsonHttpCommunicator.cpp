@@ -323,43 +323,93 @@ void JsonHttpCommunicator::parseJsonLoadSingleANN(const JSONNode &node, bool &av
 				available = false;
 			}
 		} else if (node_name == "symbol"){
-			std::cout << i->as_string();
-			std::cout << std::endl;
+			strcpy(symbol, (i->as_string()).c_str());
 		} else if (node_name == "period") {
-			std::cout << i->as_int();
-			std::cout << std::endl;
+			switch (i->as_int()) {
+				case 1: period = M1; break;
+				case 5: period = M5; break;
+				case 15: period = M15; break;
+				case 30: period = M30; break;
+				case 60: period = H1; break;
+				case 240: period = H4; break;
+				case 1440: period = D1; break;
+				case 10080: period = W1; break;
+				case 43200: period = MN1; break;
+				default: period = NO; break;
+			}
 		} else if (node_name == "fitness") {
-			std::cout << i->as_float();
-			std::cout << std::endl;
+			fitness = i->as_float();
 		} else if (node_name == "numberOfNeurons") {
 			numberOfNeurons = i->as_int();
-			std::cout << i->as_int();
-			std::cout << std::endl;
 		} else if (node_name == "flags") {
 			array = "flags";
+			//TODO May be it will need to fill the data container with empty objects.
 		} else if (node_name == "weights") {
 			array = "weights";
+			//TODO May be it will need to fill the data container with empty objects.
 		} else if (node_name == "activities") {
 			array = "activities";
+			//TODO May be it will need to fill the data container with empty objects.
 		} else if (array == "flags") {
-			std::cout << array << "\t" << i->as_int();
-			std::cout << std::endl;
+			switch (i->as_int()) {
+			case REGULAR:
+				neurons[flagsCounter].setType( REGULAR );
+				break;
+			case BIAS:
+				neurons[flagsCounter].setType( BIAS );
+				break;
+			case INPUT:
+				neurons[flagsCounter].setType( INPUT );
+				break;
+			case INPUT_BIAS:
+				neurons[flagsCounter].setType( INPUT_BIAS );
+				break;
+			case OUTPUT:
+				neurons[flagsCounter].setType( OUTPUT );
+				break;
+			case OUTPUT_BIAS:
+				neurons[flagsCounter].setType( OUTPUT_BIAS );
+				break;
+			case OUTPUT_INPUT:
+				neurons[flagsCounter].setType( OUTPUT_INPUT );
+				break;
+			case OUTPUT_INPUT_BIAS:
+				neurons[flagsCounter].setType( OUTPUT_INPUT_BIAS );
+				break;
+			default:
+				neurons[flagsCounter].setType( REGULAR );
+				break;
+			}
 			flagsCounter++;
 			//TODO After reading all numbers array value should be empty string.
 		} else if (array == "weights") {
+			static int a = 0;
+			static int b = 0;
+
 			//TODO There is a problem with extra reading of one more zero.
-			if((weightsCounter%(numberOfNeurons+1)) != 0) {
-				std::cout << array << "\t" << i->as_float();
-				std::cout << std::endl;
+			weights(a,b) = i->as_float();
+
+			a++;
+			if(a >= numberOfNeurons) {
+				b++;
+				a = 0;
 			}
+
 			weightsCounter++;
 			//TODO After reading all numbers array value should be empty string.
 		} else if (array == "activities") {
+			static int a = 0;
+			static int b = 0;
+
 			//TODO There is a problem with extra reading of one more zero.
-			if((activitiesCounter%(numberOfNeurons+1)) != 0) {
-				std::cout << array << "\t" << i->as_float();
-				std::cout << std::endl;
+			activities(a,b) =  i->as_float();
+
+			a++;
+			if(a >= numberOfNeurons) {
+				b++;
+				a = 0;
 			}
+
 			activitiesCounter++;
 			//TODO After reading all numbers array value should be empty string.
 		}
@@ -368,7 +418,7 @@ void JsonHttpCommunicator::parseJsonLoadSingleANN(const JSONNode &node, bool &av
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
 		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
-			parseJsonLoadSingleANN(*i, available, symbol, period, fitness, neurons, weights, activities, true);
+			parseJsonLoadSingleANN(*i, available, symbol, period, fitness, neurons, weights, activities, false);
 		}
 	}
 }
@@ -550,9 +600,13 @@ void JsonHttpCommunicator::loadSingleANN(int annId, char *symbol, TimePeriod &pe
 
 	HttpRequestResponse(buffer, parameters, HOST, LOAD_SINGLE_ANN_SCRIPT);
 
-	bool available = true;
+	bool available = false;
+	strcpy(symbol, "");
+	period = NO;
+	fitness = (double)RAND_MAX;
 
-	//TODO Use JSON parser to extract response information.
+	JSONNode node = libjson::parse(buffer);
+	parseJsonLoadSingleANN(node, available, symbol, period, fitness, neurons, weights, activities, true);
 
 	if (available == false) {
 		throw( "JsonHttpCommunicator00216" );
