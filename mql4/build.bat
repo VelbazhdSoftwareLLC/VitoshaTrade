@@ -104,9 +104,9 @@ rem ############################################################################
 rem # Compiling.                                                               #
 rem ############################################################################
 SET INCLUDES = -I../../client/source/
-g++ %INCLUDES% -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
-g++ %INCLUDES% -c ../../client/source/*.cpp -DBUILDING_DLL=1
-g++ %INCLUDES% -c ../source/*.cpp -DBUILDING_DLL=1
+g++ %INCLUDES% -D NDEBUG -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
+g++ %INCLUDES% -D NDEBUG -c ../../client/source/*.cpp -DBUILDING_DLL=1
+g++ %INCLUDES% -D NDEBUG -c ../source/*.cpp -DBUILDING_DLL=1
 
 rem ############################################################################
 rem # Linking.                                                                 #
