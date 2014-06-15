@@ -121,7 +121,12 @@ void sendDataToPredictor() {
  * @date 03 Apr 2009
  */
 int init() {
-	//_Z5aboutv();
+MessageBox("Test point 1 ...");
+	/*
+	 * Show about box as welcome screen.
+	 */
+	_Z5aboutv();
+MessageBox("Test point 2 ...");
 
 	/*
 	 * Validate input data.
@@ -158,7 +163,7 @@ int init() {
 	/*
 	 * Initialize predictor.
 	 */
-	_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	//_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }

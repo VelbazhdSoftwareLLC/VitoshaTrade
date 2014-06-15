@@ -117,9 +117,9 @@ dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries
 rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
 rem ############################################################################
-copy *.dll "%~dp1experts\libraries\"
-copy ..\include\*.mqh "%~dp1experts\include\"
-copy ..\source\*.mq4 "%~dp1experts\indicators\"
+copy *.dll "%~dp1MQL4\Libraries\"
+copy ..\include\*.mqh "%~dp1MQL4\Include\"
+copy ..\source\*.mq4 "%~dp1MQL4\Indicators\"
 
 rem ############################################################################
 rem # Clean to binaries directory.                                             #
