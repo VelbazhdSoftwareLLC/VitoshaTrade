@@ -121,12 +121,12 @@ void sendDataToPredictor() {
  * @date 03 Apr 2009
  */
 int init() {
-MessageBox("Test point 1 ...");
+Alert("Test point 1 ...");
 	/*
 	 * Show about box as welcome screen.
 	 */
 	_Z5aboutv();
-MessageBox("Test point 2 ...");
+Alert("Test point 2 ...");
 
 	/*
 	 * Validate input data.

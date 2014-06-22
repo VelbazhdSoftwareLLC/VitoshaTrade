@@ -83,3 +83,5 @@
 -> Fix the bug in loadBestFitness procedure. Call from phpMyAdmin works fine, but it is not the case in call from calls.html.
 
 -> Use only integer numbers as weights.
+
+-> Add a single output neuron for confidence measure.
