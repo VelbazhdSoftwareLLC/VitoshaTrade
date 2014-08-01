@@ -29,13 +29,14 @@
  *                                                                             *
  ******************************************************************************/
 
-#property copyright "Copyright © 2008-2013, Todor Balabanov"
+#property copyright "Copyright © 2008-2014, Todor Balabanov"
 #property link "http://tdb.hit.bg/"
-
-#include <VitoshaTrade.mqh>
-
+#property version   "0.01"
+#property strict
 #property indicator_chart_window
 #property indicator_buffers 0
+
+#include <VitoshaTrade.mqh>
 
 /**
  * Right arrow symbol.
@@ -118,9 +119,9 @@ void sendDataToPredictor() {
  *
  * @email tdb@tbsoft-bg.com
  *
- * @date 03 Apr 2009
+ * @date 01 Aug 2014
  */
-int init() {
+int OnInit() {
 Alert("Test point 1 ...");
 	/*
 	 * Show about box as welcome screen.
@@ -177,9 +178,9 @@ Alert("Test point 2 ...");
  *
  * @email tdb@tbsoft-bg.com
  *
- * @date 03 Apr 2009
+ * @date 01 Aug 2014
  */
-int deinit() {
+void OnDeinit(const int reason) {
 	if (ObjectFind("arrow") == 0) {
 		ObjectDelete( "arrow" );
 	}
@@ -194,8 +195,6 @@ int deinit() {
 	 * Stop and destroy predictor.
 	 */
 	//_Z13stopPredictorv();
-
-	return( 0 );
 }
 
 /**
@@ -207,9 +206,19 @@ int deinit() {
  *
  * @email tdb@tbsoft-bg.com
  *
- * @date 03 Apr 2009
+ * @date 01 Aug 2014
  */
-int start() {
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime& time[],
+                const double& open[],
+                const double& high[],
+                const double& low[],
+                const double& close[],
+                const long& tick_volume[],
+                const long& volume[],
+                const int& spread[]) {
+
 	/*
 	 * Send historical data to predicting module.
 	 */

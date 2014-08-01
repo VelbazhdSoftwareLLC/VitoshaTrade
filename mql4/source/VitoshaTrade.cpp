@@ -291,7 +291,7 @@ DWORD WINAPI run(void *arg) {
 }
 
 MT4_EXPFUNC void __stdcall about() {
-	MessageBox(NULL, "Forex forecasting.", "About VitoshaTrade", 0);
+	//MessageBox(NULL, "Forex forecasting.", "About VitoshaTrade", 0);
 }
 
 MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
