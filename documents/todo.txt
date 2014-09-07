@@ -1,3 +1,7 @@
+-> Add data and time field in each important database table.
+
+-> Collect database statistics for calculating nodes. It is important to know which node did better computations.
+
 -> Replace all char* strings with string objects.
 
 -> Implement two steps of mutation with hard coded zeros for some of the weights (indirect control of ANN topology).
