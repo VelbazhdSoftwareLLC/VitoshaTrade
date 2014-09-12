@@ -97,35 +97,37 @@ static ModelParameters init;
  * @date 24 Aug 2009
  */
 double cpuOverload() {
-	static HCOUNTER counterHandle;
-	static PDH_FMT_COUNTERVALUE formatValue;
+//	static HCOUNTER counterHandle;
+//	static PDH_FMT_COUNTERVALUE formatValue;
+//
+//	/*
+//	 * Microsoft PDH query.
+//	 */
+//	static HQUERY queryHandle;
+//
+//	/*
+//	 * Open Microsoft PDH query.
+//	 */
+//	PdhOpenQuery(NULL, 0, &queryHandle);
+//
+//	PdhCollectQueryData( queryHandle );
+//	PdhAddCounter(queryHandle, "\\Processor(_Total)\\% Processor Time", 0, &counterHandle);
+//	PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &formatValue);
+//
+//	/*
+//	 * Close Microsoft PDH query.
+//	 */
+//	PdhCloseQuery( queryHandle );
+//
+//	if (formatValue.doubleValue < 0.0) {
+//		return( 50.0 );
+//	} else if (formatValue.doubleValue > 100.0) {
+//		return( 50.0 );
+//	} else {
+//		return( formatValue.doubleValue );
+//	}
 
-	/*
-	 * Microsoft PDH query.
-	 */
-	static HQUERY queryHandle;
-
-	/*
-	 * Open Microsoft PDH query.
-	 */
-	PdhOpenQuery(NULL, 0, &queryHandle);
-
-	PdhCollectQueryData( queryHandle );
-	PdhAddCounter(queryHandle, "\\Processor(_Total)\\% Processor Time", 0, &counterHandle);
-	PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &formatValue);
-
-	/*
-	 * Close Microsoft PDH query.
-	 */
-	PdhCloseQuery( queryHandle );
-
-	if (formatValue.doubleValue < 0.0) {
-		return( 50.0 );
-	} else if (formatValue.doubleValue > 100.0) {
-		return( 50.0 );
-	} else {
-		return( formatValue.doubleValue );
-	}
+	return(0.0);
 }
 
 /**

@@ -118,6 +118,7 @@ rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
 rem ############################################################################
 copy *.dll "%~dp1MQL4\Libraries\"
+copy ..\libraries\libcurl.dll "%~dp1MQL4\Libraries\"
 copy ..\include\*.mqh "%~dp1MQL4\Include\"
 copy ..\source\*.mq4 "%~dp1MQL4\Indicators\"
 
