@@ -200,7 +200,11 @@ void DE::evolve() {
 		 * to other chromosomes to survive and to evolve.
 		 */
 		do {
-			xIndex = k;
+			/*
+			 * Vector x should never be equal to the trial vector. That is why k can not be used as x vector selection.
+			 */
+			xIndex = rand() % population.dimension();
+
 			aIndex = rand() % population.dimension();
 			bIndex = rand() % population.dimension();
 			cIndex = rand() % population.dimension();
@@ -240,13 +244,6 @@ void DE::evolve() {
 		 */
 		if(population[ trialIndex ].getFitness() < population[ xIndex ].getFitness()) {
 			trialIndex = xIndex;
-		} else {
-			/*
-			 * Back propagation training for trial vector.
-			 */
-			//TODO Use backpropagation in better way.
-			ann->gradient();
-			population[ trialIndex ].setFitness( ann->totalError() );
 		}
 
 		/*
