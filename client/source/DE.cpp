@@ -47,197 +47,60 @@ extern void sleep();
  */
 extern bool isRunning;
 
-void DE::select(int &resultIndex, int &firstParentIndex, int &secondParentIndex) {
-	/*
-	 * Do selection of indivuduals according probabilistic strategy.
-	 */
-	int index;
-
-	/*
-	 * Random value should be between 0 and sum of all percents (general 100%).
-	 */
-	int percent = rand() % (CROSSOVER_RESULT_INTO_WORST_PERCENT+CROSSOVER_RESULT_INTO_MIDDLE_PERCENT+CROSSOVER_RESULT_INTO_BEST_PERCENT);
-
-	if (percent < CROSSOVER_RESULT_INTO_WORST_PERCENT) {
-		/*
-		 * Worst fitness value is the highest.
-		 */
-		if (population[resultIndex].getFitness() < population[firstParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = firstParentIndex;
-			firstParentIndex = index;
-		}
-		if (population[resultIndex].getFitness() < population[secondParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = secondParentIndex;
-			secondParentIndex = index;
-		}
-	} else if (percent < (CROSSOVER_RESULT_INTO_WORST_PERCENT+CROSSOVER_RESULT_INTO_MIDDLE_PERCENT)) {
-		/*
-		 * Middle fitness value is between the others.
-		 */
-		if (population[secondParentIndex].getFitness() < population[firstParentIndex].getFitness()) {
-			index = secondParentIndex;
-			secondParentIndex = firstParentIndex;
-			firstParentIndex = index;
-		}
-		if (population[resultIndex].getFitness() < population[firstParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = firstParentIndex;
-			firstParentIndex = index;
-		}
-		if (population[resultIndex].getFitness() > population[secondParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = secondParentIndex;
-			secondParentIndex = index;
-		}
-	} else if (percent < (CROSSOVER_RESULT_INTO_WORST_PERCENT+CROSSOVER_RESULT_INTO_MIDDLE_PERCENT+CROSSOVER_RESULT_INTO_BEST_PERCENT)) {
-		/*
-		 * Best fitness value is the smallest.
-		 */
-		if (population[resultIndex].getFitness() > population[firstParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = firstParentIndex;
-			firstParentIndex = index;
-		}
-		if (population[resultIndex].getFitness() > population[secondParentIndex].getFitness()) {
-			index = resultIndex;
-			resultIndex = secondParentIndex;
-			secondParentIndex = index;
-		}
+bool DE::validIndexes() {
+	if(trialIndex == xIndex || trialIndex == aIndex || trialIndex == bIndex || trialIndex == cIndex) {
+		return false;
 	}
+
+	if(xIndex == aIndex || xIndex == bIndex || xIndex == cIndex) {
+		return false;
+	}
+
+	if(aIndex == bIndex || aIndex == cIndex) {
+		return false;
+	}
+
+	if(bIndex == cIndex) {
+		return false;
+	}
+
+	return true;
 }
 
-void DE::crossover(int resultIndex, int firstParentIndex, int secondParentIndex) {
-	if (crossoverType == NONE) {
-		return;
-	}
 
-	if ((double)(rand()%10000)/(double)100.0 > crossoverPercent) {
-		return;
-	}
-
-	if (resultIndex < 0 || resultIndex >= population.dimension()) {
-		throw( "DE00025" );
-		return;
-	}
-
-	if (firstParentIndex < 0 || firstParentIndex >= population.dimension()) {
-		throw( "DE00026" );
-		return;
-	}
-
-	if (secondParentIndex < 0 || secondParentIndex >= population.dimension()) {
-		throw( "DE00027" );
-		return;
-	}
+void DE::recombine() {
+	int CR = MIN_CROSSOVER_RATE + rand() % (MAX_CROSSOVER_RATE - MIN_CROSSOVER_RATE + 1);
+	double F = MIN_MUTATION_FACTOR + (MAX_MUTATION_FACTOR - MIN_MUTATION_FACTOR) * ((double)rand() / (double)RAND_MAX);
 
 	/*
 	 * Get copies of the chromosomes.
 	 */
-	WeightsMatrix &result = population[resultIndex].getWeights();
-	WeightsMatrix &first = population[firstParentIndex].getWeights();
-	WeightsMatrix &second = population[secondParentIndex].getWeights();
+	WeightsMatrix &trial = population[trialIndex].getWeights();
+	WeightsMatrix &x = population[xIndex].getWeights();
+	WeightsMatrix &a = population[aIndex].getWeights();
+	WeightsMatrix &b = population[bIndex].getWeights();
+	WeightsMatrix &c = population[cIndex].getWeights();
 
-	//TODO Implement real crossover in Chromosome class.
-	if (crossoverType == RANDOM) {
-		//TODO Implement crossover as polymorphic class.
-		for (int j=0; j<result.dimension(); j++) {
-			for (int i=0; i<result.dimension(); i++) {
-				result(i,j) = (rand()%2==0) ? first(i,j) : second(i,j);
-			}
-		}
-	} else if (crossoverType == FIFTY_FIFTY) {
-		//TODO Implement crossover as polymorphic class.
-		for (int j=0, k=0; j<result.dimension(); j++) {
-			for (int i=0; i<result.dimension(); i++, k++) {
-				if (k%2 == 0) {
-					result(i,j) = first(i,j);
-				} else {
-					result(i,j) = second(i,j);
-				}
-			}
-		}
-	} else if (crossoverType == SINGLE_CUT) {
-		//TODO Implement crossover as polymorphic class.
-		int x = rand() % (result.dimension()+1);
-		int y = rand() % (result.dimension()+1);
+	//TODO Implement recombination as polymorphic class.
+	int R = rand() % (2*trial.dimension());
+	for (int j=0, k=0; j<trial.dimension(); j++) {
+		for (int i=0; i<trial.dimension(); i++, k++) {
+			int ri = MIN_CROSSOVER_RATE + rand() % (MAX_CROSSOVER_RATE - MIN_CROSSOVER_RATE + 1);
 
-		for (int j=0; j<result.dimension(); j++) {
-			for (int i=0; i<x; i++) {
-				result(i,j) = first(i,j);
-			}
-		}
-
-		for (int j=0; j<result.dimension(); j++) {
-			if (j < y) {
-				result(x,j) = first(x,j);
+			if (ri < CR || k == R) {
+				trial(i,j) = x(i,j) + F * (b(i,j)-c(i,j));
 			} else {
-				result(x,j) = second(x,j);
+				trial(i,j) = x(i,j);
 			}
-		}
-
-		for (int j=0; j<result.dimension(); j++) {
-			for (int i=x+1; i<result.dimension(); i++) {
-				result(i,j) = second(i,j);
-			}
-		}
-	} else if (crossoverType == BINARY_MATRIX) {
-		//TODO Implement crossover as polymorphic class.
-		//TODO Implement binary matrix template for crossover.
-	}
-
-	/*
-	 * Update result chromosome.
-	 */
-	population[resultIndex].setWeights( result );
-}
-
-void DE::mutate(int index) {
-	if ((double)(rand()%10000)/(double)100.0 > mutationPercent) {
-		return;
-	}
-
-	if (index < 0 || index >= population.dimension()) {
-		throw( "DE00028" );
-		return;
-	}
-
-	/*
-	 * First chromosome index used in difference vector calculation.
-	 */
-	int firstIndex = rand() % population.dimension();
-
-	/*
-	 * Second chromosome index used in difference vector calculation.
-	 */
-	int secondIndex = rand() % population.dimension();
-
-	/*
-	 * Difference vector weight factor.
-	 */
-	double factor = MIN_MUTATION_FACTOR + (MAX_MUTATION_FACTOR - MIN_MUTATION_FACTOR) * ((double)rand() / (double)RAND_MAX);
-
-	WeightsMatrix &result = population[index].getWeights();
-	WeightsMatrix &first = population[firstIndex].getWeights();
-	WeightsMatrix &second = population[secondIndex].getWeights();
-
-	//TODO Implement real mutation in Chromosome class and send as parameter difference vector.
-	/*
-	 * Calculate weighted difference vector.
-	 * Add weighted difference vector as mutation of chromosome.
-	 */
-	for (int j=0; j<result.dimension(); j++) {
-		for (int i=0; i<result.dimension(); i++) {
-			result(i,j) += (factor * (first(i,j) - second(i,j)));
 		}
 	}
 
 	/*
 	 * Update result chromosome.
 	 */
-	population[index].setWeights( result );
+	population[trialIndex].setWeights( trial );
 }
+
 
 DE::DE() {
 	/*
@@ -245,29 +108,21 @@ DE::DE() {
 	 */
 	this->counters = NULL;
 	this->ann = NULL;
-	this->crossoverPercent = 0;
-	this->mutationPercent = 0;
 
 	/*
 	 * Memory allocation.
 	 */
 	Population population( 0 );
 	this->population = population;
-
-	//TODO Implement getters and setters.
-	crossoverType = RANDOM;
 }
 
 DE::DE(const DE &de) {
 	this->counters = de.counters;
 	this->ann = de.ann;
-	this->crossoverPercent = de.crossoverPercent;
-	this->mutationPercent = de.mutationPercent;
 	this->population = de.population;
-	this->crossoverType = de.crossoverType;
 }
 
-DE::DE(Counter *counters, ANN *ann, int populationSize, double crossoverPercent, double mutationPercent) {
+DE::DE(Counter *counters, ANN *ann, int populationSize) {
 	/*
 	 * Check counters pointer for point valid object.
 	 */
@@ -287,27 +142,9 @@ DE::DE(Counter *counters, ANN *ann, int populationSize, double crossoverPercent,
 	this->counters = counters;
 
 	/*
-	 * Probability is between 0 and 100.
-	 */
-	if (crossoverPercent < 0.0) {
-		crossoverPercent = 0.0;
-	}
-	if (crossoverPercent > 100.0) {
-		crossoverPercent = 100.0;
-	}
-	if (mutationPercent < 0.0) {
-		mutationPercent = 0.0;
-	}
-	if (mutationPercent > 100.0) {
-		mutationPercent = 100.0;
-	}
-
-	/*
 	 * Initialize class members.
 	 */
 	this->ann = ann;
-	this->crossoverPercent = crossoverPercent;
-	this->mutationPercent = mutationPercent;
 
 	/*
 	 * Memory allocation.
@@ -322,9 +159,6 @@ DE::DE(Counter *counters, ANN *ann, int populationSize, double crossoverPercent,
 		throw( "DE00035" );
 		return;
 	}
-
-	//TODO Implement getters and setters.
-	crossoverType = RANDOM;
 
 	/*
 	 * Estimate work done.
@@ -342,41 +176,19 @@ void DE::setPopulation(Population &population) {
 	this->population = population;
 }
 
-CrossoverType DE::getCrossoverType() const {
-	return( crossoverType );
-}
-
-void DE::setCrossoverType(CrossoverType type) {
-	crossoverType = type;
-}
-
-double DE::getCrossoverPercent() const {
-	return( crossoverPercent );
-}
-
-void DE::setCrossoverPercent(double percent) {
-	crossoverPercent = percent;
-}
-
-double DE::getMutationPercent() const {
-	return( mutationPercent );
-}
-
-void DE::setMutationPercent(double percent) {
-	mutationPercent = percent;
-}
-
 void DE::evolve() {
-	int resultIndex;
-	int firstParentIndex;
-	int secondParentIndex;
-
 	/*
 	 * Estimate work done.
 	 */
 	if (counters != NULL) {
 		counters->increment( "Evolution loops" );
 	}
+
+	/*
+	 * Select trial vector index.
+	 */
+	//TODO Use the chromosome with the worst fitness.
+	trialIndex = rand() % population.dimension();
 
 	/*
 	 * Evolve more chromosomes of the population (not all of them).
@@ -388,61 +200,53 @@ void DE::evolve() {
 		 * to other chromosomes to survive and to evolve.
 		 */
 		do {
-			resultIndex = rand() % population.dimension();
-			firstParentIndex = rand() % population.dimension();
-			secondParentIndex = rand() % population.dimension();
-		} while (KEEP_THE_BEST_CHROMOSOME==true && (resultIndex==population.getBestFitnessIndex() || firstParentIndex==population.getBestFitnessIndex() || secondParentIndex==population.getBestFitnessIndex()));
+			xIndex = k;
+			aIndex = rand() % population.dimension();
+			bIndex = rand() % population.dimension();
+			cIndex = rand() % population.dimension();
+		} while (validIndexes() == false);
 
 		/*
-		 * Select which chromosome to kill.
+		 * Produce trial vector.
 		 */
-		select(resultIndex, firstParentIndex, secondParentIndex);
-
-		/*
-		 * Crossover chromosomes.
-		 */
-		crossover(resultIndex, firstParentIndex, secondParentIndex);
-
-		/*
-		 * Mutate crossovered chromosome.
-		 */
-		mutate( resultIndex );
+		recombine();
 
 		/*
 		 * Load chromosome's weights into ANN.
 		 */
-		ann->setWeights(population[resultIndex].getWeights());
+		ann->setWeights(population[trialIndex].getWeights());
 
 		/*
 		 * Calculate chromosome fitness by calling ANN total error calculation.
 		 */
-		population[ resultIndex ].setFitness( ann->totalError() );
+		population[ trialIndex ].setFitness( ann->totalError() );
 
 		/*
 		 * There is a chance total error calculation to be interrupted.
 		 */
 		if (isRunning == false) {
-			population[resultIndex].setFitness( RAND_MAX );
-		}
-
-		/*
-		 * Equal chromosomes are useless. Replace with random chromosome.
-		 */
-		if (population.hasDuplication( population[resultIndex] ) == true) {
-			/*
-			 * Back propagation training for similar chromosomes.
-			 */
-			population[ resultIndex ].random();
-			//TODO Use backpropagation in better way.
-			ann->gradient();
-			population[ resultIndex ].setFitness( ann->totalError() );
+			population[trialIndex].setFitness( RAND_MAX );
 		}
 
 		/*
 		 * Update ANN prediction.
 		 */
-		if (population[resultIndex].getFitness()<population.getBestFitness() || PREDICT_WITH_EACH_CHROMOSOME==true) {
+		if (population[trialIndex].getFitness()<=population.getBestFitness() || PREDICT_WITH_EACH_CHROMOSOME==true) {
 			ann->predict();
+		}
+
+		/*
+		 * If trial vector is better than x vector than switch indexes.
+		 */
+		if(population[ trialIndex ].getFitness() < population[ xIndex ].getFitness()) {
+			trialIndex = xIndex;
+		} else {
+			/*
+			 * Back propagation training for trial vector.
+			 */
+			//TODO Use backpropagation in better way.
+			ann->gradient();
+			population[ trialIndex ].setFitness( ann->totalError() );
 		}
 
 		/*
@@ -465,22 +269,13 @@ DE::~DE() {
 DE& DE::operator=(const DE &de) {
 	this->counters = de.counters;
 	this->ann = de.ann;
-	this->crossoverPercent = de.crossoverPercent;
-	this->mutationPercent = de.mutationPercent;
 	this->population = de.population;
-	this->crossoverType = de.crossoverType;
 
 	return( *this );
 }
 
 ostream& operator<<(ostream &out, DE &de) {
 	out << fixed;
-
-	out << de.crossoverPercent;
-	out << endl;
-
-	out << de.mutationPercent;
-	out << endl;
 
 	out << de.population;
 

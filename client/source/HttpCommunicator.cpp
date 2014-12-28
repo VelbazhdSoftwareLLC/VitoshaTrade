@@ -225,7 +225,7 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, c
 	}
 
 	/* Memory allocation. */ {
-		DE deInstance(&counters, &ann, parameters.populationSize, 90.0, 90.0);
+		DE deInstance(&counters, &ann, parameters.populationSize);
 		de = deInstance;
 	}
 

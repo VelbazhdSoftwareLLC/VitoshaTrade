@@ -41,7 +41,25 @@ class Counter;
 #include "CrossoverType.h"
 
 /**
- * Differential Evolution.
+ * A basic variant of the DE algorithm works by having a population of candidate solutions (called agents). These agents are moved around in the search-space by using simple mathematical formulae to combine the positions of existing agents from the population. If the new position of an agent is an improvement it is accepted and forms part of the population, otherwise the new position is simply discarded. The process is repeated and by doing so it is hoped, but not guaranteed, that a satisfactory solution will eventually be discovered.
+ *
+ * Formally, let f: \Bbb{R}^n \to \Bbb{R} be the cost function which must be minimized or fitness function which must be maximized. The function takes a candidate solution as argument in the form of a vector of real numbers and produces a real number as output which indicates the fitness of the given candidate solution. The gradient of f is not known. The goal is to find a solution m for which f(m) \leq f(p) for all p in the search-space, which would mean m is the global minimum. Maximization can be performed by considering the function h := -f instead.
+ *
+ * Let \mathbf{x} \in \Bbb{R}^n designate a candidate solution (agent) in the population. The basic DE algorithm can then be described as follows:
+ *
+ * Initialize all agents \mathbf{x} with random positions in the search-space.
+ * Until a termination criterion is met (e.g. number of iterations performed, or adequate fitness reached), repeat the following:
+ * For each agent \mathbf{x} in the population do:
+ * Pick three agents \mathbf{a},\mathbf{b}, and \mathbf{c} from the population at random, they must be distinct from each other as well as from agent \mathbf{x}
+ * Pick a random index R \in \{1, \ldots, n\} (n being the dimensionality of the problem to be optimized).
+ * Compute the agent's potentially new position \mathbf{y} = [y_1, \ldots, y_n] as follows:
+ * For each i, pick a uniformly distributed number r_i \equiv U(0,1)
+ * If r_i < \text{CR} or i = R then set y_i = a_i + F \times (b_i-c_i) otherwise set y_i = x_i
+ * (In essence, the new position is outcome of binary crossover of agent \mathbf{x} with intermediate agent \mathbf{z} = \mathbf{a} + F \times (\mathbf{b}-\mathbf{c}).)
+ * If f(\mathbf{y}) < f(\mathbf{x}) then replace the agent in the population with the improved candidate solution, that is, replace \mathbf{x} with \mathbf{y} in the population.
+ * Pick the agent from the population that has the highest fitness or lowest cost and return it as the best found candidate solution.
+ *
+ * Note that F \in [0,2] is called the differential weight and \text{CR} \in [0,1] is called the crossover probability, both these parameters are selectable by the practitioner along with the population size \text{NP} \geq 4 see below. *
  *
  * @author Todor Balabanov
  *
@@ -52,36 +70,6 @@ class Counter;
 class DE {
 
 public:
-
-	/**
-	 * Integer number for probability percent result of crossover to be written
-	 * into the chromosome with the best fittnes. It is part of selection
-	 * strategy. Sum of all possibilities should be 100.
-	 */
-	//TODO implement it as member variable.
-	static const int CROSSOVER_RESULT_INTO_BEST_PERCENT = 5;
-
-	/**
-	 * Integer number for probability percent result of crossover to be written
-	 * into the chromosome with the middle fittnes. It is part of selection
-	 * strategy. Sum of all possibilities should be 100.
-	 */
-	//TODO implement it as member variable.
-	static const int CROSSOVER_RESULT_INTO_MIDDLE_PERCENT = 40;
-
-	/**
-	 * Integer number for probability percent result of crossover to be written
-	 * into the chromosome with the worst fittnes. It is part of selection
-	 * strategy. Sum of all possibilities should be 100.
-	 */
-	//TODO implement it as member variable.
-	static const int CROSSOVER_RESULT_INTO_WORST_PERCENT = 55;
-
-	/**
-	 * Flag to involve the best chromosome in evolution process.
-	 */
-	//TODO implement it as member variable.
-	static const bool KEEP_THE_BEST_CHROMOSOME = true;
 
 	/**
 	 * Do prediction with each chromosome, not only with the best one.
@@ -97,27 +85,19 @@ public:
 	/**
 	 * Maximum mutation factor.
 	 */
-	static const double MAX_MUTATION_FACTOR = 0.1;
+	static const double MAX_MUTATION_FACTOR = 2.0;
+
+	/**
+	 * Minimuim crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
+	 */
+	static const int MIN_CROSSOVER_RATE = 0;
+
+	/**
+	 * Maximum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
+	 */
+	static const int MAX_CROSSOVER_RATE = 10000;
 
 private:
-
-	/**
-	 * Crossover type.
-	 */
-	//TODO Implement getter and setter.
-	CrossoverType crossoverType;
-
-	/**
-	 * Probability crossover to ocure.
-	 */
-	//TODO Implement getter and setter.
-	double crossoverPercent;
-
-	/**
-	 * Probability mutation to ocure.
-	 */
-	//TODO Implement getter and setter.
-	double mutationPercent;
 
 	/**
 	 * Population array. Population array is dynamically allocated. Eeach
@@ -125,6 +105,31 @@ private:
 	 * also dynamically allocated.
 	 */
 	Population population;
+
+	/**
+	 * Use one of the elements in the population as trial element. When the element is better than some other element just change the index value.
+	 */
+	int trialIndex;
+
+	/**
+	 * In original DE x vector is selected in a loop and each element is visited. Here we will select x random way (statistically it should not have a difference).
+	 */
+	int xIndex;
+
+	/**
+	 * Vector a from the original DE implementation.
+	 */
+	int aIndex;
+
+	/**
+	 * Vector b from the original DE implementation.
+	 */
+	int bIndex;
+
+	/**
+	 * Vector c from the original DE implementation.
+	 */
+	int cIndex;
 
 	/**
 	 * Link to counters object.
@@ -139,31 +144,18 @@ private:
 private:
 
 	/**
-	 * Select chromosomes for crossover. Swap places of each index according
-	 * probabilistic strategy.
-	 *
-	 * @param resultIndex Index on which crossover result is stored.
-	 *
-	 * @param firstParentIndex Index of the first parent.
-	 *
-	 * @param secondParentIndex Index of the second parent.
+	 * Indexes should be different in order DE to work.
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 15 May 2009
+	 * @date 27 Dec 2014
 	 */
-	void select(int &resultIndex, int &firstParentIndex, int &secondParentIndex);
+	bool validIndexes();
 
 	/**
-	 * Crossover chromosomes.
-	 *
-	 * @param resultIndex Index on which crossover result is stored.
-	 *
-	 * @param firstParentIndex Index of the first parent.
-	 *
-	 * @param secondParentIndex Index of the second parent.
+	 * Recombine chromosomes.
 	 *
 	 * @author Iliyan Zankinski
 	 *
@@ -172,21 +164,7 @@ private:
 	 * @date 31 Mar 2009
 	 */
 	//TODO Do in in Chromosome class.
-	void crossover(int resultIndex, int firstParentIndex, int secondParentIndex);
-
-	/**
-	 * Mutate chromosome.
-	 *
-	 * @param index Index of the chromosome which mutate.
-	 *
-	 * @author Iliyan Zankinski
-	 *
-	 * @email iliyan_mf@abv.bg
-	 *
-	 * @date 31 Mar 2009
-	 */
-	//TODO Do in in Chromosome class.
-	void mutate(int index);
+	void recombine();
 
 public:
 
@@ -223,17 +201,13 @@ public:
 	 *
 	 * @param populationSize Population size to be used.
 	 *
-	 * @param crossoverPercent Crossover to ocure probability.
-	 *
-	 * @param mutationPercent Mutation to ocure probability.
-	 *
 	 * @author Todor Balabanov
 	 *
 	 * @email tdb@tbsoft.eu
 	 *
 	 * @date 10 Mar 2009
 	 */
-	DE(Counter *counters, ANN *ann, int populationSize, double crossoverPercent, double mutationPercent);
+	DE(Counter *counters, ANN *ann, int populationSize);
 
 	/**
 	 * Population getter.

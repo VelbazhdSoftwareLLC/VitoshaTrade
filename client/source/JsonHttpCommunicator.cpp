@@ -493,7 +493,7 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 	}
 
 	/* Memory allocation. */ {
-		DE deInstance(&counters, &ann, parameters.populationSize, 90.0, 90.0);
+		DE deInstance(&counters, &ann, parameters.populationSize);
 		de = deInstance;
 	}
 
