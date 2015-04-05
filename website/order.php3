@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>.:: Vitosha Trade - Order Vitosha Trade ::.</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+
+<body style="overflow:hidden;">
 	<div id="wrapper">
 		<div id="logo">
 			<ul id="menu">
@@ -44,7 +44,7 @@
                             <input id="phone_number" type="text" value="Phone Number" class="phoneField" onfocus="this.value='';" title="Phone Number" name="phone_number"/>
                         </li>
                         <li><label for="email" >Email Address </label><input id="email" type="text" title="Email Address" name="email"/></li>
-						<li><label for="mandatory" class="labelLong">All information is required because all orders will be confirmed by phone call, billing details and the software itself will be sent by email.</label></li>
+						<li><label class="labelLong">All information is required because all orders will be confirmed by phone call, billing details and the software itself will be sent by email.</label></li>
                     </ul> 
                 </fieldset>
 				<div class="submit">
@@ -58,7 +58,7 @@
 		
 		<div id="footer">
 			<div class="footerLeft">
-			 	Design by <a href="http://www.mxworkz.com" target="_blank" title="MXWorkz Creative">MXWorkz</a>
+			 	Design by <a href="http://www.mxworkz.com/" target="_blank" title="MXWorkz Creative">MXWorkz</a>
 			</div>
 			<div class="copy">This website and its content is intellectual pfoperty of <strong>Velbazhd Software ©</strong>. </div>
 			<div class="footerRight">

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  * Include database functions.
  */
@@ -7,7 +7,7 @@ include "./common/db.php";
 /**
  * Order e-mail address constant.
  */
-define("ORDER_EMAIL", "tdb@tbsoft.eu");
+define("ORDER_EMAIL", "todor.balabanov@gmail.com");
 
 /**
  * ANN list results per page.
@@ -117,14 +117,14 @@ if ($offset >= $number_of_pages) {
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>.:: Vitosha Trade ::.</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+
+﻿<body style="overflow:hidden;">
 	<div id="wrapper">
 		<div id="logo">
 			<ul id="menu">
@@ -141,7 +141,7 @@ if ($offset >= $number_of_pages) {
 		</div>
 		<div id="home_about_bevel">
 			<h1>About Vitosha Trade</h1>
-			<div id="home_bevel_txt">
+			<div class="home_bevel_txt">
 				VitoshaTrade &reg; is <a href="http://en.wikipedia.org/wiki/Foreign_exchange_market">Forex</a> prediction indicator that can be used only with <a href="http://www.metatrader4.com/">MetaTrader 4</a> trading  platform. 
 				The indicator is based on Artificial Neural Networks trained by Differential Evolution algorithm in 
 				distributed environment.
@@ -149,19 +149,18 @@ if ($offset >= $number_of_pages) {
 		</div>
 		<div id="home_purchase_bevel">
 			<h1>Purchase Information</h1>
-			<div id="home_bevel_txt">
+			<div class="home_bevel_txt">
 				VitoshaTrade &reg; comes on the price of &euro;9999 (1/100 company shares included in the price). To make your order we would like to ask you fill 
 				out the <a href="order.php" title="Order Vitosha Trade">order form</a>
-
 			</div>
 		</div>
 		<div id="home_contact_bevel">
 			<h1>Contact Us</h1>
-			<div id="home_bevel_txt">
+			<div class="home_bevel_txt">
 				Velbazhd Software - Bulgarian Software Company
 				<br /><br />
 				Todor Balabanov, CEO<br />
-				Email: <a href="mailto:todor.balabanov gmail com" title="VitoshaTrade Email Request" target="_blank">todor.balabanov gmail com</a><br />
+				Email: <a href="mailto:todor.balabanov@gmail.com" title="VitoshaTrade Email Request">todor.balabanov gmail com</a><br />
 				Phone: +359 89 8237103
 			</div>
 		</div>
@@ -169,7 +168,7 @@ if ($offset >= $number_of_pages) {
 		<div id="grid_home">
 			<!-- <h1><center>Artificial Neural Networks List</center></h1> -->
 
-			<table cellpadding="1" cellspacing="1" class="tableBorder" width="100%">
+			<table class="tableBorder" style="width:100%;padding:1;border-spcacing:1;border-collapse:separate;">
 				<tr class="tableHeading">
 					<th>ID</th>
 					<th>Symbol</th>
@@ -221,8 +220,8 @@ if ($result != false) {
 			<br />
 			<div class="paging">
 
-<a href="?offset=0" title="First Page"><img src="images/paging_first.jpg" border="0" alt="First Page" /></a>  &nbsp;
-<a href="?offset=<?php echo($offset-1);?>" title="Previous"><img src="images/left_arrow.jpg" border="0" alt="Previous" /></a>  &nbsp; 
+<a href="?offset=0" title="First Page"><img src="images/paging_first.jpg" style="border:0;" alt="First Page" /></a>  &nbsp;
+<a href="?offset=<?php echo($offset-1);?>" title="Previous"><img src="images/left_arrow.jpg" style="border:0;" alt="Previous" /></a>  &nbsp; 
 
 <?php
 if ($result != false) {
@@ -239,15 +238,15 @@ if ($result != false) {
 }
 ?>
 
-<a href="?offset=<?php echo($offset+1);?>" title="Next"><img src="images/right_arrow.jpg" border="0" alt="Next" /></a>  &nbsp;
-<a href="?offset=<?php echo($number_of_pages-1);?>" title="Last Page"><img src="images/paging_last.jpg" border="0" alt="Last Page" /></a>  &nbsp; 
+<a href="?offset=<?php echo($offset+1);?>" title="Next"><img src="images/right_arrow.jpg" style="border:0;" alt="Next" /></a>  &nbsp;
+<a href="?offset=<?php echo($number_of_pages-1);?>" title="Last Page"><img src="images/paging_last.jpg" style="border:0;" alt="Last Page" /></a>  &nbsp; 
 
 			</div>
 		</div>
 		<div class="clearer"></div>
 		<div id="footer">
 			<div class="footerLeft">
-			 	Design by <a href="http://www.mxworkz.com" target="_blank" title="MXWorkz Creative">MXWorkz</a>
+			 	Design by <a href="http://www.mxworkz.com/" target="_blank" title="MXWorkz Creative">MXWorkz</a>
 			</div>
 			<div class="copy">This website and its content is intellectual pfoperty of <strong>Velbazhd Software &copy;</strong>. </div>
 			<div class="footerRight">
