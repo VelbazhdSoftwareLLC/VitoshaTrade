@@ -31,7 +31,7 @@
 
 #property copyright "Copyright © 2008-2014, Todor Balabanov"
 #property link "http://tdb.hit.bg/"
-#property version   "0.01"
+#property version   "000.001"
 #property strict
 #property indicator_chart_window
 #property indicator_buffers 0
@@ -79,7 +79,7 @@ extern int POPULATION_SIZE = 45;
 extern int TRAINING_BARS = 250;
 
 /**
- * Predict interval in bars.
+ * Inspect interval in bars.
  */
 extern int INSPECT_BARS = 25;
 
@@ -106,7 +106,34 @@ extern int PREDICTOR_ID = 0;
  */
 void sendDataToPredictor() {
 	double rates[][6];
-	ArrayCopyRates( rates );
+	int size = ArrayCopyRates( rates );
+	
+	/*
+	 * Do nothing if there is no enough data.
+	 */
+	if(size < TRAINING_BARS) {
+	   return;
+	}
+	
+	/*
+	 * Normalize values between zero and one.
+	 */
+	for(int r=0; r<6; r++) {
+	   int min = rates[0][r];
+	   int max = rates[0][r];
+	   for(int i=0; i<size; i++) {
+	      if(rates[i][r] < min) {
+	         min = rates[i][r];
+	      }
+	      if(rates[i][r] > max) {
+	         max = rates[i][r];
+	      }
+	   }
+	   for(int i=0; i<size; i++) {
+         rates[i][r] = (rates[i][r]-min) / (max - min);
+	   }
+	}
+	
 	//_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
 }
 
@@ -122,12 +149,10 @@ void sendDataToPredictor() {
  * @date 01 Aug 2014
  */
 int OnInit() {
-Alert("Test point 1 ...");
 	/*
 	 * Show about box as welcome screen.
 	 */
-	_Z5aboutv();
-Alert("Test point 2 ...");
+	//_Z5aboutv();
 
 	/*
 	 * Validate input data.
@@ -159,7 +184,7 @@ Alert("Test point 2 ...");
 	/*
 	 * Seed PRNG.
 	 */
-	MathSrand( TimeLocal() );
+	MathSrand( GetTickCount() );
 
 	/*
 	 * Initialize predictor.
@@ -252,11 +277,28 @@ int OnCalculate(const int rates_total,
 	static double lastValue = 0.0;
 	double value;
 	//value = _Z10predictionv();
-	if(MathRand()%2 == 0) {
-	  value = (Ask+Bid)/2.0 + (MathRand()/3276700.0);
-	} else {
-	  value = (Ask+Bid)/2.0 - (MathRand()/3276700.0);
+	
+	/*
+	 * Denormalize prediction.
+	 */
+	int min = low[0];
+	int max = high[0];
+	for(int i=0; i<rates_total; i++) {
+	   if(low[i] < min) {
+	      min = low[ i ];
+	   }
+	   if(high[i] < max) {
+	      max = high[ i ];
+	   }
 	}
+	value = min + value*(max-min);
+//TODO Remove it. It is only for testing.
+if(MathRand()%2 == 0) {
+  value = (Ask+Bid)/2.0 + (MathRand()/327670000.0);
+} else {
+  value = (Ask+Bid)/2.0 - (MathRand()/327670000.0);
+}
+//TODO Remove it. It is only for testing.
 
 	/*
 	 * Display prediction.

@@ -159,8 +159,9 @@ rem ############################################################################
 rem # Build indicator. The parameter %~d1 is MT4 install drive.                #
 rem ############################################################################
 %~d1
-cd "%~dp1experts\indicators\"
-"%~dp1MetaLang.exe" VitoshaTrade.mq4
+cd "%~dp1MQL4\Indicators\"
+"%~dp1mql.exe" VitoshaTrade.mq4
+"%~dp1mql64.exe" VitoshaTrade.mq4
 
 rem ############################################################################
 rem # End of the srcipt if there are no input parameters.                      #
