@@ -51,7 +51,7 @@
 #include "../include/VitoshaTrade.h"
 
 /**
- * Thread identifyer.
+ * Thread identifier.
  */
 static DWORD threadId;
 
@@ -193,103 +193,103 @@ void sleep() {
  * @date 04 May 2009
  */
 DWORD WINAPI run(void *arg) {
-	/*
-	 * Initialize pseudo-random number generator.
-	 */
-	srand( time(NULL) );
-
-	/*
-	 * Put the thread in idle mode.
-	 */
-	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_IDLE);
-
-	/*
-	 * Allocate memory for trainer object.
-	 */
-	EnterCriticalSection( &criticalSection );
-	try {
-		trainer = new Trainer();
-		if (trainer == NULL) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
-		} else {
-			//TODO Fix commucation problems.
-			//trainer.setup( init );
-			isRunning = true;
-		}
-	} catch (const char* message) {
-		isRunning = false;
-		MessageBox(NULL, "              VitoshaTrade00176", message, 0);
-		fprintf(stderr, "%s\n", message);
-	} catch (...) {
-		isRunning = false;
-		MessageBox(NULL, "              VitoshaTrade00177", "Calculation process stopped.", 0);
-	}
-	LeaveCriticalSection( &criticalSection );
-
-	/*
-	 * Thread infinite loop.
-	 */
-	while (isRunning == true) {
-		EnterCriticalSection( &criticalSection );
-
-		/*
-		 * Prediction.
-		 */
-		try {
-			if (trainer != NULL) {
-				predictedValue = trainer->predict();
-			} else {
-				isRunning = false;
-				MessageBox(NULL, "              VitoshaTrade00181", "Calculation process stopped.", 0);
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00182", message, 0);
-			fprintf(stderr, "%s\n", message);
-		} catch (...) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00183", "Calculation process stopped.", 0);
-		}
-
-		/*
-		 * Training.
-		 */
-		try {
-			if (trainer != NULL) {
-				trainer->train();
-			} else {
-				isRunning = false;
-				MessageBox(NULL, "              VitoshaTrade00178", "Calculation process stopped.", 0);
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00179", message, 0);
-			fprintf(stderr, "%s\n", message);
-		} catch (...) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00180", "Calculation process stopped.", 0);
-		}
-
-		LeaveCriticalSection( &criticalSection );
-		sleep();
-	}
-
-	/*
-	 * Free memory of trainer object before thread stop.
-	 */
-	EnterCriticalSection( &criticalSection );
-	try {
-		isRunning = false;
-		delete(trainer);
-	} catch (const char* message) {
-		MessageBox(NULL, "              VitoshaTrade00184", message, 0);
-		fprintf(stderr, "%s\n", message);
-	} catch (...) {
-		MessageBox(NULL, "              VitoshaTrade00185", "Calculation process stopped.", 0);
-	}
-	trainer = NULL;
-	LeaveCriticalSection( &criticalSection );
+//	/*
+//	 * Initialize pseudo-random number generator.
+//	 */
+//	srand( time(NULL) );
+//
+//	/*
+//	 * Put the thread in idle mode.
+//	 */
+//	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_IDLE);
+//
+//	/*
+//	 * Allocate memory for trainer object.
+//	 */
+//	EnterCriticalSection( &criticalSection );
+//	try {
+//		trainer = new Trainer();
+//		if (trainer == NULL) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
+//		} else {
+//			//TODO Fix commucation problems.
+//			//trainer.setup( init );
+//			isRunning = true;
+//		}
+//	} catch (const char* message) {
+//		isRunning = false;
+//		MessageBox(NULL, "              VitoshaTrade00176", message, 0);
+//		fprintf(stderr, "%s\n", message);
+//	} catch (...) {
+//		isRunning = false;
+//		MessageBox(NULL, "              VitoshaTrade00177", "Calculation process stopped.", 0);
+//	}
+//	LeaveCriticalSection( &criticalSection );
+//
+//	/*
+//	 * Thread infinite loop.
+//	 */
+//	while (isRunning == true) {
+//		EnterCriticalSection( &criticalSection );
+//
+//		/*
+//		 * Prediction.
+//		 */
+//		try {
+//			if (trainer != NULL) {
+//				predictedValue = trainer->predict();
+//			} else {
+//				isRunning = false;
+//				MessageBox(NULL, "              VitoshaTrade00181", "Calculation process stopped.", 0);
+//			}
+//		} catch (const char* message) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00182", message, 0);
+//			fprintf(stderr, "%s\n", message);
+//		} catch (...) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00183", "Calculation process stopped.", 0);
+//		}
+//
+//		/*
+//		 * Training.
+//		 */
+//		try {
+//			if (trainer != NULL) {
+//				trainer->train();
+//			} else {
+//				isRunning = false;
+//				MessageBox(NULL, "              VitoshaTrade00178", "Calculation process stopped.", 0);
+//			}
+//		} catch (const char* message) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00179", message, 0);
+//			fprintf(stderr, "%s\n", message);
+//		} catch (...) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00180", "Calculation process stopped.", 0);
+//		}
+//
+//		LeaveCriticalSection( &criticalSection );
+//		sleep();
+//	}
+//
+//	/*
+//	 * Free memory of trainer object before thread stop.
+//	 */
+//	EnterCriticalSection( &criticalSection );
+//	try {
+//		isRunning = false;
+//		delete(trainer);
+//	} catch (const char* message) {
+//		MessageBox(NULL, "              VitoshaTrade00184", message, 0);
+//		fprintf(stderr, "%s\n", message);
+//	} catch (...) {
+//		MessageBox(NULL, "              VitoshaTrade00185", "Calculation process stopped.", 0);
+//	}
+//	trainer = NULL;
+//	LeaveCriticalSection( &criticalSection );
 }
 
 MT4_EXPFUNC void __stdcall about() {
@@ -297,155 +297,155 @@ MT4_EXPFUNC void __stdcall about() {
 }
 
 MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
-	/*
-	 * Initialize critical section object.
-	 */
-	if ( !InitializeCriticalSectionAndSpinCount(&criticalSection,0x80000400) ) {
-		//TODO Report error.
-		return;
-	}
-
-	/*
-	 * Fill init trainer structure.
-	 */
-	EnterCriticalSection( &criticalSection );
-	init.dbId = dbId;
-	strcpy(init.symbol, symbol);
-	switch( period ) {
-	case M1:
-		init.period = M1;
-		break;
-	case M5:
-		init.period = M5;
-		break;
-	case M15:
-		init.period = M15;
-		break;
-	case M30:
-		init.period = M30;
-		break;
-	case H1:
-		init.period = H1;
-		break;
-	case H4:
-		init.period = H4;
-		break;
-	case D1:
-		init.period = D1;
-		break;
-	case W1:
-		init.period = W1;
-		break;
-	case MN1:
-		init.period = MN1;
-		break;
-	default:
-		init.period = NO;
-		break;
-	}
-	init.neuronsAmount = neuronsAmount;
-	init.populationSize = populationSize;
-	init.learn = learn;
-	init.bars = bars;
-
-	/*
-	 * Activate calculation thread.
-	 */
-	if(threadHandle == NULL) {
-		threadHandle = CreateThread(NULL, 0, run, NULL, CREATE_SUSPENDED, &threadId);
-	}
-
-	/*
-	 * Run-time check thread handle for NULL pointer and report error if any.
-	 */
-	if (threadHandle == NULL) {
-		isRunning = false;
-		MessageBox(NULL, "              VitoshaTrade00186", "Calculation process stopped.", 0);
-	}
-	LeaveCriticalSection( &criticalSection );
-	if(threadHandle!=NULL && ResumeThread(threadHandle)==(DWORD)-1) {
-		char error[100] = "";
-		sprintf(error, "%ld", (long)GetLastError());
-		MessageBox(NULL, "              VitoshaTrade00201", error, 0);
-	}
-
-	char netType[ 100 ] = "";
-	sprintf(netType, "%s%d", symbol, period);
-	//MessageBox(NULL, netType, "Network type:", 0);
+//	/*
+//	 * Initialize critical section object.
+//	 */
+//	if ( !InitializeCriticalSectionAndSpinCount(&criticalSection,0x80000400) ) {
+//		//TODO Report error.
+//		return;
+//	}
+//
+//	/*
+//	 * Fill init trainer structure.
+//	 */
+//	EnterCriticalSection( &criticalSection );
+//	init.dbId = dbId;
+//	strcpy(init.symbol, symbol);
+//	switch( period ) {
+//	case M1:
+//		init.period = M1;
+//		break;
+//	case M5:
+//		init.period = M5;
+//		break;
+//	case M15:
+//		init.period = M15;
+//		break;
+//	case M30:
+//		init.period = M30;
+//		break;
+//	case H1:
+//		init.period = H1;
+//		break;
+//	case H4:
+//		init.period = H4;
+//		break;
+//	case D1:
+//		init.period = D1;
+//		break;
+//	case W1:
+//		init.period = W1;
+//		break;
+//	case MN1:
+//		init.period = MN1;
+//		break;
+//	default:
+//		init.period = NO;
+//		break;
+//	}
+//	init.neuronsAmount = neuronsAmount;
+//	init.populationSize = populationSize;
+//	init.learn = learn;
+//	init.bars = bars;
+//
+//	/*
+//	 * Activate calculation thread.
+//	 */
+//	if(threadHandle == NULL) {
+//		threadHandle = CreateThread(NULL, 0, run, NULL, CREATE_SUSPENDED, &threadId);
+//	}
+//
+//	/*
+//	 * Run-time check thread handle for NULL pointer and report error if any.
+//	 */
+//	if (threadHandle == NULL) {
+//		isRunning = false;
+//		MessageBox(NULL, "              VitoshaTrade00186", "Calculation process stopped.", 0);
+//	}
+//	LeaveCriticalSection( &criticalSection );
+//	if(threadHandle!=NULL && ResumeThread(threadHandle)==(DWORD)-1) {
+//		char error[100] = "";
+//		sprintf(error, "%ld", (long)GetLastError());
+//		MessageBox(NULL, "              VitoshaTrade00201", error, 0);
+//	}
+//
+//	char netType[ 100 ] = "";
+//	sprintf(netType, "%s%d", symbol, period);
+//	//MessageBox(NULL, netType, "Network type:", 0);
 }
 
 MT4_EXPFUNC void __stdcall stopPredictor() {
-	/*
-	 * Deactivate calculation thread.
-	 */
-	EnterCriticalSection( &criticalSection );
-	isRunning = false;
-	LeaveCriticalSection( &criticalSection );
-	//TODO Investigate effects caused by the second parameter.
-	WaitForSingleObject(threadHandle, 0);
-	CloseHandle( threadHandle );
-
-	/*
-	 * Delete critical section object.
-	 */
-	DeleteCriticalSection(&criticalSection);
-
-	//MessageBox(NULL, "Indicator stop!", "Closing...", 0);
+//	/*
+//	 * Deactivate calculation thread.
+//	 */
+//	EnterCriticalSection( &criticalSection );
+//	isRunning = false;
+//	LeaveCriticalSection( &criticalSection );
+//	//TODO Investigate effects caused by the second parameter.
+//	WaitForSingleObject(threadHandle, 0);
+//	CloseHandle( threadHandle );
+//
+//	/*
+//	 * Delete critical section object.
+//	 */
+//	DeleteCriticalSection(&criticalSection);
+//
+//	//MessageBox(NULL, "Indicator stop!", "Closing...", 0);
 }
 
 MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 	/*
-	 * Return if there is no conditions to update.
-	 */
-	if (size<=0 || isRunning==false || trainer==NULL || rates==NULL) {
-		return;
-	}
-
-	std::vector<RateInfo> values( size );
-	for(int i=0; i<size; i++) {
-		values[i] = rates[i];
-	}
-
-	static bool firstTime = true;
-	if (firstTime == true) {
-		EnterCriticalSection( &criticalSection );
-		try {
-			if (trainer != NULL) {
-				trainer->updateTrainingSet(values, size);
-			} else {
-				isRunning = false;
-				MessageBox(NULL, "              VitoshaTrade00187", "Calculation process stopped.", 0);
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00188", message, 0);
-			fprintf(stderr, "%s\n", message);
-		} catch (...) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00189", "Calculation process stopped.", 0);
-		}
-
-		firstTime = false;
-		LeaveCriticalSection( &criticalSection );
-	} else if (TryEnterCriticalSection(&criticalSection) == true) {
-		try {
-			if (trainer != NULL) {
-				trainer->updateTrainingSet(values, size);
-			} else {
-				isRunning = false;
-				MessageBox(NULL, "              VitoshaTrade00190", "Calculation process stopped.", 0);
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00191", message, 0);
-			fprintf(stderr, "%s\n", message);
-		} catch (...) {
-			isRunning = false;
-			MessageBox(NULL, "              VitoshaTrade00192", "Calculation process stopped.", 0);
-		}
-
-		LeaveCriticalSection( &criticalSection );
-	}
+//	 * Return if there is no conditions to update.
+//	 */
+//	if (size<=0 || isRunning==false || trainer==NULL || rates==NULL) {
+//		return;
+//	}
+//
+//	std::vector<RateInfo> values( size );
+//	for(int i=0; i<size; i++) {
+//		values[i] = rates[i];
+//	}
+//
+//	static bool firstTime = true;
+//	if (firstTime == true) {
+//		EnterCriticalSection( &criticalSection );
+//		try {
+//			if (trainer != NULL) {
+//				trainer->updateTrainingSet(values, size);
+//			} else {
+//				isRunning = false;
+//				MessageBox(NULL, "              VitoshaTrade00187", "Calculation process stopped.", 0);
+//			}
+//		} catch (const char* message) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00188", message, 0);
+//			fprintf(stderr, "%s\n", message);
+//		} catch (...) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00189", "Calculation process stopped.", 0);
+//		}
+//
+//		firstTime = false;
+//		LeaveCriticalSection( &criticalSection );
+//	} else if (TryEnterCriticalSection(&criticalSection) == true) {
+//		try {
+//			if (trainer != NULL) {
+//				trainer->updateTrainingSet(values, size);
+//			} else {
+//				isRunning = false;
+//				MessageBox(NULL, "              VitoshaTrade00190", "Calculation process stopped.", 0);
+//			}
+//		} catch (const char* message) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00191", message, 0);
+//			fprintf(stderr, "%s\n", message);
+//		} catch (...) {
+//			isRunning = false;
+//			MessageBox(NULL, "              VitoshaTrade00192", "Calculation process stopped.", 0);
+//		}
+//
+//		LeaveCriticalSection( &criticalSection );
+//	}
 }
 
 MT4_EXPFUNC double __stdcall prediction() {

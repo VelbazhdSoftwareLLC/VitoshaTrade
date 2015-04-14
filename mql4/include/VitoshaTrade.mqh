@@ -37,7 +37,7 @@ void _Z14startPredictoriPKciiiii(int dbId, string symbol, int period, int neuron
 
 void _Z13stopPredictorv();
 
-//void _Z13loadChartDataPK8RateInfoi(double rates[][6], int size);
+void _Z13loadChartDataPK8RateInfoi(double &rates[][6], int size);
 
 double _Z10predictionv();
 

@@ -30,8 +30,8 @@
  ******************************************************************************/
 
 #property copyright "Copyright © 2008-2014, Todor Balabanov"
-#property link "http://tdb.hit.bg/"
-#property version   "000.001"
+#property link "http://vitoshatrade.veldsoft.eu/"
+#property version "1.001"
 #property strict
 #property indicator_chart_window
 #property indicator_buffers 0
@@ -134,7 +134,7 @@ void sendDataToPredictor() {
 	   }
 	}
 	
-	//_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
+	_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
 }
 
 /**
@@ -152,7 +152,7 @@ int OnInit() {
 	/*
 	 * Show about box as welcome screen.
 	 */
-	//_Z5aboutv();
+	_Z5aboutv();
 
 	/*
 	 * Validate input data.
@@ -189,7 +189,7 @@ int OnInit() {
 	/*
 	 * Initialize predictor.
 	 */
-	//_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }
@@ -219,7 +219,7 @@ void OnDeinit(const int reason) {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	//_Z13stopPredictorv();
+	_Z13stopPredictorv();
 }
 
 /**
@@ -275,14 +275,14 @@ int OnCalculate(const int rates_total,
 	 * Ask for prediction.
 	 */
 	static double lastValue = 0.0;
-	double value;
-	//value = _Z10predictionv();
+	double value = 0.0;
+	value = _Z10predictionv();
 	
 	/*
 	 * Denormalize prediction.
 	 */
-	int min = low[0];
-	int max = high[0];
+	double min = low[0];
+	double max = high[0];
 	for(int i=0; i<rates_total; i++) {
 	   if(low[i] < min) {
 	      min = low[ i ];
@@ -292,13 +292,6 @@ int OnCalculate(const int rates_total,
 	   }
 	}
 	value = min + value*(max-min);
-//TODO Remove it. It is only for testing.
-if(MathRand()%2 == 0) {
-  value = (Ask+Bid)/2.0 + (MathRand()/327670000.0);
-} else {
-  value = (Ask+Bid)/2.0 - (MathRand()/327670000.0);
-}
-//TODO Remove it. It is only for testing.
 
 	/*
 	 * Display prediction.
@@ -344,4 +337,3 @@ if(MathRand()%2 == 0) {
 
 	return( 0 );
 }
-
