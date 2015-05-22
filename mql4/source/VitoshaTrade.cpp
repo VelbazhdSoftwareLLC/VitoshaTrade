@@ -297,81 +297,81 @@ MT4_EXPFUNC void __stdcall about() {
 }
 
 MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
-//	/*
-//	 * Initialize critical section object.
-//	 */
-//	if ( !InitializeCriticalSectionAndSpinCount(&criticalSection,0x80000400) ) {
-//		//TODO Report error.
-//		return;
-//	}
-//
-//	/*
-//	 * Fill init trainer structure.
-//	 */
-//	EnterCriticalSection( &criticalSection );
-//	init.dbId = dbId;
-//	strcpy(init.symbol, symbol);
-//	switch( period ) {
-//	case M1:
-//		init.period = M1;
-//		break;
-//	case M5:
-//		init.period = M5;
-//		break;
-//	case M15:
-//		init.period = M15;
-//		break;
-//	case M30:
-//		init.period = M30;
-//		break;
-//	case H1:
-//		init.period = H1;
-//		break;
-//	case H4:
-//		init.period = H4;
-//		break;
-//	case D1:
-//		init.period = D1;
-//		break;
-//	case W1:
-//		init.period = W1;
-//		break;
-//	case MN1:
-//		init.period = MN1;
-//		break;
-//	default:
-//		init.period = NO;
-//		break;
-//	}
-//	init.neuronsAmount = neuronsAmount;
-//	init.populationSize = populationSize;
-//	init.learn = learn;
-//	init.bars = bars;
-//
-//	/*
-//	 * Activate calculation thread.
-//	 */
-//	if(threadHandle == NULL) {
-//		threadHandle = CreateThread(NULL, 0, run, NULL, CREATE_SUSPENDED, &threadId);
-//	}
-//
-//	/*
-//	 * Run-time check thread handle for NULL pointer and report error if any.
-//	 */
-//	if (threadHandle == NULL) {
-//		isRunning = false;
-//		MessageBox(NULL, "              VitoshaTrade00186", "Calculation process stopped.", 0);
-//	}
-//	LeaveCriticalSection( &criticalSection );
-//	if(threadHandle!=NULL && ResumeThread(threadHandle)==(DWORD)-1) {
-//		char error[100] = "";
-//		sprintf(error, "%ld", (long)GetLastError());
-//		MessageBox(NULL, "              VitoshaTrade00201", error, 0);
-//	}
-//
-//	char netType[ 100 ] = "";
-//	sprintf(netType, "%s%d", symbol, period);
-//	//MessageBox(NULL, netType, "Network type:", 0);
+	/*
+	 * Initialize critical section object.
+	 */
+	if ( !InitializeCriticalSectionAndSpinCount(&criticalSection,0x80000400) ) {
+		//TODO Report error.
+		return;
+	}
+
+	/*
+	 * Fill init trainer structure.
+	 */
+	EnterCriticalSection( &criticalSection );
+	init.dbId = dbId;
+	strcpy(init.symbol, symbol);
+	switch( period ) {
+	case M1:
+		init.period = M1;
+		break;
+	case M5:
+		init.period = M5;
+		break;
+	case M15:
+		init.period = M15;
+		break;
+	case M30:
+		init.period = M30;
+		break;
+	case H1:
+		init.period = H1;
+		break;
+	case H4:
+		init.period = H4;
+		break;
+	case D1:
+		init.period = D1;
+		break;
+	case W1:
+		init.period = W1;
+		break;
+	case MN1:
+		init.period = MN1;
+		break;
+	default:
+		init.period = NO;
+		break;
+	}
+	init.neuronsAmount = neuronsAmount;
+	init.populationSize = populationSize;
+	init.learn = learn;
+	init.bars = bars;
+
+	/*
+	 * Activate calculation thread.
+	 */
+	if(threadHandle == NULL) {
+		threadHandle = CreateThread(NULL, 0, run, NULL, CREATE_SUSPENDED, &threadId);
+	}
+
+	/*
+	 * Run-time check thread handle for NULL pointer and report error if any.
+	 */
+	if (threadHandle == NULL) {
+		isRunning = false;
+		MessageBox(NULL, "              VitoshaTrade00186", "Calculation process stopped.", 0);
+	}
+	LeaveCriticalSection( &criticalSection );
+	if(threadHandle!=NULL && ResumeThread(threadHandle)==(DWORD)-1) {
+		char error[100] = "";
+		sprintf(error, "%ld", (long)GetLastError());
+		MessageBox(NULL, "              VitoshaTrade00201", error, 0);
+	}
+
+	char netType[ 100 ] = "";
+	sprintf(netType, "%s%d", symbol, period);
+	//MessageBox(NULL, netType, "Network type:", 0);
 }
 
 MT4_EXPFUNC void __stdcall stopPredictor() {
