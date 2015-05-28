@@ -104,7 +104,7 @@ rem ############################################################################
 rem # Compiling.                                                               #
 rem ############################################################################
 SET INCLUDES = -I../../client/source/
-g++ %INCLUDES% -D NDEBUG -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
+#g++ %INCLUDES% -D NDEBUG -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
 g++ %INCLUDES% -D NDEBUG -c ../../client/source/*.cpp -DBUILDING_DLL=1
 g++ %INCLUDES% -D NDEBUG -c ../source/*.cpp -DBUILDING_DLL=1
 
@@ -112,14 +112,14 @@ rem ############################################################################
 rem # Linking.                                                                 #
 rem ############################################################################
 ar rcs libVitoshaTrade.a *.o
-dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a --no-export-all-symbols --add-stdcall-alias -o VitoshaTrade.dll -lstdc++
+dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a ../libraries/libjson.a --no-export-all-symbols --add-stdcall-alias -o VitoshaTrade.dll -lstdc++
 
 rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
 rem ############################################################################
 copy *.dll "%~dp1MQL4\Libraries\"
 copy ..\libraries\libcurl.dll "%~dp1MQL4\Libraries\"
-copy ..\include\*.mqh "%~dp1MQL4\Include\"
+copy ..\source\*.mqh "%~dp1MQL4\Include\"
 copy ..\source\*.mq4 "%~dp1MQL4\Indicators\"
 
 rem ############################################################################

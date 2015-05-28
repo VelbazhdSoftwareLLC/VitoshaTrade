@@ -46,9 +46,9 @@
 #include "../../client/source/RateInfo.h"
 #include "../../client/source/ModelParameters.h"
 
-#include "../include/pdh.h"
+#include "pdh.h"
 
-#include "../include/VitoshaTrade.h"
+#include "VitoshaTrade.h"
 
 /**
  * Thread identifier.
@@ -97,37 +97,40 @@ static ModelParameters init;
  * @date 24 Aug 2009
  */
 double cpuOverload() {
-//	static HCOUNTER counterHandle;
-//	static PDH_FMT_COUNTERVALUE formatValue;
-//
-//	/*
-//	 * Microsoft PDH query.
-//	 */
-//	static HQUERY queryHandle;
-//
-//	/*
-//	 * Open Microsoft PDH query.
-//	 */
-//	PdhOpenQuery(NULL, 0, &queryHandle);
-//
-//	PdhCollectQueryData( queryHandle );
-//	PdhAddCounter(queryHandle, "\\Processor(_Total)\\% Processor Time", 0, &counterHandle);
-//	PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &formatValue);
-//
-//	/*
-//	 * Close Microsoft PDH query.
-//	 */
-//	PdhCloseQuery( queryHandle );
-//
-//	if (formatValue.doubleValue < 0.0) {
-//		return( 50.0 );
-//	} else if (formatValue.doubleValue > 100.0) {
-//		return( 50.0 );
-//	} else {
-//		return( formatValue.doubleValue );
-//	}
-
+	//TODO Platform specific problems should be solved.
 	return(50.0);
+
+	static HCOUNTER counterHandle;
+	static PDH_FMT_COUNTERVALUE formatValue;
+
+	/*
+	 * Microsoft PDH query.
+	 */
+	static HQUERY queryHandle;
+
+	/*
+	 * Open Microsoft PDH query.
+	 */
+	PdhOpenQuery(NULL, 0, &queryHandle);
+
+	PdhCollectQueryData( queryHandle );
+	PdhAddCounter(queryHandle, "\\Processor(_Total)\\% Processor Time", 0, &counterHandle);
+	PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &formatValue);
+
+	/*
+	 * Close Microsoft PDH query.
+	 */
+	PdhCloseQuery( queryHandle );
+
+	if (formatValue.doubleValue < 0.0) {
+		return( 50.0 );
+	} else if (formatValue.doubleValue > 100.0) {
+		return( 50.0 );
+	} else {
+		return( formatValue.doubleValue );
+	}
+
+	return(0.0);
 }
 
 /**
@@ -208,10 +211,10 @@ DWORD WINAPI run(void *arg) {
 	 */
 	EnterCriticalSection( &criticalSection );
 	try {
-//		trainer = new Trainer();
+		trainer = new Trainer();
 		if (trainer == NULL) {
-//			isRunning = false;
-//			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
+			isRunning = false;
+			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
 		} else {
 			//TODO Fix commucation problems.
 			//trainer.setup( init );
@@ -230,7 +233,7 @@ DWORD WINAPI run(void *arg) {
 	/*
 	 * Thread infinite loop.
 	 */
-//	while (isRunning == true) {
+	while (isRunning == true) {
 		EnterCriticalSection( &criticalSection );
 
 		/*
@@ -238,10 +241,10 @@ DWORD WINAPI run(void *arg) {
 		 */
 		try {
 			if (trainer != NULL) {
-				predictedValue = trainer->predict();
+//				predictedValue = trainer->predict();
 			} else {
-//				isRunning = false;
-//				MessageBox(NULL, "              VitoshaTrade00181", "Calculation process stopped.", 0);
+				isRunning = false;
+				MessageBox(NULL, "              VitoshaTrade00181", "Calculation process stopped.", 0);
 			}
 		} catch (const char* message) {
 			isRunning = false;
@@ -257,10 +260,10 @@ DWORD WINAPI run(void *arg) {
 		 */
 		try {
 			if (trainer != NULL) {
-				trainer->train();
+//				trainer->train();
 			} else {
-//				isRunning = false;
-//				MessageBox(NULL, "              VitoshaTrade00178", "Calculation process stopped.", 0);
+				isRunning = false;
+				MessageBox(NULL, "              VitoshaTrade00178", "Calculation process stopped.", 0);
 			}
 		} catch (const char* message) {
 			isRunning = false;
@@ -273,15 +276,15 @@ DWORD WINAPI run(void *arg) {
 
 		LeaveCriticalSection( &criticalSection );
 		sleep();
-//	}
+	}
 
 	/*
 	 * Free memory of trainer object before thread stop.
 	 */
 	EnterCriticalSection( &criticalSection );
 	try {
-//		isRunning = false;
-//		delete(trainer);
+		isRunning = false;
+		delete(trainer);
 	} catch (const char* message) {
 		MessageBox(NULL, "              VitoshaTrade00184", message, 0);
 		fprintf(stderr, "%s\n", message);
@@ -290,7 +293,6 @@ DWORD WINAPI run(void *arg) {
 	}
 	trainer = NULL;
 	LeaveCriticalSection( &criticalSection );
-MessageBox(NULL, "Test point 21 ...", "DEBUG", 0);
 }
 
 MT4_EXPFUNC void __stdcall about() {
@@ -402,51 +404,51 @@ MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 		return;
 	}
 
-//	std::vector<RateInfo> values( size );
-//	for(int i=0; i<size; i++) {
-//		values[i] = rates[i];
-//	}
-//
-//	static bool firstTime = true;
-//	if (firstTime == true) {
-//		EnterCriticalSection( &criticalSection );
-//		try {
-//			if (trainer != NULL) {
+	std::vector<RateInfo> values( size );
+	for(int i=0; i<size; i++) {
+		values[i] = rates[i];
+	}
+
+	static bool firstTime = true;
+	if (firstTime == true) {
+		EnterCriticalSection( &criticalSection );
+		try {
+			if (trainer != NULL) {
 //				trainer->updateTrainingSet(values, size);
-//			} else {
-//				isRunning = false;
-//				MessageBox(NULL, "              VitoshaTrade00187", "Calculation process stopped.", 0);
-//			}
-//		} catch (const char* message) {
-//			isRunning = false;
-//			MessageBox(NULL, "              VitoshaTrade00188", message, 0);
-//			fprintf(stderr, "%s\n", message);
-//		} catch (...) {
-//			isRunning = false;
-//			MessageBox(NULL, "              VitoshaTrade00189", "Calculation process stopped.", 0);
-//		}
-//
-//		firstTime = false;
-//		LeaveCriticalSection( &criticalSection );
-//	} else if (TryEnterCriticalSection(&criticalSection) == true) {
-//		try {
-//			if (trainer != NULL) {
+			} else {
+				isRunning = false;
+				MessageBox(NULL, "              VitoshaTrade00187", "Calculation process stopped.", 0);
+			}
+		} catch (const char* message) {
+			isRunning = false;
+			MessageBox(NULL, "              VitoshaTrade00188", message, 0);
+			fprintf(stderr, "%s\n", message);
+		} catch (...) {
+			isRunning = false;
+			MessageBox(NULL, "              VitoshaTrade00189", "Calculation process stopped.", 0);
+		}
+
+		firstTime = false;
+		LeaveCriticalSection( &criticalSection );
+	} else if (TryEnterCriticalSection(&criticalSection) == true) {
+		try {
+			if (trainer != NULL) {
 //				trainer->updateTrainingSet(values, size);
-//			} else {
-//				isRunning = false;
-//				MessageBox(NULL, "              VitoshaTrade00190", "Calculation process stopped.", 0);
-//			}
-//		} catch (const char* message) {
-//			isRunning = false;
-//			MessageBox(NULL, "              VitoshaTrade00191", message, 0);
-//			fprintf(stderr, "%s\n", message);
-//		} catch (...) {
-//			isRunning = false;
-//			MessageBox(NULL, "              VitoshaTrade00192", "Calculation process stopped.", 0);
-//		}
-//
-//		LeaveCriticalSection( &criticalSection );
-//	}
+			} else {
+				isRunning = false;
+				MessageBox(NULL, "              VitoshaTrade00190", "Calculation process stopped.", 0);
+			}
+		} catch (const char* message) {
+			isRunning = false;
+			MessageBox(NULL, "              VitoshaTrade00191", message, 0);
+			fprintf(stderr, "%s\n", message);
+		} catch (...) {
+			isRunning = false;
+			MessageBox(NULL, "              VitoshaTrade00192", "Calculation process stopped.", 0);
+		}
+
+		LeaveCriticalSection( &criticalSection );
+	}
 }
 
 MT4_EXPFUNC double __stdcall prediction() {
