@@ -217,7 +217,7 @@ DWORD WINAPI run(void *arg) {
 			MessageBox(NULL, "              VitoshaTrade00175", "Calculation process stopped.", 0);
 		} else {
 			//TODO Fix commucation problems.
-			//trainer.setup( init );
+			trainer->setup( init );
 			isRunning = true;
 		}
 	} catch (const char* message) {
@@ -241,7 +241,7 @@ DWORD WINAPI run(void *arg) {
 		 */
 		try {
 			if (trainer != NULL) {
-//				predictedValue = trainer->predict();
+				predictedValue = trainer->predict();
 			} else {
 				isRunning = false;
 				MessageBox(NULL, "              VitoshaTrade00181", "Calculation process stopped.", 0);
@@ -260,7 +260,7 @@ DWORD WINAPI run(void *arg) {
 		 */
 		try {
 			if (trainer != NULL) {
-//				trainer->train();
+				trainer->train();
 			} else {
 				isRunning = false;
 				MessageBox(NULL, "              VitoshaTrade00178", "Calculation process stopped.", 0);
@@ -414,7 +414,7 @@ MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 		EnterCriticalSection( &criticalSection );
 		try {
 			if (trainer != NULL) {
-//				trainer->updateTrainingSet(values, size);
+				trainer->updateTrainingSet(values, size);
 			} else {
 				isRunning = false;
 				MessageBox(NULL, "              VitoshaTrade00187", "Calculation process stopped.", 0);
@@ -433,7 +433,7 @@ MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 	} else if (TryEnterCriticalSection(&criticalSection) == true) {
 		try {
 			if (trainer != NULL) {
-//				trainer->updateTrainingSet(values, size);
+				trainer->updateTrainingSet(values, size);
 			} else {
 				isRunning = false;
 				MessageBox(NULL, "              VitoshaTrade00190", "Calculation process stopped.", 0);

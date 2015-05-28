@@ -59,6 +59,7 @@ Trainer::Trainer() {
 }
 
 void Trainer::setup(const ModelParameters &parameters) {
+return;
 	strcpy(this->symbol, parameters.symbol);
 	this->period = parameters.period;
 
@@ -75,6 +76,7 @@ void Trainer::setup(const ModelParameters &parameters) {
 }
 
 void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {
+return;
 	/*
 	 * Do not update if there is no new data at latest known time.
 	 */
@@ -100,6 +102,7 @@ void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {
 }
 
 void Trainer::train() {
+return;
 	/*
 	 * If training set is not present training can not be done.
 	 */
@@ -121,6 +124,7 @@ void Trainer::train() {
 }
 
 double Trainer::predict() {
+return 0;
 	/*
 	 * If training set is not present training can not be done.
 	 */

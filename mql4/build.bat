@@ -75,16 +75,16 @@ del "%~dp2\*.php3"
 rem ############################################################################
 rem # Deploy AJAX client scripts. The parameter %2 PHP Apache htdocs folder.   #
 rem ############################################################################
-del "%~dp2ajax\*.js"
-del "%~dp2ajax\*.html"
-del "%~dp2ajax\*.css"
-del "%~dp2ajax\images\*.jpg"
-del "%~dp2ajax\images\*.gif"
-copy ..\ajax\source\images\*.jpg "%~dp2ajax\images\"
-copy ..\ajax\source\images\*.gif "%~dp2ajax\images\"
-copy ..\ajax\source\*.js "%~dp2ajax\"
-copy ..\ajax\source\*.html "%~dp2ajax\"
-copy ..\ajax\source\*.css "%~dp2ajax\"
+rem del "%~dp2ajax\*.js"
+rem del "%~dp2ajax\*.html"
+rem del "%~dp2ajax\*.css"
+rem del "%~dp2ajax\images\*.jpg"
+rem del "%~dp2ajax\images\*.gif"
+rem copy ..\ajax\source\images\*.jpg "%~dp2ajax\images\"
+rem copy ..\ajax\source\images\*.gif "%~dp2ajax\images\"
+rem copy ..\ajax\source\*.js "%~dp2ajax\"
+rem copy ..\ajax\source\*.html "%~dp2ajax\"
+rem copy ..\ajax\source\*.css "%~dp2ajax\"
 
 rem ############################################################################
 rem # Change working directory to binaries.                                    #
@@ -104,7 +104,7 @@ rem ############################################################################
 rem # Compiling.                                                               #
 rem ############################################################################
 SET INCLUDES = -I../../client/source/
-#g++ %INCLUDES% -D NDEBUG -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
+rem g++ %INCLUDES% -D NDEBUG -c ../../client/source/libjson/_internal/Source/*.cpp -DBUILDING_DLL=1 1>nul 2>nul
 g++ %INCLUDES% -D NDEBUG -c ../../client/source/*.cpp -DBUILDING_DLL=1
 g++ %INCLUDES% -D NDEBUG -c ../source/*.cpp -DBUILDING_DLL=1
 
@@ -135,25 +135,25 @@ rem # Compile Java based back end system.                                      #
 rem ############################################################################
 md ..\..\backend\binaries
 cd ..\..\backend\binaries\
-javac -d .\ ..\source\*.java
-jar cvf VitoshaTradeUnsigned.jar *.class
-jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass VitoshaTrade -signedjar VitoshaTrade.jar VitoshaTradeUnsigned.jar VitoshaTrade
+rem javac -d .\ ..\source\*.java
+rem jar cvf VitoshaTradeUnsigned.jar *.class
+rem jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass VitoshaTrade -signedjar VitoshaTrade.jar VitoshaTradeUnsigned.jar VitoshaTrade
 
 rem ############################################################################
 rem # Depoly Java based back end system.                                       #
 rem ############################################################################
-del "%~dp2\backend\*.jar"
-del "%~dp2\backend\*.cer"
-del "%~dp2\backend\*.html"
-copy .\VitoshaTrade.jar "%~dp2\backend\"
-copy ..\keys\VitoshaTrade.cer "%~dp2\backend\"
-copy ..\source\*.html "%~dp2\backend\"
+rem del "%~dp2\backend\*.jar"
+rem del "%~dp2\backend\*.cer"
+rem del "%~dp2\backend\*.html"
+rem copy .\VitoshaTrade.jar "%~dp2\backend\"
+rem copy ..\keys\VitoshaTrade.cer "%~dp2\backend\"
+rem copy ..\source\*.html "%~dp2\backend\"
 
 rem ############################################################################
 rem # Clean to binaries directory.                                             #
 rem ############################################################################
-del *.class
-del *.jar
+rem del *.class
+rem del *.jar
 
 rem ############################################################################
 rem # Build indicator. The parameter %~d1 is MT4 install drive.                #

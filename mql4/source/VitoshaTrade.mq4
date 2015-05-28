@@ -119,8 +119,8 @@ void sendDataToPredictor() {
 	 * Normalize values between zero and one.
 	 */
 	for(int r=0; r<6; r++) {
-	   int min = rates[0][r];
-	   int max = rates[0][r];
+	   double min = rates[0][r];
+	   double max = rates[0][r];
 	   for(int i=0; i<size; i++) {
 	      if(rates[i][r] < min) {
 	         min = rates[i][r];
@@ -309,12 +309,12 @@ int OnCalculate(const int rates_total,
 			ObjectSet("arrow", OBJPROP_ARROWCODE, SYMBOL_ARROWUP);
 			ObjectSet("arrow", OBJPROP_COLOR, UP_COLOR);
 			ObjectSet("line", OBJPROP_COLOR, UP_COLOR);
-			ObjectSetText("text", ""+lastValue+" ~ "+PREDICT_BARS+" bar(s).", 8, "Arial", UP_COLOR);
+			ObjectSetText("text", ""+DoubleToString(lastValue)+" ~ "+DoubleToString(PREDICT_BARS)+" bar(s).", 8, "Arial", UP_COLOR);
 		} else if (lastValue < (Ask+Bid)/2.0) {
 			ObjectSet("arrow", OBJPROP_ARROWCODE, SYMBOL_ARROWDOWN);
 			ObjectSet("arrow", OBJPROP_COLOR, DOWN_COLOR);
 			ObjectSet("line", OBJPROP_COLOR, DOWN_COLOR);
-			ObjectSetText("text", ""+lastValue+" ~ "+PREDICT_BARS+" bar(s).", 8, "Arial", DOWN_COLOR);
+			ObjectSetText("text", ""+DoubleToString(lastValue)+" ~ "+DoubleToString(PREDICT_BARS)+" bar(s).", 8, "Arial", DOWN_COLOR);
 		} else if (lastValue == (Ask+Bid)/2.0) {
 			ObjectSet("arrow", OBJPROP_ARROWCODE, SYMBOL_ARROWRIGHT);
 			ObjectSet("arrow", OBJPROP_COLOR, TEXT_COLOR);
