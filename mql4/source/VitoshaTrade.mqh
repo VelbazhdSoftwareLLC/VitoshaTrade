@@ -33,7 +33,7 @@
 
 void _Z5aboutv();
 
-void _Z14startPredictoriPKciiiii(int dbId, string symbol, int period, int neuronsAmount, int populationSize, int learn, int bars);
+void _Z14startPredictoriPKciiiii(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
 
 void _Z13stopPredictorv();
 

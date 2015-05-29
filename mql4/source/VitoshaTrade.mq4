@@ -189,7 +189,9 @@ int OnInit() {
 	/*
 	 * Initialize predictor.
 	 */
-	_Z14startPredictoriPKciiiii(PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	char value[255];
+	StringToCharArray(Symbol(), value);
+	_Z14startPredictoriPKciiiii(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }

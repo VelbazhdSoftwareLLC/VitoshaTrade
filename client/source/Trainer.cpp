@@ -59,9 +59,13 @@ Trainer::Trainer() {
 }
 
 void Trainer::setup(const ModelParameters &parameters) {
-return;
+//return;
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 4 ...\n");
+fclose(fp);}
 	strcpy(this->symbol, parameters.symbol);
 	this->period = parameters.period;
+
 
 	/*
 	 * At the beginning there is no training set.
@@ -76,7 +80,10 @@ return;
 }
 
 void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {
-return;
+//return;
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 3 ...\n");
+fclose(fp);}
 	/*
 	 * Do not update if there is no new data at latest known time.
 	 */
@@ -102,13 +109,16 @@ return;
 }
 
 void Trainer::train() {
-return;
+//return;
 	/*
 	 * If training set is not present training can not be done.
 	 */
 	if (ts.getSize()==0) {
 		return;
 	}
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 2 ...\n");
+fclose(fp);}
 
 	/*
 	 * Run one epoche of evolution.
@@ -124,18 +134,24 @@ return;
 }
 
 double Trainer::predict() {
-return 0;
+//return 0;
 	/*
 	 * If training set is not present training can not be done.
 	 */
 	if (ts.getSize() == 0) {
 		return( 0 );
 	}
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 1 ...\n");
+fclose(fp);}
 
 	return( ann.getPrediction() );
 }
 
 void Trainer::reportLocalBestFitness() {
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 6 ...\n");
+fclose(fp);}
 	/*
 	 * Remote best fitness to be used as level for better result server report.
 	 */
@@ -179,6 +195,9 @@ void Trainer::reportLocalBestFitness() {
 	 * Mark last time checked for server best fitness.
 	 */
 	lastBestFitnessReportTime = time(NULL);
+{FILE *fp = fopen("log29052015_1.txt", "at");
+fprintf(fp, "Test point 7 ...\n");
+fclose(fp);}
 }
 
 Trainer::~Trainer() {

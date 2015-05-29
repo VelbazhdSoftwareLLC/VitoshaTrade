@@ -160,7 +160,7 @@ rem # Build indicator. The parameter %~d1 is MT4 install drive.                #
 rem ############################################################################
 %~d1
 cd "%~dp1MQL4\Indicators\"
-"%~dp1mql.exe" VitoshaTrade.mq4
+rem "%~dp1mql.exe" VitoshaTrade.mq4
 "%~dp1mql64.exe" VitoshaTrade.mq4
 
 rem ############################################################################
