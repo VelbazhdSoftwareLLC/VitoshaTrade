@@ -107,34 +107,35 @@ extern int PREDICTOR_ID = 0;
 void sendDataToPredictor() {
 	double rates[][6];
 	int size = ArrayCopyRates( rates );
-	
+
 	/*
 	 * Do nothing if there is no enough data.
 	 */
 	if(size < TRAINING_BARS) {
-	   return;
+		return;
 	}
-	
+
 	/*
 	 * Normalize values between zero and one.
 	 * Time should not be normalized. It should be on index 0.
 	 */
 	for(int r=1; r<6; r++) {
-	   double min = rates[0][r];
-	   double max = rates[0][r];
-	   for(int i=0; i<size; i++) {
-	      if(rates[i][r] < min) {
-	         min = rates[i][r];
-	      }
-	      if(rates[i][r] > max) {
-	         max = rates[i][r];
-	      }
-	   }
-	   for(int i=0; i<size; i++) {
-		rates[i][r] = (rates[i][r]-min) / (max - min);
-	   }
+		double min = rates[0][r];
+		double max = rates[0][r];
+		for(int i=0; i<size; i++) {
+			if(rates[i][r] < min) {
+				min = rates[i][r];
+			}
+			if(rates[i][r] > max) {
+				max = rates[i][r];
+			}
+		}
+
+		for(int i=0; i<size; i++) {
+			rates[i][r] = (rates[i][r]-min) / (max - min);
+		}
 	}
-	
+
 	_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
 }
 
@@ -237,15 +238,15 @@ void OnDeinit(const int reason) {
  * @date 01 Aug 2014
  */
 int OnCalculate(const int rates_total,
-                const int prev_calculated,
-                const datetime& time[],
-                const double& open[],
-                const double& high[],
-                const double& low[],
-                const double& close[],
-                const long& tick_volume[],
-                const long& volume[],
-                const int& spread[]) {
+				const int prev_calculated,
+				const datetime& time[],
+				const double& open[],
+				const double& high[],
+				const double& low[],
+				const double& close[],
+				const long& tick_volume[],
+				const long& volume[],
+				const int& spread[]) {
 
 	/*
 	 * Send historical data to predicting module.
@@ -280,19 +281,19 @@ int OnCalculate(const int rates_total,
 	static double lastValue = 0.0;
 	double value = 0.0;
 	value = _Z10predictionv();
-	
+
 	/*
 	 * Denormalize prediction.
 	 */
 	double min = low[0];
 	double max = high[0];
 	for(int i=0; i<rates_total; i++) {
-	   if(low[i] < min) {
-	      min = low[ i ];
-	   }
-	   if(high[i] < max) {
-	      max = high[ i ];
-	   }
+		if(low[i] < min) {
+			min = low[ i ];
+		}
+		if(high[i] < max) {
+			max = high[ i ];
+		}
 	}
 	value = min + value*(max-min);
 

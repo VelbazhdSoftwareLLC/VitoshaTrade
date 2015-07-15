@@ -32,6 +32,8 @@
 #ifndef RATE_INFO_H
 #define RATE_INFO_H
 
+#include <ctime>
+
 /**
  * Single rate structure.
  *
@@ -46,7 +48,7 @@ struct RateInfo {
 	/**
 	 * Rate time value.
 	 */
-	unsigned long time;
+	std::time_t time;
 
 	/**
 	 * Rate open value.

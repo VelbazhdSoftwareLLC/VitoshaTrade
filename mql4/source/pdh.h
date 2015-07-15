@@ -611,15 +611,15 @@ extern "C" {
 	typedef struct _BrowseDlgConfig_W {
 		// Configuration flags
 		DWORD   bIncludeInstanceIndex:1,
-				bSingleCounterPerAdd:1,
-				bSingleCounterPerDialog:1,
-				bLocalCountersOnly:1,
-				bWildCardInstances:1,
-				bHideDetailBox:1,
-				bInitializePath:1,
-				bDisableMachineSelection:1,
-				bIncludeCostlyObjects:1,
-				bReserved:23;
+			bSingleCounterPerAdd:1,
+			bSingleCounterPerDialog:1,
+			bLocalCountersOnly:1,
+			bWildCardInstances:1,
+			bHideDetailBox:1,
+			bInitializePath:1,
+			bDisableMachineSelection:1,
+			bIncludeCostlyObjects:1,
+			bReserved:23;
 
 		HWND                hWndOwner;
 		LPWSTR              szDataSource;
@@ -635,15 +635,15 @@ extern "C" {
 	typedef struct _BrowseDlgConfig_A {
 		// Configuration flags
 		DWORD   bIncludeInstanceIndex:1,
-				bSingleCounterPerAdd:1,
-				bSingleCounterPerDialog:1,
-				bLocalCountersOnly:1,
-				bWildCardInstances:1,
-				bHideDetailBox:1,
-				bInitializePath:1,
-				bDisableMachineSelection:1,
-				bIncludeCostlyObjects:1,
-				bReserved:23;
+			bSingleCounterPerAdd:1,
+			bSingleCounterPerDialog:1,
+			bLocalCountersOnly:1,
+			bWildCardInstances:1,
+			bHideDetailBox:1,
+			bInitializePath:1,
+			bDisableMachineSelection:1,
+			bIncludeCostlyObjects:1,
+			bReserved:23;
 
 		HWND                hWndOwner;
 		LPSTR               szDataSource;
