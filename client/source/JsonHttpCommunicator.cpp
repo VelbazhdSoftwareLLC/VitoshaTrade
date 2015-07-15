@@ -52,7 +52,7 @@ const char JsonHttpCommunicator::HOST[] = "localhost";
 
 const char JsonHttpCommunicator::LIST_OF_ANNS_SCRIPT[] = "/logic/json_number_of_anns.php";
 
-const char JsonHttpCommunicator::SAVE_SINGLE_ANN_SCRIPT[] = "/logic/json_save_ann.php";
+const char JsonHttpCommunicator::SAVE_SINGLE_ANN_SCRIPT[] = "/logic/save_ann.php";
 
 const char JsonHttpCommunicator::LOAD_NEURONS_AMOUNT_SCRIPT[] = "/logic/json_load_neurons_amount.php";
 
@@ -62,7 +62,7 @@ const char JsonHttpCommunicator::LOAD_BEST_FITNESS_SCRIPT[] = "/logic/json_load_
 
 const char JsonHttpCommunicator::TRAINING_SET_SIZE_SCRIPT[] = "/logic/json_training_set_size.php";
 
-const char JsonHttpCommunicator::SAVE_TRAINING_SET_SCRIPT[] = "/logic/json_save_training_set.php";
+const char JsonHttpCommunicator::SAVE_TRAINING_SET_SCRIPT[] = "/logic/save_training_set.php";
 
 const char JsonHttpCommunicator::LOAD_TRAINING_SET_SCRIPT[] = "/logic/json_load_training_set.php";
 
@@ -635,6 +635,8 @@ void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, con
 	char parameters[ HTTP_PARAMETERS_BUFFER_SIZE ] = "";
 	char *position = parameters;
 
+	size = rates.size();
+
 	sprintf(position, "symbol=%s&", symbol);
 	position += strlen(position);
 
@@ -649,7 +651,7 @@ void JsonHttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, con
 		if (i > 0) {
 			strcat(buffer, " ");
 		}
-		sprintf(number, "%d", rates[i].time);
+		sprintf(number, "%ld", rates[i].time);
 		strcat(buffer, number);
 	}
 	sprintf(position, "time=%s&", buffer);

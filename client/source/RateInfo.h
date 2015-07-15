@@ -32,8 +32,6 @@
 #ifndef RATE_INFO_H
 #define RATE_INFO_H
 
-#pragma pack(push,1)
-
 /**
  * Single rate structure.
  *
@@ -48,7 +46,7 @@ struct RateInfo {
 	/**
 	 * Rate time value.
 	 */
-	unsigned int time;
+	unsigned long time;
 
 	/**
 	 * Rate open value.
@@ -75,7 +73,5 @@ struct RateInfo {
 	 */
 	double volume;
 };
-
-#pragma pack(pop)
 
 #endif

@@ -79,12 +79,12 @@ extern int POPULATION_SIZE = 45;
 extern int TRAINING_BARS = 250;
 
 /**
- * Inspect interval in bars.
+ * Inspect interval in bars (number of past bars window).
  */
 extern int INSPECT_BARS = 25;
 
 /**
- * Predict interval in bars.
+ * Predict interval in bars (number of future bars window).
  */
 extern int PREDICT_BARS = 5;
 
