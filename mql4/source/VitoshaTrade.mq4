@@ -117,8 +117,9 @@ void sendDataToPredictor() {
 	
 	/*
 	 * Normalize values between zero and one.
+	 * Time should not be normalized. It should be on index 0.
 	 */
-	for(int r=0; r<6; r++) {
+	for(int r=1; r<6; r++) {
 	   double min = rates[0][r];
 	   double max = rates[0][r];
 	   for(int i=0; i<size; i++) {
@@ -130,7 +131,7 @@ void sendDataToPredictor() {
 	      }
 	   }
 	   for(int i=0; i<size; i++) {
-         rates[i][r] = (rates[i][r]-min) / (max - min);
+		rates[i][r] = (rates[i][r]-min) / (max - min);
 	   }
 	}
 	

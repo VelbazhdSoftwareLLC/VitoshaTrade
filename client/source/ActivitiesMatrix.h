@@ -57,6 +57,19 @@ public:
 	 */
 	static const double MAX_ACTIVITY = 1.0;
 
+private:
+
+	/**
+	 * Set all activities to the maximum valid value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 17 Jul 2015
+	 */
+	void setAllToMax();
+
 public:
 
 	/**

@@ -33,13 +33,24 @@ using namespace std;
 
 #include "ActivitiesMatrix.h"
 
+void ActivitiesMatrix::setAllToMax() {
+	for (vector< vector<double> >::iterator i=values.begin(); i!=values.end(); i++) {
+		for (vector<double>::iterator ij=(*i).begin(); ij!=(*i).end(); ij++) {
+			*ij = MAX_ACTIVITY;
+		}
+	}
+}
+
 ActivitiesMatrix::ActivitiesMatrix() : GraphMatrix() {
+   setAllToMax();
 }
 
 ActivitiesMatrix::ActivitiesMatrix(int size) : GraphMatrix(size) {
+   setAllToMax();
 }
 
 ActivitiesMatrix::ActivitiesMatrix(const ActivitiesMatrix &activities) : GraphMatrix(activities) {
+   setAllToMax();
 }
 
 void ActivitiesMatrix::normalize() {
