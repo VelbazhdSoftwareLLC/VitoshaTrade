@@ -1,5 +1,7 @@
 -> Add data and time field in each important database table.
 
+-> Add three layers topology in activity matrix with maximum strenght of the connections (as private helper function).
+
 -> Collect database statistics for calculating nodes. It is important to know which node did better computations.
 
 -> Replace all char* strings with string objects.
