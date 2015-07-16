@@ -310,6 +310,17 @@ public:
 	void setActivity(int x, int y, double value);
 
 	/**
+	 * Set all weights activities to minimum.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 16 Jul 2015
+	 */
+	void setAllInactive();
+
+	/**
 	 * Set all weights activities to maximum.
 	 *
 	 * @author Todor Balabanov
@@ -371,6 +382,17 @@ public:
 	 * @date 27 Oct 2011
 	 */
 	void setupOutput(int size);
+
+	/**
+	 * Setup three layers topology.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 16 Jul 2015
+	 */
+	void setupThreeLayers();
 
 	/**
 	 * Load input vector inside the network.

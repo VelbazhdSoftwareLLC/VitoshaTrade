@@ -350,6 +350,8 @@ MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, co
 	init.populationSize = populationSize;
 	init.learn = learn;
 	init.bars = bars;
+	init.inputSize = learn;
+	init.outputSize = bars;
 
 	/*
 	 * Activate calculation thread.

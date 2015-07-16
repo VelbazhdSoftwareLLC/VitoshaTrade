@@ -34,8 +34,6 @@
 
 #include "TimePeriod.h"
 
-#pragma pack(push,1)
-
 /**
  * Training and predicting model parameters.
  *
@@ -68,6 +66,16 @@ struct ModelParameters {
 	int neuronsAmount;
 
 	/**
+	 * Number of neurons used for input.
+	 */
+	int inputSize;
+
+	/**
+	 * Number of neurons used for output.
+	 */
+	int outputSize;
+
+	/**
 	 * Number of chromosomes in DE population.
 	 */
 	int populationSize;
@@ -82,7 +90,5 @@ struct ModelParameters {
 	 */
 	int bars;
 };
-
-#pragma pack(pop)
 
 #endif

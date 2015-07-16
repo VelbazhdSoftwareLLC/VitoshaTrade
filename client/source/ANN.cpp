@@ -203,7 +203,17 @@ void ANN::setActivity(int x, int y, double value) {
 	activities.normalize();
 }
 
+void ANN::setAllInactive() {
+	//TODO Move this method in activities class.
+	for (int j=0; j<activities.dimension(); j++) {
+		for (int i=0; i<activities.dimension(); i++) {
+			activities(i,j) = ActivitiesMatrix::MIN_ACTIVITY;
+		}
+	}
+}
+
 void ANN::setAllActive() {
+	//TODO Move this method in activities class.
 	for (int j=0; j<activities.dimension(); j++) {
 		for (int i=0; i<activities.dimension(); i++) {
 			activities(i,j) = ActivitiesMatrix::MAX_ACTIVITY;
@@ -228,6 +238,87 @@ void ANN::setupInput(int size) {
 void ANN::setupOutput(int size) {
 	for(int i=neurons.dimension()-size; i<neurons.dimension(); i++) {
 		neurons[i].setOutput( true );
+	}
+}
+
+void ANN::setupThreeLayers() {
+	/*
+	 * Clear all connections.
+	 */
+	setAllInactive();
+
+	/*
+	 * Set bias between input and hidden layers.
+	 */
+	for(int i=0; i<neurons.dimension(); i++) {
+		if(neurons[i].isRegular() == true) {
+			neurons[i].setBias( true );
+
+			/*
+			 * Connect bias neuron.
+			 */
+			for (int j=0; j<neurons.dimension(); j++) {
+				if (neurons[j].isRegular() == false) {
+					continue;
+				}
+				activities(i,j) = activities.MAX_ACTIVITY;
+			}
+
+			break;
+		}
+	}
+
+	/*
+	 * Set bias between hidden and output layers.
+	 */
+	for(int i=neurons.dimension()-1; i>0; i--) {
+		if(neurons[i].isRegular() == true) {
+			neurons[i].setBias( true );
+
+			/*
+			 * Connect bias neuron.
+			 */
+			for (int j=0; j<neurons.dimension(); j++) {
+				if (neurons[j].isOutput() == false) {
+					continue;
+				}
+				activities(i,j) = activities.MAX_ACTIVITY;
+			}
+
+			break;
+		}
+	}
+
+	/*
+	 * Set connections between input and hidden layers.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		if (neurons[i].isInput() == false) {
+			continue;
+		}
+
+		for (int j=0; j<neurons.dimension(); j++) {
+			if (neurons[j].isRegular() == false) {
+				continue;
+			}
+			activities(i,j) = activities.MAX_ACTIVITY;
+		}
+	}
+
+	/*
+	 * Set connections between hidden and output layers.
+	 */
+	for (int i=0; i<neurons.dimension(); i++) {
+		if (neurons[i].isRegular() == false) {
+			continue;
+		}
+
+		for (int j=0; j<neurons.dimension(); j++) {
+			if (neurons[j].isOutput() == false) {
+				continue;
+			}
+			activities(i,j) = activities.MAX_ACTIVITY;
+		}
 	}
 }
 

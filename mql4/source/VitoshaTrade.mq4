@@ -66,7 +66,7 @@ extern color DOWN_COLOR = Orange;
 /**
  * ANN neurons amout input parameter.
  */
-extern int NEURONS_AMOUNT = 35;
+extern int NEURONS_AMOUNT = 37;
 
 /**
  * DE population size indicator input parameter.

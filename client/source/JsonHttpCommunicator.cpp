@@ -475,11 +475,13 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
 		ann = annInstance;
 	} else if (list.size() == 0) {
+		neuronsAmount = parameters.neuronsAmount;
+
 		/*
 		 * It is good new network to have at least neurons for input and output.
 		 */
-		if(neuronsAmount < (TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS+TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS)) {
-			neuronsAmount = TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS + TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS;
+		if(neuronsAmount < (parameters.inputSize+parameters.outputSize)) {
+			neuronsAmount = parameters.inputSize+parameters.outputSize;
 		}
 
 		/*
@@ -488,8 +490,9 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 		 */
 		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
 		ann = annInstance;
-		ann.setupInput( TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS );
-		ann.setupOutput( TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS );
+		ann.setupInput( parameters.inputSize );
+		ann.setupOutput( parameters.outputSize );
+		ann.setupThreeLayers();
 	}
 
 	/* Memory allocation. */ {
