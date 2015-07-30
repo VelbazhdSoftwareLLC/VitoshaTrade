@@ -31,15 +31,15 @@
 
 #import "VitoshaTrade.dll"
 
-void _Z5aboutv();
+void about();
 
-void _Z14startPredictoriPKciiiii(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
+void startPredictor(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
 
-void _Z13stopPredictorv();
+void stopPredictor();
 
-void _Z13loadChartDataPK8RateInfoi(double &rates[][6], int size);
+void loadChartData(double &rates[][6], int size);
 
-double _Z10predictionv();
+double prediction();
 
 #import
 

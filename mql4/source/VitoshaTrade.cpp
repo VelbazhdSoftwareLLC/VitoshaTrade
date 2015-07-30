@@ -32,6 +32,7 @@
 /**
  * Exclude rarely-used parts from Windows headers.
  */
+#define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 
 #include <vector>
@@ -295,11 +296,11 @@ DWORD WINAPI run(void *arg) {
 	LeaveCriticalSection( &criticalSection );
 }
 
-MT4_EXPFUNC void __stdcall about() {
+void MT4_EXPFUNC about() {
 	//MessageBox(NULL, "Forex forecasting.", "About VitoshaTrade", 0);
 }
 
-MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
+void MT4_EXPFUNC startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
 	/*
 	 * Initialize critical section object.
 	 */
@@ -379,7 +380,7 @@ MT4_EXPFUNC void __stdcall startPredictor(const int dbId, const char *symbol, co
 	//MessageBox(NULL, netType, "Network type:", 0);
 }
 
-MT4_EXPFUNC void __stdcall stopPredictor() {
+void MT4_EXPFUNC stopPredictor() {
 	/*
 	 * Deactivate calculation thread.
 	 */
@@ -398,7 +399,7 @@ MT4_EXPFUNC void __stdcall stopPredictor() {
 	//MessageBox(NULL, "Indicator stop!", "Closing...", 0);
 }
 
-MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
+void MT4_EXPFUNC loadChartData(double rates[][6], int size) {
 	/*
 	 * Return if there is no conditions to update.
 	 */
@@ -406,9 +407,22 @@ MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 		return;
 	}
 
+	/*
+	 * 0 - time
+	 * 1 - open
+	 * 2 - low
+	 * 3 - high
+	 * 4 - close
+	 * 5 - volume
+	 */
 	std::vector<RateInfo> values( size );
 	for(int i=0; i<size; i++) {
-		values[i] = rates[i];
+		values[i].time = rates[i][0];
+		values[i].open = rates[i][1];
+		values[i].low = rates[i][2];
+		values[i].high = rates[i][3];
+		values[i].close = rates[i][4];
+		values[i].volume = rates[i][5];
 	}
 
 	static bool firstTime = true;
@@ -453,7 +467,7 @@ MT4_EXPFUNC void __stdcall loadChartData(const RateInfo *rates, int size) {
 	}
 }
 
-MT4_EXPFUNC double __stdcall prediction() {
+double MT4_EXPFUNC prediction() {
 	return( predictedValue );
 }
 

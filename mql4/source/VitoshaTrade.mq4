@@ -136,7 +136,7 @@ void sendDataToPredictor() {
 		}
 	}
 
-	_Z13loadChartDataPK8RateInfoi(rates, TRAINING_BARS);
+	//loadChartData(rates, TRAINING_BARS);
 }
 
 /**
@@ -154,7 +154,7 @@ int OnInit() {
 	/*
 	 * Show about box as welcome screen.
 	 */
-	_Z5aboutv();
+	//about();
 
 	/*
 	 * Validate input data.
@@ -193,7 +193,7 @@ int OnInit() {
 	 */
 	char value[255];
 	StringToCharArray(Symbol(), value);
-	_Z14startPredictoriPKciiiii(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	//startPredictor(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }
@@ -223,7 +223,7 @@ void OnDeinit(const int reason) {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	_Z13stopPredictorv();
+	//stopPredictor();
 }
 
 /**
@@ -280,7 +280,7 @@ int OnCalculate(const int rates_total,
 	 */
 	static double lastValue = 0.0;
 	double value = 0.0;
-	value = _Z10predictionv();
+	//value = prediction();
 
 	/*
 	 * Denormalize prediction.
