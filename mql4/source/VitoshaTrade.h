@@ -37,7 +37,7 @@
 /**
  * DLL functions prototype style.
  */
-#define MT4_EXPFUNC __declspec(dllexport) __stdcall
+#define MT4_EXPFUNC __declspec(dllexport)
 
 /**
  * Show about message dialog.
@@ -48,7 +48,7 @@
  *
  * @date 07 Apr 2009
  */
-void MT4_EXPFUNC about();
+MT4_EXPFUNC void about();
 
 /**
  * Start predictor instance and calculation loop of it.
@@ -73,7 +73,7 @@ void MT4_EXPFUNC about();
  *
  * @date 07 Apr 2009
  */
-void MT4_EXPFUNC startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars);
+MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars);
 
 /**
  * Stop predictor and its loop.
@@ -84,7 +84,7 @@ void MT4_EXPFUNC startPredictor(const int dbId, const char *symbol, const int pe
  *
  * @date 07 Apr 2009
  */
-void MT4_EXPFUNC stopPredictor();
+MT4_EXPFUNC void stopPredictor();
 
 /**
  * Load chart historical data.
@@ -99,7 +99,7 @@ void MT4_EXPFUNC stopPredictor();
  *
  * @date 11 Aug 2009
  */
-void MT4_EXPFUNC loadChartData(double rates[][6], int size);
+MT4_EXPFUNC void loadChartData(double rates[][6], int size);
 
 /**
  * Load historical data into predictig module.
@@ -112,6 +112,6 @@ void MT4_EXPFUNC loadChartData(double rates[][6], int size);
  *
  * @date 26 Jul 2009
  */
-double MT4_EXPFUNC prediction();
+MT4_EXPFUNC double prediction();
 
 #endif

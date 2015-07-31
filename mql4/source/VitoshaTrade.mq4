@@ -36,7 +36,19 @@
 #property indicator_chart_window
 #property indicator_buffers 0
 
-#include <VitoshaTrade.mqh>
+#import "VitoshaTrade.dll"
+
+double _Z10predictionv();
+
+void _Z13loadChartDataPA6_di(double &rates[][6], int size);
+
+void _Z13stopPredictorv();
+
+void _Z14startPredictoriPKciiiii(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
+
+void _Z5aboutv();
+
+#import
 
 /**
  * Right arrow symbol.
@@ -136,7 +148,7 @@ void sendDataToPredictor() {
 		}
 	}
 
-	//loadChartData(rates, TRAINING_BARS);
+	//_Z13loadChartDataPA6_di(rates, TRAINING_BARS);
 }
 
 /**
@@ -154,7 +166,7 @@ int OnInit() {
 	/*
 	 * Show about box as welcome screen.
 	 */
-	//about();
+	//_Z5aboutv();
 
 	/*
 	 * Validate input data.
@@ -193,7 +205,7 @@ int OnInit() {
 	 */
 	char value[255];
 	StringToCharArray(Symbol(), value);
-	//startPredictor(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	//_Z14startPredictoriPKciiiii(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
 
 	return( 0 );
 }
@@ -223,7 +235,7 @@ void OnDeinit(const int reason) {
 	/*
 	 * Stop and destroy predictor.
 	 */
-	//stopPredictor();
+	//_Z13stopPredictorv();
 }
 
 /**
@@ -280,7 +292,7 @@ int OnCalculate(const int rates_total,
 	 */
 	static double lastValue = 0.0;
 	double value = 0.0;
-	//value = prediction();
+	//value = _Z10predictionv();
 
 	/*
 	 * Denormalize prediction.

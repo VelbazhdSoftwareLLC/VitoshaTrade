@@ -97,7 +97,7 @@ rem # Clean to binaries directory.                                             #
 rem ############################################################################
 del *.o
 del *.a
-rem del *.def
+del *.def
 del VitoshaTrade.dll
 
 rem ############################################################################
@@ -111,23 +111,23 @@ g++ %INCLUDES% -D NDEBUG -c -w ../source/*.cpp -DBUILDING_DLL=1
 rem ############################################################################
 rem # Linking.                                                                 #
 rem ############################################################################
-ar rcs libVitoshaTrade.a *.o
+rem ar rcs libVitoshaTrade.a *.o
 dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a ../libraries/libjson.a --no-export-all-symbols --add-stdcall-alias -o VitoshaTrade.dll -lstdc++
 
 rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
 rem ############################################################################
-copy *.dll "%~dp1MQL4\Libraries\"
-copy ..\libraries\libcurl.dll "%~dp1MQL4\Libraries\"
-copy ..\source\*.mqh "%~dp1MQL4\Include\"
-copy ..\source\*.mq4 "%~dp1MQL4\Indicators\"
+md "%~dp1MQL4\Indicators\VitoshaTrade"
+copy *.dll "%~dp1MQL4\Indicators\VitoshaTrade\"
+copy ..\libraries\libcurl.dll "%~dp1MQL4\Indicators\VitoshaTrade\"
+copy ..\source\*.mq4 "%~dp1MQL4\Indicators\VitoshaTrade\"
 
 rem ############################################################################
 rem # Clean to binaries directory.                                             #
 rem ############################################################################
 del *.o
 del *.a
-rem del *.def
+del *.def
 del VitoshaTrade.dll
 
 rem ############################################################################
@@ -159,7 +159,7 @@ rem ############################################################################
 rem # Build indicator. The parameter %~d1 is MT4 install drive.                #
 rem ############################################################################
 %~d1
-cd "%~dp1MQL4\Indicators\"
+cd "%~dp1MQL4\Indicators\VitoshaTrade\"
 rem "%~dp1mql.exe" VitoshaTrade.mq4
 "%~dp1mql64.exe" VitoshaTrade.mq4
 
