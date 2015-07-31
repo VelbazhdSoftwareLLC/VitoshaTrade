@@ -40,11 +40,11 @@ import javax.swing.JPanel;
 
 /**
  * Panel with ANN drawoing functionality.
- * 
+ *
  * @author Momchil Anachkov
- * 
+ *
  * @email mZer0000@gmail.com
- * 
+ *
  * @date 10 Jan 2011
  */
 public class DrawingPane extends JPanel {
@@ -193,21 +193,21 @@ public class DrawingPane extends JPanel {
 
 	/**
 	 * Drawing pane constructor.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent class.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 10 Jan 2011
 	 */
 	public DrawingPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(
-				VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
-				VitoshaTradeApplet.CENTRAL_PANE_HEIGHT));
+								  VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
+								  VitoshaTradeApplet.CENTRAL_PANE_HEIGHT));
 
 		// TODO Do it in size changed listener.
 		neuronRadius = calculateNeuronRadius();
@@ -265,17 +265,17 @@ public class DrawingPane extends JPanel {
 				if (selectedNeuronIndex != INDEX_NOT_SELECTED
 						&& firstNeuronIndex != INDEX_NOT_SELECTED
 						&& secondNeuronIndex == INDEX_NOT_SELECTED
-						&& controlKeyDown == true) {
+				&& controlKeyDown == true) {
 					secondNeuronIndex = selectedNeuronIndex;
 
 					repaint();
 					parent.showConnectionPane();
 					parent.connectionPane
-							.setValues(
-									firstNeuronIndex,
-									selectedNeuronIndex,
-									parent.ann.activities[firstNeuronIndex][secondNeuronIndex],
-									parent.ann.weights[firstNeuronIndex][secondNeuronIndex]);
+					.setValues(
+						firstNeuronIndex,
+						selectedNeuronIndex,
+						parent.ann.activities[firstNeuronIndex][secondNeuronIndex],
+						parent.ann.weights[firstNeuronIndex][secondNeuronIndex]);
 					return;
 				}
 
@@ -285,7 +285,7 @@ public class DrawingPane extends JPanel {
 				if (selectedNeuronIndex != INDEX_NOT_SELECTED
 						&& firstNeuronIndex == INDEX_NOT_SELECTED
 						&& secondNeuronIndex == INDEX_NOT_SELECTED
-						&& controlKeyDown == true) {
+				&& controlKeyDown == true) {
 					firstNeuronIndex = selectedNeuronIndex;
 					secondNeuronIndex = INDEX_NOT_SELECTED;
 
@@ -298,19 +298,19 @@ public class DrawingPane extends JPanel {
 				if (selectedNeuronIndex != INDEX_NOT_SELECTED
 						&& firstNeuronIndex == INDEX_NOT_SELECTED
 						&& secondNeuronIndex == INDEX_NOT_SELECTED
-						&& controlKeyDown == false) {
+				&& controlKeyDown == false) {
 					firstNeuronIndex = selectedNeuronIndex;
 					secondNeuronIndex = INDEX_NOT_SELECTED;
 
 					parent.showNeuronPane();
 					parent.neuronPane
-							.setValues(
-									firstNeuronIndex,
-									parent.ann.flags[firstNeuronIndex],
-									parent.ann.coordinates[firstNeuronIndex][0],
-									parent.ann.coordinates[firstNeuronIndex][1],
-									parent.ann.activities[firstNeuronIndex][firstNeuronIndex],
-									parent.ann.weights[firstNeuronIndex][firstNeuronIndex]);
+					.setValues(
+						firstNeuronIndex,
+						parent.ann.flags[firstNeuronIndex],
+						parent.ann.coordinates[firstNeuronIndex][0],
+						parent.ann.coordinates[firstNeuronIndex][1],
+						parent.ann.activities[firstNeuronIndex][firstNeuronIndex],
+						parent.ann.weights[firstNeuronIndex][firstNeuronIndex]);
 
 					return;
 				}
@@ -349,14 +349,14 @@ public class DrawingPane extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 			public void mouseDragged(MouseEvent event) {
 				if (firstNeuronIndex != INDEX_NOT_SELECTED
-						&& secondNeuronIndex == INDEX_NOT_SELECTED) {
+				&& secondNeuronIndex == INDEX_NOT_SELECTED) {
 					parent.ann.coordinates[firstNeuronIndex][0] = event.getX();
 					parent.ann.coordinates[firstNeuronIndex][1] = event.getY();
 
 					parent.neuronPane.axisX.setText(""
-							+ parent.ann.coordinates[firstNeuronIndex][0]);
+													+ parent.ann.coordinates[firstNeuronIndex][0]);
 					parent.neuronPane.axisY.setText(""
-							+ parent.ann.coordinates[firstNeuronIndex][1]);
+													+ parent.ann.coordinates[firstNeuronIndex][1]);
 
 					repaint();
 				}
@@ -369,14 +369,14 @@ public class DrawingPane extends JPanel {
 
 	/**
 	 * Panel paint.
-	 * 
+	 *
 	 * @param g
 	 *            Graphic context.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 10 Jan 2011
 	 */
 	public void paint(Graphics g) {
@@ -422,7 +422,7 @@ public class DrawingPane extends JPanel {
 		 * Selected connection should be with different color.
 		 */
 		g.setColor(new Color(connectionColor.getRed(), connectionColor
-				.getGreen(), connectionColor.getBlue(), SELECTION_ALPHA));
+							 .getGreen(), connectionColor.getBlue(), SELECTION_ALPHA));
 		for (int j = 0; j < ann.numberOfNeurons; j++) {
 			for (int i = 0; i < ann.numberOfNeurons; i++) {
 				if ((i == firstNeuronIndex && j == secondNeuronIndex)
@@ -432,7 +432,7 @@ public class DrawingPane extends JPanel {
 					 * connection.
 					 */
 					g.drawLine(ann.coordinates[i][0], ann.coordinates[i][1],
-							ann.coordinates[j][0], ann.coordinates[j][1]);
+							   ann.coordinates[j][0], ann.coordinates[j][1]);
 				}
 			}
 		}
@@ -482,7 +482,7 @@ public class DrawingPane extends JPanel {
 				neuronColor = inputOutputNeuronColor;
 				break;
 			case (ArtificialNeuralNetwork.BIAS_NEURON
-					| ArtificialNeuralNetwork.INPUT_NEURON | ArtificialNeuralNetwork.OUTPUT_NEURON):
+							| ArtificialNeuralNetwork.INPUT_NEURON | ArtificialNeuralNetwork.OUTPUT_NEURON):
 				neuronColor = inputOutputBiasNeuronColor;
 				break;
 			}
@@ -493,7 +493,7 @@ public class DrawingPane extends JPanel {
 			if (i == firstNeuronIndex
 					&& secondNeuronIndex == INDEX_NOT_SELECTED) {
 				g.setColor(new Color(neuronColor.getRed(), neuronColor
-						.getGreen(), neuronColor.getBlue(), SELECTION_ALPHA));
+									 .getGreen(), neuronColor.getBlue(), SELECTION_ALPHA));
 			} else {
 				g.setColor(neuronColor);
 			}
@@ -507,24 +507,24 @@ public class DrawingPane extends JPanel {
 			 * Draw circle on coordinates of neurons.
 			 */
 			g.fillOval(ann.coordinates[i][0] - neuronRadius,
-					ann.coordinates[i][1] - neuronRadius, neuronRadius * 2,
-					neuronRadius * 2);
+					   ann.coordinates[i][1] - neuronRadius, neuronRadius * 2,
+					   neuronRadius * 2);
 
 			/*
 			 * Shows the ID of each neuron on the screen.
 			 */
 			showNeuronNumbers(g, i, neuronColor, ann.coordinates[i][0] - 3,
-					ann.coordinates[i][1] + 3);
+							  ann.coordinates[i][1] + 3);
 		}
 	}
 
 	/**
 	 * Calculates neurons radius.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 06 Dec 2011
 	 */
 	private int calculateNeuronRadius() {
@@ -533,7 +533,7 @@ public class DrawingPane extends JPanel {
 		 * Default neuron radius.
 		 */
 		int neuronRadius = Math.min(VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
-				VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 100;
+									VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 100;
 		/**
 		 * Default neuron radius size.
 		 */
@@ -545,13 +545,13 @@ public class DrawingPane extends JPanel {
 			neuronRadiusSize = p.getProperty("NeuronsSize");
 			if (neuronRadiusSize.equals("Small")) {
 				neuronRadius = Math.min(VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
-						VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 100;
+										VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 100;
 			} else if (neuronRadiusSize.equals("Medium")) {
 				neuronRadius = Math.min(VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
-						VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 80;
+										VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 80;
 			} else if (neuronRadiusSize.equals("Large")) {
 				neuronRadius = Math.min(VitoshaTradeApplet.CENTRAL_PANE_WIDTH,
-						VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 70;
+										VitoshaTradeApplet.CENTRAL_PANE_HEIGHT) / 70;
 			}
 
 		} catch (Exception ex) {
@@ -563,16 +563,16 @@ public class DrawingPane extends JPanel {
 	/**
 	 * Reads the current color of the neuron from a file, depending on its type
 	 * (flag).
-	 * 
+	 *
 	 * @param colorProperty
 	 *            The parameter name, containing the color.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 26 Oct 2011
-	 * 
+	 *
 	 * @return The current color of the neuron.
 	 */
 	public Color readNeuronColor(String colorProperty) {
@@ -592,20 +592,20 @@ public class DrawingPane extends JPanel {
 	/**
 	 * Draws the connection in a specific color depending on the chosen radio
 	 * button in menu Tools->Mesh.
-	 * 
+	 *
 	 * @param firstNeuronIndex
 	 *            Index of the first neuron in the connection.
-	 * 
+	 *
 	 * @param secondNeuronIndex
 	 *            Index of the second neuron in the connection.
-	 * 
+	 *
 	 *@param g
 	 *            Graphic context.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 31 Oct 2011
 	 */
 	public void selectConnectionsColorByChosenMesh(int firstNeuronIndex,
@@ -620,9 +620,9 @@ public class DrawingPane extends JPanel {
 		double minWeight = parent.ann.weights[0][0];
 		double maxWeight = parent.ann.weights[0][0];
 		double minActivityWeight = parent.ann.activities[0][0]
-				* parent.ann.weights[0][0];
+								   * parent.ann.weights[0][0];
 		double maxActivityWeight = parent.ann.activities[0][0]
-				* parent.ann.weights[0][0];
+								   * parent.ann.weights[0][0];
 		for (int j = 0; j < parent.ann.numberOfNeurons; j++) {
 			for (int i = 0; i < parent.ann.numberOfNeurons; i++) {
 				if (parent.ann.activities[i][j] < minActivity)
@@ -635,10 +635,10 @@ public class DrawingPane extends JPanel {
 					maxWeight = parent.ann.weights[i][j];
 				if (parent.ann.activities[i][j] * parent.ann.weights[i][j] < minActivityWeight)
 					minActivityWeight = parent.ann.activities[i][j]
-							* parent.ann.weights[i][j];
+										* parent.ann.weights[i][j];
 				if (parent.ann.activities[i][j] * parent.ann.weights[i][j] > maxActivityWeight)
 					maxActivityWeight = parent.ann.activities[i][j]
-							* parent.ann.weights[i][j];
+										* parent.ann.weights[i][j];
 			}
 		}
 
@@ -648,9 +648,9 @@ public class DrawingPane extends JPanel {
 		 */
 		if (parent.meshSolidItem.isSelected() == true) {
 			g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
-					parent.ann.coordinates[firstNeuronIndex][1],
-					parent.ann.coordinates[secondNeuronIndex][0],
-					parent.ann.coordinates[secondNeuronIndex][1]);
+					   parent.ann.coordinates[firstNeuronIndex][1],
+					   parent.ann.coordinates[secondNeuronIndex][0],
+					   parent.ann.coordinates[secondNeuronIndex][1]);
 
 			/*
 			 * If option "Activities" is chosen in "Mesh" menu - connections
@@ -658,15 +658,15 @@ public class DrawingPane extends JPanel {
 			 */
 		} else if (parent.meshActivitiesItem.isSelected() == true) {
 			connectionColorTemp = parent.ann.activities[firstNeuronIndex][secondNeuronIndex]
-					- minActivity;
+								  - minActivity;
 			connectionColorTemp = 255 - connectionColorTemp
-					* (255 / (maxActivity - minActivity));
+								  * (255 / (maxActivity - minActivity));
 			int color = (int) Math.round(connectionColorTemp);
 			g.setColor(new Color(color, color, color));
 			g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
-					parent.ann.coordinates[firstNeuronIndex][1],
-					parent.ann.coordinates[secondNeuronIndex][0],
-					parent.ann.coordinates[secondNeuronIndex][1]);
+					   parent.ann.coordinates[firstNeuronIndex][1],
+					   parent.ann.coordinates[secondNeuronIndex][0],
+					   parent.ann.coordinates[secondNeuronIndex][1]);
 
 			/*
 			 * If option "Weights" is chosen in "Mesh" menu - connections colors
@@ -674,15 +674,15 @@ public class DrawingPane extends JPanel {
 			 */
 		} else if (parent.meshWeightsItem.isSelected() == true) {
 			connectionColorTemp = parent.ann.weights[firstNeuronIndex][secondNeuronIndex]
-					- minWeight;
+								  - minWeight;
 			connectionColorTemp = 255 - connectionColorTemp
-					* (255 / (maxWeight - minWeight));
+								  * (255 / (maxWeight - minWeight));
 			int color = (int) Math.round(connectionColorTemp);
 			g.setColor(new Color(color, color, color));
 			g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
-					parent.ann.coordinates[firstNeuronIndex][1],
-					parent.ann.coordinates[secondNeuronIndex][0],
-					parent.ann.coordinates[secondNeuronIndex][1]);
+					   parent.ann.coordinates[firstNeuronIndex][1],
+					   parent.ann.coordinates[secondNeuronIndex][0],
+					   parent.ann.coordinates[secondNeuronIndex][1]);
 
 			/*
 			 * If option "Both" is chosen in "Mesh" menu - connections colors
@@ -690,45 +690,45 @@ public class DrawingPane extends JPanel {
 			 */
 		} else if (parent.meshBothItem.isSelected() == true) {
 			connectionColorTemp = parent.ann.activities[firstNeuronIndex][secondNeuronIndex]
-					* parent.ann.weights[firstNeuronIndex][secondNeuronIndex]
-					- minActivityWeight;
+								  * parent.ann.weights[firstNeuronIndex][secondNeuronIndex]
+								  - minActivityWeight;
 			connectionColorTemp = 255 - connectionColorTemp
-					* (255 / (maxActivityWeight - minActivityWeight));
+								  * (255 / (maxActivityWeight - minActivityWeight));
 			int color = (int) Math.round(connectionColorTemp);
 			g.setColor(new Color(color, color, color));
 			g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
-					parent.ann.coordinates[firstNeuronIndex][1],
-					parent.ann.coordinates[secondNeuronIndex][0],
-					parent.ann.coordinates[secondNeuronIndex][1]);
+					   parent.ann.coordinates[firstNeuronIndex][1],
+					   parent.ann.coordinates[secondNeuronIndex][0],
+					   parent.ann.coordinates[secondNeuronIndex][1]);
 		}
 	}
 
 	/**
 	 * Shows the IDs of the neurons on the screen.
-	 * 
+	 *
 	 * @param g
 	 *            Graphic context.
-	 * 
+	 *
 	 * @param neuronId
 	 *            Neuron ID shown on the screen.
-	 * 
+	 *
 	 * @param neuronColor
 	 *            The color of the neuron.
-	 * 
+	 *
 	 * @param neuronIdXCoordinate
 	 *            X-coordinate of the neuron ID.
-	 * 
+	 *
 	 * @param neuronIdYCoordinate
 	 *            Y-coordinate of the neuron ID.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 13 Nov 2011
 	 */
 	private void showNeuronNumbers(Graphics g, int neuronId, Color neuronColor,
-			int neuronIdXCoordinate, int neuronIdYCoordinate) {
+								   int neuronIdXCoordinate, int neuronIdYCoordinate) {
 		if (parent.numberingItem.isSelected()) {
 
 			/*
@@ -749,7 +749,7 @@ public class DrawingPane extends JPanel {
 				FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
 				properties.load(in);
 				int currentNeuronsNumberSize = Integer.parseInt(properties
-						.getProperty("NeuronsNumbersSize"));
+											   .getProperty("NeuronsNumbersSize"));
 				neuronIdFontSize = currentNeuronsNumberSize;
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -760,10 +760,10 @@ public class DrawingPane extends JPanel {
 			 */
 			String neuronIdFontFamily = "Verdana";
 			Font neuronIdFont = new Font(neuronIdFontFamily, Font.BOLD,
-					neuronIdFontSize);
+										 neuronIdFontSize);
 			Color neuronIdColor = new Color(convertedNeuronRedPrimaryColor,
-					convertedNeuronGreenPrimaryColor,
-					convertedNeuronBluePrimaryColor);
+											convertedNeuronGreenPrimaryColor,
+											convertedNeuronBluePrimaryColor);
 
 			/*
 			 * Sets font and color of the neuron ID and draws it inside the
@@ -772,20 +772,20 @@ public class DrawingPane extends JPanel {
 			g.setColor(neuronIdColor);
 			g.setFont(neuronIdFont);
 			g.drawString(Integer.toString(neuronId), neuronIdXCoordinate,
-					neuronIdYCoordinate);
+						 neuronIdYCoordinate);
 		}
 	}
 
 	/**
 	 * Reads the work area background color.
-	 * 
+	 *
 	 * @param g
 	 *            Graphic context.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 23 Nov 2011
 	 */
 	private void selectBackgroundColor(Graphics g) {
@@ -794,7 +794,7 @@ public class DrawingPane extends JPanel {
 			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int color = Integer.parseInt(properties
-					.getProperty(WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY));
+										 .getProperty(WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY));
 			Color workAreaBackgroundColor = new Color(color);
 			g.setColor(workAreaBackgroundColor);
 		} catch (Exception ex) {

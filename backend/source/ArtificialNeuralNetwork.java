@@ -29,11 +29,11 @@
 
 /**
  * Data structure containing ANN for visual representation.
- * 
+ *
  * @author Momchil Anachkov
- * 
+ *
  * @email mZer0000@gmail.com
- * 
+ *
  * @date 24 Dec 2010
  */
 public class ArtificialNeuralNetwork {

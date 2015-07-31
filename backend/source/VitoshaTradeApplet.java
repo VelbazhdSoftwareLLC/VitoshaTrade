@@ -40,11 +40,11 @@ import javax.swing.JRadioButtonMenuItem;
 
 /**
  * VitoshaTrade backend applet class.
- * 
+ *
  * @author Momchil Anachkov, Ralitza Koleva
- * 
+ *
  * @email mZer0000@gmail.com
- * 
+ *
  * @date 11 Nov 2010
  */
 public class VitoshaTradeApplet extends JApplet {
@@ -149,25 +149,25 @@ public class VitoshaTradeApplet extends JApplet {
 	 * Applet menu bar item.
 	 */
 	public JRadioButtonMenuItem meshActivitiesItem = new JRadioButtonMenuItem(
-			Texts.MENU_ITEM_ACTIVITIES);
+		Texts.MENU_ITEM_ACTIVITIES);
 
 	/**
 	 * Applet menu bar item.
 	 */
 	public JRadioButtonMenuItem meshWeightsItem = new JRadioButtonMenuItem(
-			Texts.MENU_ITEM_WEIGHTS);
+		Texts.MENU_ITEM_WEIGHTS);
 
 	/**
 	 * Applet menu bar item.
 	 */
 	public JRadioButtonMenuItem meshBothItem = new JRadioButtonMenuItem(
-			Texts.MENU_ITEM_BOTH);
+		Texts.MENU_ITEM_BOTH);
 
 	/**
 	 * Applet menu bar item.
 	 */
 	public JRadioButtonMenuItem meshSolidItem = new JRadioButtonMenuItem(
-			Texts.MENU_ITEM_SOLID);
+		Texts.MENU_ITEM_SOLID);
 
 	/**
 	 * Applet menu bar item.
@@ -178,7 +178,7 @@ public class VitoshaTradeApplet extends JApplet {
 	 * Applet menu bar item.
 	 */
 	public JCheckBoxMenuItem numberingItem = new JCheckBoxMenuItem(
-			Texts.MENU_ITEM_NUMBERING);
+		Texts.MENU_ITEM_NUMBERING);
 
 	/**
 	 * Working area controls. It is default access to able to repaint from other
@@ -229,11 +229,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Applet initialization.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 16 Nov 2010
 	 */
 	public void init() {
@@ -277,11 +277,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Shows a pane for creating a new ANN.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 18 Sep 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -293,11 +293,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Shows a pane for loading an existing ANN.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 18 Sep 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -310,11 +310,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Shows a pane for deleting an existing ANN.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 27 Nov 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -327,11 +327,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Shows a settings pane for changing ANN kinds colors.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 21 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -348,11 +348,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Repaints work area.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 31 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -368,11 +368,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Repaints work area.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 31 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -389,11 +389,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Repaints work area.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 31 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -410,11 +410,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Repaints work area.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 31 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -430,11 +430,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 			/**
 			 * Repaints work area.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 31 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -445,11 +445,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing network pane.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 27 Dec 2010
 	 */
 	public void showNetworkPane() {
@@ -468,11 +468,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing login pane.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 27 Dec 2010
 	 */
 	public void showLoginPane() {
@@ -490,11 +490,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing neuron pane.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 27 Dec 2010
 	 */
 	public void showNeuronPane() {
@@ -512,11 +512,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing connection pane.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 27 Dec 2010
 	 */
 	public void showConnectionPane() {
@@ -534,11 +534,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing new ANN pane.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 18 Sep 2011
 	 */
 	public void showNewAnnPane() {
@@ -556,11 +556,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing delete ANN pane.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 27 Nov 2011
 	 */
 	public void showDeleteAnnPane() {
@@ -578,11 +578,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Visualizing settings pane.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 21 Oct 2011
 	 */
 	public void showSettingsPane() {
@@ -599,11 +599,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Shows the menu bar when a user logs in.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 03 Sep 2011
 	 */
 	public void showMenuBarAfterLogin() {
@@ -639,11 +639,11 @@ public class VitoshaTradeApplet extends JApplet {
 
 	/**
 	 * Removes the menu bar when a user logs out.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 03 Sep 2011
 	 */
 	public void hideMenuBarAfterLogout() {

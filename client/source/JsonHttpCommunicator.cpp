@@ -115,7 +115,7 @@ const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)(&chunk));
 	curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
- 	result = curl_easy_perform(curl);
+	result = curl_easy_perform(curl);
 
 	if(result != CURLE_OK) {
 		throw( "JsonHttpCommunicator00215" );
@@ -135,60 +135,60 @@ const char* JsonHttpCommunicator::HttpRequestResponse(char *response, const char
 }
 
 void JsonHttpCommunicator::parseJsonLoadRemoteBestFitness(const JSONNode &node, double &fitness, const bool initialCall) {
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "fitness"){
+		if (node_name == "fitness") {
 			fitness = i->as_float();
 		}
 
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadRemoteBestFitness(*i, fitness, false);
 		}
 	}
 }
 
 void JsonHttpCommunicator::parseJsonLoadAnnNeuronsAmount(const JSONNode &node, int &amount, const bool initialCall) {
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "neuronsAmount"){
+		if (node_name == "neuronsAmount") {
 			amount = i->as_int();
 		}
 
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadAnnNeuronsAmount(*i, amount, false);
 		}
 	}
 }
 
 void JsonHttpCommunicator::parseJsonLoadTrainingSetSize(const JSONNode &node, int &size, const bool initialCall) {
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "numberOfExamples"){
+		if (node_name == "numberOfExamples") {
 			size = i->as_int();
 		}
 
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadTrainingSetSize(*i, size, false);
 		}
 	}
@@ -204,13 +204,13 @@ void JsonHttpCommunicator::parseJsonLoadAnnList(const JSONNode &node, std::vecto
 		array = "";
 	}
 
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "size"){
+		if (node_name == "size") {
 			size = i->as_int();
 		} else if (node_name == "identifiers") {
 			array = "identifiers";
@@ -222,7 +222,7 @@ void JsonHttpCommunicator::parseJsonLoadAnnList(const JSONNode &node, std::vecto
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadAnnList(*i, list, false);
 		}
 	}
@@ -237,13 +237,13 @@ void JsonHttpCommunicator::parseJsonLoadTrainingSet(const JSONNode &node, std::v
 	static int closeCounter = 0;
 	static int volumeCounter = 0;
 
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "numberOfExamples"){
+		if (node_name == "numberOfExamples") {
 			//TODO May be it is better to clear the vector.
 			//TODO Find better way to deal with the parallel arrays.
 			for(int j=i->as_int(); j>0; j--) {
@@ -285,7 +285,7 @@ void JsonHttpCommunicator::parseJsonLoadTrainingSet(const JSONNode &node, std::v
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadTrainingSet(*i, rates, false);
 		}
 	}
@@ -311,31 +311,51 @@ void JsonHttpCommunicator::parseJsonLoadSingleANN(const JSONNode &node, bool &av
 		return;
 	}
 
-	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i){
+	for(JSONNode::const_iterator i = node.begin(); i!=node.end(); ++i) {
 		std::string node_name = i -> name();
 
 		/*
 		 * Store values into proper object filds.
 		 */
-		if (node_name == "size"){
+		if (node_name == "size") {
 			size = i->as_int();
 			if(size == 0) {
 				available = false;
 			}
-		} else if (node_name == "symbol"){
+		} else if (node_name == "symbol") {
 			strcpy(symbol, (i->as_string()).c_str());
 		} else if (node_name == "period") {
 			switch (i->as_int()) {
-				case 1: period = M1; break;
-				case 5: period = M5; break;
-				case 15: period = M15; break;
-				case 30: period = M30; break;
-				case 60: period = H1; break;
-				case 240: period = H4; break;
-				case 1440: period = D1; break;
-				case 10080: period = W1; break;
-				case 43200: period = MN1; break;
-				default: period = NO; break;
+			case 1:
+				period = M1;
+				break;
+			case 5:
+				period = M5;
+				break;
+			case 15:
+				period = M15;
+				break;
+			case 30:
+				period = M30;
+				break;
+			case 60:
+				period = H1;
+				break;
+			case 240:
+				period = H4;
+				break;
+			case 1440:
+				period = D1;
+				break;
+			case 10080:
+				period = W1;
+				break;
+			case 43200:
+				period = MN1;
+				break;
+			default:
+				period = NO;
+				break;
 			}
 		} else if (node_name == "fitness") {
 			fitness = i->as_float();
@@ -417,7 +437,7 @@ void JsonHttpCommunicator::parseJsonLoadSingleANN(const JSONNode &node, bool &av
 		/*
 		 * Recursively call ourselves to dig deeper into the tree.
 		 */
-		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE){
+		if (i -> type() == JSON_ARRAY || i -> type() == JSON_NODE) {
 			parseJsonLoadSingleANN(*i, available, symbol, period, fitness, neurons, weights, activities, false);
 		}
 	}
@@ -502,17 +522,17 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 
 	/*
 	 * Load DE with random values. It is useful in new ANN and DE creation.
-     * Internal size of chromosomes should be given before initialization.
-     */
+	 * Internal size of chromosomes should be given before initialization.
+	 */
 	Population &population = de.getPopulation();
-    for(int i=0; i<population.dimension(); i++) {
-        WeightsMatrix weights( ann.getNeurons().dimension() );
-        Chromosome chromosome(weights, (double)RAND_MAX);
-        population[i] = chromosome;
-    }
-    //TODO Find better way to initialize random population with proper size of weight matrices.
+	for(int i=0; i<population.dimension(); i++) {
+		WeightsMatrix weights( ann.getNeurons().dimension() );
+		Chromosome chromosome(weights, (double)RAND_MAX);
+		population[i] = chromosome;
+	}
+	//TODO Find better way to initialize random population with proper size of weight matrices.
 	population.initRandom();
-    //TODO This setter call may be is not needed.
+	//TODO This setter call may be is not needed.
 	de.setPopulation( population );
 
 	/*

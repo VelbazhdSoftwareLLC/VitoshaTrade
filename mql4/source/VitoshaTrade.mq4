@@ -37,17 +37,11 @@
 #property indicator_buffers 0
 
 #import "VitoshaTrade.dll"
-
 double _Z10predictionv();
-
 void _Z13loadChartDataPA6_di(double &rates[][6], int size);
-
 void _Z13stopPredictorv();
-
 void _Z14startPredictoriPKciiiii(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
-
 void _Z5aboutv();
-
 #import
 
 /**

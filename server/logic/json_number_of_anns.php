@@ -87,12 +87,12 @@ if ($result != false) {
 	 * Response with all artificial neural networks identifiers available.
 	 */
 	$response .= '"identifiers": [';
-	 
+
 	for ($i=0; $i<count($result); $i++) {
 		$response .= '"' . trim($result[$i][0],"\r\n") . '",';
 		$count++;
 	}
-	
+
 	$response = trim($response,"\n,");
 	$response .= "]";
 	$response .= "\n";
@@ -119,16 +119,16 @@ if ($count==0 && $result!=false) {
 
 	/*
 	 * Response with all artificial neural networks identifiers available.
-	 */	
-	$response .= '"identifiers": ["';	
-	
+	 */
+	$response .= '"identifiers": ["';
+
 	for ($i=0; $i<count($result); $i++) {
-		if ($result[$i][1] == $ann_kind_id) {		
+		if ($result[$i][1] == $ann_kind_id) {
 			$response .= '"' . trim($result[$i][0],"\r\n") . '",';
 			$count++;
 		}
 	}
-	
+
 	$response = trim($response,"\n,");
 	$response .= "]";
 	$response .= "\n";

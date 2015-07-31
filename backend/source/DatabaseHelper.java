@@ -34,11 +34,11 @@ import java.sql.Statement;
 
 /**
  * Database helping class.
- * 
+ *
  * @author Momchil Anachkov
- * 
+ *
  * @email mZer0000@gmail.com
- * 
+ *
  * @date 19 Dec 2010
  */
 public class DatabaseHelper {
@@ -207,30 +207,30 @@ public class DatabaseHelper {
 
 	/**
 	 * Constructing the database helping class with passed parameters.
-	 * 
+	 *
 	 * @param host
 	 *            The address where the database is hosted.
-	 * 
+	 *
 	 * @param port
 	 *            The port number for the host.
-	 * 
+	 *
 	 * @param databaseName
 	 *            The name of the database.
-	 * 
+	 *
 	 * @param username
 	 *            The username for logging into the server.
-	 * 
+	 *
 	 * @param password
 	 *            The password for logging into the server.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public DatabaseHelper(String host, int port, String databaseName,
-			String username, String password) {
+						  String username, String password) {
 		super();
 
 		this.host = host;
@@ -242,11 +242,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Constructing the database helping class without passed parameters.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public DatabaseHelper() {
@@ -255,11 +255,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Database host URL getter.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public String getHost() {
@@ -268,14 +268,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Database host URL setter.
-	 * 
+	 *
 	 * @param host
 	 *            The host to be set.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void setHost(String host) {
@@ -284,11 +284,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Databes server port getter.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public int getPort() {
@@ -297,14 +297,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Databes server port setter.
-	 * 
+	 *
 	 * @param port
 	 *            The port to be set.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void setPort(int port) {
@@ -313,11 +313,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Database name getter.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public String getDatabaseName() {
@@ -326,14 +326,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Database name setter.
-	 * 
+	 *
 	 * @param databaseName
 	 *            The database name to be set.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void setDatabaseName(String databaseName) {
@@ -342,11 +342,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Database username getter.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public String getUsername() {
@@ -355,14 +355,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Database username setter.
-	 * 
+	 *
 	 * @param username
 	 *            The username to be set.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void setUsername(String username) {
@@ -371,11 +371,11 @@ public class DatabaseHelper {
 
 	/**
 	 * Database password getter.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public String getPassword() {
@@ -384,14 +384,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Database password setter.
-	 * 
+	 *
 	 * @param password
 	 *            The password to be set.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void setPassword(String password) {
@@ -400,26 +400,26 @@ public class DatabaseHelper {
 
 	/**
 	 * Connecting to database.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void connect() throws Exception {
 		Class.forName(MYSQL_DRIVER).newInstance();
 		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":"
-				+ port + "/" + databaseName, username, password);
+					 + port + "/" + databaseName, username, password);
 	}
 
 	/**
 	 * Disconnecting from database.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void disconnect() throws Exception {
@@ -428,13 +428,13 @@ public class DatabaseHelper {
 
 	/**
 	 * Provide list with available networks.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
-	 * 
+	 *
 	 * @return 2D array of strings with ANN information (id, symbol, period).
 	 */
 	public String[][] loadAnnList() {
@@ -442,7 +442,7 @@ public class DatabaseHelper {
 		try {
 			Statement select = connection.createStatement();
 			ResultSet resultSet = select
-					.executeQuery(SQL_QUERY_SYMBOL_PERIOD_ID);
+								  .executeQuery(SQL_QUERY_SYMBOL_PERIOD_ID);
 
 			resultSet.last();
 			int size = resultSet.getRow();
@@ -469,16 +469,16 @@ public class DatabaseHelper {
 
 	/**
 	 * Provide list with available networks.
-	 * 
+	 *
 	 * @param symbol
 	 *            Currency pair symbol.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
-	 * 
+	 *
 	 * @return 2D array of strings with ANN information (id, symbol, period).
 	 */
 	public String[][] loadAnnListBySymbol(String symbol) {
@@ -486,7 +486,7 @@ public class DatabaseHelper {
 
 		try {
 			String sql = String.format(SQL_QUERY_SYMBOL_PERIOD_ID_BY_SYMBOL,
-					symbol);
+									   symbol);
 			Statement select = connection.createStatement();
 			ResultSet resultSet = select.executeQuery(sql);
 
@@ -514,16 +514,16 @@ public class DatabaseHelper {
 
 	/**
 	 * Provide list with available networks.
-	 * 
+	 *
 	 * @param period
 	 *            Currency pair period.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
-	 * 
+	 *
 	 * @return 2D array of strings with ANN information (id, symbol, period).
 	 */
 	public String[][] loadAnnListByPeriod(int period) {
@@ -531,7 +531,7 @@ public class DatabaseHelper {
 
 		try {
 			String sql = String.format(SQL_QUERY_SYMBOL_PERIOD_ID_BY_PERIOD,
-					period);
+									   period);
 			Statement select = connection.createStatement();
 			ResultSet resultSet = select.executeQuery(sql);
 
@@ -559,19 +559,19 @@ public class DatabaseHelper {
 
 	/**
 	 * Provide list with available networks.
-	 * 
+	 *
 	 * @param symbol
 	 *            Currency pair symbol.
-	 * 
+	 *
 	 * @param period
 	 *            Currency pair period.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
-	 * 
+	 *
 	 * @return 2D array of strings with ANN information (id, symbol, period).
 	 */
 	public String[][] loadAnnList(String symbol, int period) {
@@ -579,8 +579,8 @@ public class DatabaseHelper {
 
 		try {
 			String sql = String.format(
-					SQL_QUERY_SYMBOL_PERIOD_ID_BY_SYMBOL_AND_PERIOD, symbol,
-					period);
+							 SQL_QUERY_SYMBOL_PERIOD_ID_BY_SYMBOL_AND_PERIOD, symbol,
+							 period);
 			Statement select = connection.createStatement();
 			ResultSet resultSet = select.executeQuery(sql);
 
@@ -609,13 +609,13 @@ public class DatabaseHelper {
 
 	/**
 	 * Provides a list with available currency pairs.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 17 Oct 2011
-	 * 
+	 *
 	 * @return Array of strings with currency pairs.
 	 */
 	public String[][] loadCurrencyPairs() {
@@ -646,13 +646,13 @@ public class DatabaseHelper {
 
 	/**
 	 * Provides a list with available periods.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 17 Oct 2011
-	 * 
+	 *
 	 * @return 2D array of strings with periods.
 	 */
 	public String[][] loadPeriods() {
@@ -684,14 +684,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Checking if selected ANN has neuron coordinates.
-	 * 
+	 *
 	 * @param id
 	 *            Unique identifier for the ANN.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 03 Jan 2010
 	 */
 	void initIfNeeded(int id) {
@@ -716,18 +716,18 @@ public class DatabaseHelper {
 			String values = "";
 			for (int i = 0; i < numberOfNeurons; i++) {
 				values += DEFAULT_MIN_X_COORDINATE
-						+ (int) (Math.random() * (DEFAULT_MAX_X_COORDINATE
-								- DEFAULT_MIN_X_COORDINATE + 1));
+						  + (int) (Math.random() * (DEFAULT_MAX_X_COORDINATE
+													- DEFAULT_MIN_X_COORDINATE + 1));
 				values += " ";
 				values += DEFAULT_MIN_Y_COORDINATE
-						+ (int) (Math.random() * (DEFAULT_MAX_Y_COORDINATE
-								- DEFAULT_MIN_Y_COORDINATE + 1));
+						  + (int) (Math.random() * (DEFAULT_MAX_Y_COORDINATE
+													- DEFAULT_MIN_Y_COORDINATE + 1));
 				values += " ";
 			}
 			values = values.trim();
 
 			sql = String.format(SQL_QUERY_INSERT_DEFAULT_COORDINATES, id,
-					values);
+								values);
 
 			statement.executeUpdate(sql);
 		} catch (Exception ex) {
@@ -737,14 +737,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Provide selected ANN.
-	 * 
+	 *
 	 * @param id
 	 *            Unique identifier for the ANN.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public ArtificialNeuralNetwork loadAnn(int id) {
@@ -797,7 +797,7 @@ public class DatabaseHelper {
 			for (int j = 0; j < result.numberOfNeurons; j++) {
 				for (int i = 0; i < result.numberOfNeurons; i++) {
 					result.weights[i][j] = Double.parseDouble(values[i + j
-							* result.numberOfNeurons]);
+										   * result.numberOfNeurons]);
 				}
 			}
 
@@ -814,7 +814,7 @@ public class DatabaseHelper {
 			for (int j = 0; j < result.numberOfNeurons; j++) {
 				for (int i = 0; i < result.numberOfNeurons; i++) {
 					result.activities[i][j] = Double.parseDouble(values[i + j
-							* result.numberOfNeurons]);
+											  * result.numberOfNeurons]);
 				}
 			}
 
@@ -830,14 +830,14 @@ public class DatabaseHelper {
 			for (int i = 0; i < result.numberOfNeurons; i++) {
 				for (int k = 0; k < 2; k++) {
 					result.coordinates[i][k] = Integer.parseInt(values[i * 2
-							+ k]);
+											   + k]);
 				}
 			}
 
 		} catch (Exception ex) {
 			result = null;
 			System.err.println(Texts.ERROR_LOAD_ANN_PART_1 + id
-					+ Texts.ERROR_LOAD_ANN_PART_2);
+							   + Texts.ERROR_LOAD_ANN_PART_2);
 			ex.printStackTrace();
 			// TODO Inform user that there is no valid ANN list.
 		}
@@ -847,14 +847,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Save ANN to remote database server.
-	 * 
+	 *
 	 * @param ann
 	 *            ANN container.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Dec 2010
 	 */
 	public void saveAnn(ArtificialNeuralNetwork ann) {
@@ -870,7 +870,7 @@ public class DatabaseHelper {
 		for (int j = 0; j < ann.numberOfNeurons; j++) {
 			for (int i = 0; i < ann.numberOfNeurons; i++) {
 				activities = activities + Double.toString(ann.activities[i][j])
-						+ " ";
+							 + " ";
 			}
 			activities = activities.trim();
 			activities += "\n";
@@ -891,7 +891,7 @@ public class DatabaseHelper {
 		for (int i = 0; i < ann.numberOfNeurons; i++) {
 			for (int k = 0; k < 2; k++) {
 				coordinates = coordinates
-						+ Integer.toString(ann.coordinates[i][k]) + " ";
+							  + Integer.toString(ann.coordinates[i][k]) + " ";
 			}
 		}
 		coordinates = coordinates.trim();
@@ -899,14 +899,14 @@ public class DatabaseHelper {
 		try {
 			Statement update = connection.createStatement();
 			sql = String.format(SQL_QUERY_UPDATE_FLAGS_AND_ACTIVITIES, flags,
-					activities, ann.id);
+								activities, ann.id);
 			update.executeUpdate(sql);
 
 			sql = String.format(SQL_QUERY_UPDATE_WEIGHTS, weights, ann.id);
 			update.executeUpdate(sql);
 
 			sql = String.format(SQL_QUERY_UPDATE_COORDINATES, coordinates,
-					ann.id);
+								ann.id);
 			update.executeUpdate(sql);
 		} catch (Exception ex) {
 			System.err.println(Texts.ERROR_UPDATE_ANN);
@@ -916,34 +916,34 @@ public class DatabaseHelper {
 
 	/**
 	 * Saves a new ANN to the remote database server.
-	 * 
+	 *
 	 * @param annSymbol
 	 *            A currency pair chosen for the new ANN.
-	 * 
+	 *
 	 * @param annPeriod
 	 *            A time period chosen for the new ANN.
-	 * 
+	 *
 	 * @param annNumberNeurons
 	 *            Number of neurons of the new ANN.
-	 * 
+	 *
 	 * @param annActivitiesWeights
 	 *            Weights of the new ANN.
-	 * 
+	 *
 	 * @param annFitness
 	 *            Fitness of the new ANN.
-	 * 
+	 *
 	 * @param annFlags
 	 *            Flags (neuron types) of the new ANN's neurons.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 20 Sep 2011
 	 */
 	public int saveNewAnn(String annSymbol, int annPeriod,
-			int annNumberNeurons, String annActivitiesWeights, int annFitness,
-			String annFlags) {
+						  int annNumberNeurons, String annActivitiesWeights, int annFitness,
+						  String annFlags) {
 		String sql = "";
 
 		/*
@@ -968,8 +968,8 @@ public class DatabaseHelper {
 			 */
 			Statement insert = connection.createStatement();
 			sql = String.format(
-					SQL_QUERY_CURRENCY_PAIR_BY_CURRENCY_PAIR_AND_PERIOD,
-					annSymbol, annPeriod);
+					  SQL_QUERY_CURRENCY_PAIR_BY_CURRENCY_PAIR_AND_PERIOD,
+					  annSymbol, annPeriod);
 			insert.execute(sql);
 			ResultSet selectedCurrencyPairId = insert.getResultSet();
 			if (selectedCurrencyPairId.next()) {
@@ -984,7 +984,7 @@ public class DatabaseHelper {
 			 * Inserts information about the new ANN kind.
 			 */
 			sql = String.format(SQL_QUERY_INSERT_ANN_KIND, currencyPairId,
-					annNumberNeurons, annFlags, annActivitiesWeights);
+								annNumberNeurons, annFlags, annActivitiesWeights);
 			insert.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet generatedAnnKindId = insert.getGeneratedKeys();
 			if (generatedAnnKindId.next()) {
@@ -999,7 +999,7 @@ public class DatabaseHelper {
 			 * Inserts information about the new ANN.
 			 */
 			sql = String.format(SQL_QUERY_INSERT_ANN, annKindId, annFitness,
-					annActivitiesWeights);
+								annActivitiesWeights);
 			insert.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet generatedAnnId = insert.getGeneratedKeys();
 			if (generatedAnnId.next()) {
@@ -1018,14 +1018,14 @@ public class DatabaseHelper {
 
 	/**
 	 * Deletes an ANN from the remote database server.
-	 * 
+	 *
 	 * @param id
 	 *            Unique identifier of the ANN.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 27 Nov 2011
 	 */
 	public void deleteAnn(int id) {

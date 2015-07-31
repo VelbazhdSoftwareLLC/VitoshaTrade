@@ -116,7 +116,7 @@ const char* HttpCommunicator::HttpRequestResponse(char *response, const char* fi
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)(&chunk));
 	curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 
- 	result = curl_easy_perform(curl);
+	result = curl_easy_perform(curl);
 
 	if(result != CURLE_OK) {
 		throw( "HttpCommunicator00213" );
@@ -231,17 +231,17 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, c
 
 	/*
 	 * Load DE with random values. It is useful in new ANN and DE creation.
-     * Internal size of chromosomes should be given before initialization.
-     */
+	 * Internal size of chromosomes should be given before initialization.
+	 */
 	Population &population = de.getPopulation();
-    for(int i=0; i<population.dimension(); i++) {
-        WeightsMatrix weights( ann.getNeurons().dimension() );
-        Chromosome chromosome(weights, (double)RAND_MAX);
-        population[i] = chromosome;
-    }
-    //TODO Find better way to initialize random population with proper size of weight matrices.
+	for(int i=0; i<population.dimension(); i++) {
+		WeightsMatrix weights( ann.getNeurons().dimension() );
+		Chromosome chromosome(weights, (double)RAND_MAX);
+		population[i] = chromosome;
+	}
+	//TODO Find better way to initialize random population with proper size of weight matrices.
 	population.initRandom();
-    //TODO This setter call may be is not needed.
+	//TODO This setter call may be is not needed.
 	de.setPopulation( population );
 
 	/*

@@ -49,22 +49,22 @@ import javax.swing.SwingConstants;
 
 /**
  * Panel with GUI controls for Neural Network Color Settings.
- * 
+ *
  * @author Ralitza Koleva
- * 
+ *
  * @email rallly@abv.bg
- * 
+ *
  * @date 21 Oct 2011
  */
 public class SettingsPane extends JPanel {
 
 	/**
 	 * Class ActionListener for buttons choosing a neuron type color.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 21 Oct 2011
 	 */
 	private class ChooseNeuronColorListener implements ActionListener {
@@ -76,14 +76,14 @@ public class SettingsPane extends JPanel {
 
 		/**
 		 * Constructor of the listener for choosing a neuron type color.
-		 * 
+		 *
 		 * @param neuronTypeColorField
 		 *            Shows the chosen neuron type color.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 21 Oct 2011
 		 */
 		public ChooseNeuronColorListener(JTextField neuronTypeColorField) {
@@ -93,17 +93,17 @@ public class SettingsPane extends JPanel {
 		/**
 		 * Shows a color chooser to change a neuron type color and fills the
 		 * relevant field in the chosen color.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 21 Oct 2011
 		 */
 		public void actionPerformed(ActionEvent event) {
 			Color initialBackground = neuronTypeColorField.getBackground();
 			Color background = JColorChooser.showDialog(null,
-					Texts.LABEL_BUTTON_CHOOSE_COLOR, initialBackground);
+							   Texts.LABEL_BUTTON_CHOOSE_COLOR, initialBackground);
 			if (background != null) {
 				neuronTypeColorField.setBackground(background);
 			}
@@ -124,13 +124,13 @@ public class SettingsPane extends JPanel {
 	 * Label for Regular Neuron.
 	 */
 	private JLabel labelColorRegular = new JLabel(
-			Texts.LABEL_REGULAR_NEURON_COLOR, SwingConstants.RIGHT);
+		Texts.LABEL_REGULAR_NEURON_COLOR, SwingConstants.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Regular Neuron.
 	 */
 	private JButton chooseColorRegular = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Regular Neuron.
@@ -147,7 +147,7 @@ public class SettingsPane extends JPanel {
 	 * Button to open a color picker for choosing color for Input Neuron.
 	 */
 	private JButton chooseColorInput = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Input Neuron.
@@ -158,13 +158,13 @@ public class SettingsPane extends JPanel {
 	 * Label for Output Neuron.
 	 */
 	private JLabel labelColorOutput = new JLabel(
-			Texts.LABEL_OUTPUT_NEURON_COLOR, SwingConstants.RIGHT);
+		Texts.LABEL_OUTPUT_NEURON_COLOR, SwingConstants.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Output Neuron.
 	 */
 	private JButton chooseColorOutput = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Output Neuron.
@@ -181,7 +181,7 @@ public class SettingsPane extends JPanel {
 	 * Button to open a color picker for choosing color for Bias Neuron.
 	 */
 	private JButton chooseColorBias = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Bias Neuron.
@@ -192,13 +192,13 @@ public class SettingsPane extends JPanel {
 	 * Label for Input-Output Neuron.
 	 */
 	private JLabel labelColorInputOutput = new JLabel(
-			Texts.LABEL_INPUT_OUTPUT_NEURON_COLOR, JLabel.RIGHT);
+		Texts.LABEL_INPUT_OUTPUT_NEURON_COLOR, JLabel.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Input-Output Neuron.
 	 */
 	private JButton chooseColorInputOutput = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Input-Output Neuron.
@@ -209,13 +209,13 @@ public class SettingsPane extends JPanel {
 	 * Label for Input-Bias Neuron.
 	 */
 	private JLabel labelColorInputBias = new JLabel(
-			Texts.LABEL_INPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
+		Texts.LABEL_INPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Input-Bias Neuron.
 	 */
 	private JButton chooseColorInputBias = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Input-Bias Neuron.
@@ -226,13 +226,13 @@ public class SettingsPane extends JPanel {
 	 * Label for Output-Bias Neuron.
 	 */
 	private JLabel labelColorOutputBias = new JLabel(
-			Texts.LABEL_OUTPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
+		Texts.LABEL_OUTPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Output-Bias Neuron.
 	 */
 	private JButton chooseColorOutputBias = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Output-Bias Neuron.
@@ -243,14 +243,14 @@ public class SettingsPane extends JPanel {
 	 * Label for Input-Output-Bias Neuron.
 	 */
 	private JLabel labelColorInputOutputBias = new JLabel(
-			Texts.LABEL_INPUT_OUTPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
+		Texts.LABEL_INPUT_OUTPUT_BIAS_NEURON_COLOR, JLabel.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Input-Output-Bias
 	 * Neuron.
 	 */
 	private JButton chooseColorInputOutputBias = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Input-Output-Bias Neuron.
@@ -272,7 +272,7 @@ public class SettingsPane extends JPanel {
 	 * Label for size of neurons' numbers.
 	 */
 	private JLabel labelNeuronsNumbersSize = new JLabel(
-			Texts.LABEL_NEURONS_NUMBERS_SIZE, JLabel.RIGHT);
+		Texts.LABEL_NEURONS_NUMBERS_SIZE, JLabel.RIGHT);
 
 	/**
 	 * Drop down menu for choosing the size of neurons' numbers.
@@ -283,13 +283,13 @@ public class SettingsPane extends JPanel {
 	 * Label for work area background color.
 	 */
 	private JLabel labelWorkAreaBackgroundColor = new JLabel(
-			Texts.LABEL_WORK_AREA_BACKGROUND_COLOR, JLabel.RIGHT);
+		Texts.LABEL_WORK_AREA_BACKGROUND_COLOR, JLabel.RIGHT);
 
 	/**
 	 * Button to open a color picker for choosing color for Input-Bias Neuron.
 	 */
 	private JButton chooseWorkAreaBackgroundColor = new JButton(
-			Texts.LABEL_BUTTON_CHOOSE_COLOR);
+		Texts.LABEL_BUTTON_CHOOSE_COLOR);
 
 	/**
 	 * Field to show the chosen color for Input-Bias Neuron.
@@ -320,7 +320,7 @@ public class SettingsPane extends JPanel {
 	 * Labels dimensions.
 	 */
 	private static final Dimension LABELS_DIMENTIONS = new Dimension(
-			LABELS_WIDTH, LABELS_HEIGHT);
+		LABELS_WIDTH, LABELS_HEIGHT);
 
 	/**
 	 * Buttons width.
@@ -398,7 +398,7 @@ public class SettingsPane extends JPanel {
 	 * Buttons dimensions.
 	 */
 	private static final Dimension BUTTONS_DIMENTIONS = new Dimension(
-			BUTTONS_WIDTH, BUTTONS_HEIGHT);
+		BUTTONS_WIDTH, BUTTONS_HEIGHT);
 
 	/**
 	 * Constraints determining the elements' arrangement in the panel.
@@ -417,14 +417,14 @@ public class SettingsPane extends JPanel {
 
 	/**
 	 * Constructing settings pane.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent class.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 21 Oct 2011
 	 */
 	public SettingsPane(final VitoshaTradeApplet parent) {
@@ -432,7 +432,7 @@ public class SettingsPane extends JPanel {
 
 		add(panel);
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.WIDTH,
-				VitoshaTradeApplet.HEIGHT));
+											VitoshaTradeApplet.HEIGHT));
 
 		/*
 		 * Inserts available neurons sizes.
@@ -566,33 +566,33 @@ public class SettingsPane extends JPanel {
 		chooseColorRegular.addActionListener(new ChooseNeuronColorListener(
 				showColorRegular));
 		chooseColorInput.addActionListener(new ChooseNeuronColorListener(
-				showColorInput));
+											   showColorInput));
 		chooseColorOutput.addActionListener(new ChooseNeuronColorListener(
-				showColorOutput));
+												showColorOutput));
 		chooseColorBias.addActionListener(new ChooseNeuronColorListener(
-				showColorBias));
+											  showColorBias));
 		chooseColorInputOutput.addActionListener(new ChooseNeuronColorListener(
-				showColorInputOutput));
+					showColorInputOutput));
 		chooseColorInputBias.addActionListener(new ChooseNeuronColorListener(
 				showColorInputBias));
 		chooseColorOutputBias.addActionListener(new ChooseNeuronColorListener(
 				showColorOutputBias));
 		chooseColorInputOutputBias
-				.addActionListener(new ChooseNeuronColorListener(
-						showColorInputOutputBias));
+		.addActionListener(new ChooseNeuronColorListener(
+							   showColorInputOutputBias));
 		chooseWorkAreaBackgroundColor
-				.addActionListener(new ChooseNeuronColorListener(
-						showWorkAreaBackgroundColor));
+		.addActionListener(new ChooseNeuronColorListener(
+							   showWorkAreaBackgroundColor));
 
 		save.addActionListener(new ActionListener() {
 
 			/**
 			 * Saves the newly chosen colors to a file.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 21 Oct 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -603,7 +603,7 @@ public class SettingsPane extends JPanel {
 					 * Loads all properties from the property file.
 					 */
 					FileInputStream allProperties = new FileInputStream(
-							PROPERTIES_FILE_NAME);
+						PROPERTIES_FILE_NAME);
 					properties.load(allProperties);
 
 					/*
@@ -611,31 +611,31 @@ public class SettingsPane extends JPanel {
 					 * file.
 					 */
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorRegular,
-							REGULAR_NEURON_COLOR_PROPERTY_KEY, properties);
+						showColorRegular,
+						REGULAR_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(showColorInput,
 							INPUT_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorOutput, OUTPUT_NEURON_COLOR_PROPERTY_KEY,
-							properties);
+						showColorOutput, OUTPUT_NEURON_COLOR_PROPERTY_KEY,
+						properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(showColorBias,
 							BIAS_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorInputOutput,
-							INPUT_OUTPUT_NEURON_COLOR_PROPERTY_KEY, properties);
+						showColorInputOutput,
+						INPUT_OUTPUT_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorInputBias,
-							INPUT_BIAS_NEURON_COLOR_PROPERTY_KEY, properties);
+						showColorInputBias,
+						INPUT_BIAS_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorOutputBias,
-							OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY, properties);
+						showColorOutputBias,
+						OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY, properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showColorInputOutputBias,
-							INPUT_OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY,
-							properties);
+						showColorInputOutputBias,
+						INPUT_OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY,
+						properties);
 					writeNeuronsTypesAndWorkAreaBackgroundColor(
-							showWorkAreaBackgroundColor,
-							WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY, properties);
+						showWorkAreaBackgroundColor,
+						WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY, properties);
 
 					/*
 					 * Calls a function to save the newly chosen neurons size to
@@ -650,7 +650,7 @@ public class SettingsPane extends JPanel {
 					writeNeuronsNumbersSize(properties);
 
 					FileOutputStream out = new FileOutputStream(
-							PROPERTIES_FILE_NAME);
+						PROPERTIES_FILE_NAME);
 					properties.store(out, "");
 					allProperties.close();
 					out.close();
@@ -666,11 +666,11 @@ public class SettingsPane extends JPanel {
 
 			/**
 			 * Closes the settings pane and goes to the screen for loading ANN.
-			 * 
+			 *
 			 * @author Ralitza Koleva
-			 * 
+			 *
 			 * @email rallly@abv.bg
-			 * 
+			 *
 			 * @date 10 Nov 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -682,21 +682,21 @@ public class SettingsPane extends JPanel {
 	/**
 	 * Reads the current neuron types colors and work area background color from
 	 * a file and shows the colors in their corresponding fields.
-	 * 
+	 *
 	 * @param showNeuronColorField
 	 *            The text field to be colored in the current color.
-	 * 
+	 *
 	 * @param colorProperty
 	 *            The parameter name, containing the color.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 21 Oct 2011
 	 */
 	public void readNeuronsTypesAndWorkAreaBackgroundColor(
-			JTextField showNeuronColorField, String colorProperty) {
+		JTextField showNeuronColorField, String colorProperty) {
 		try {
 			Properties properties = new Properties();
 			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
@@ -712,40 +712,40 @@ public class SettingsPane extends JPanel {
 	/**
 	 * Writes the new neuron types colors and the new work area background color
 	 * to a file.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param showNeuronColorField
 	 *            The text field to be colored in the current color.
-	 * 
+	 *
 	 * @param colorProperty
 	 *            The parameter name, containing the color.
-	 * 
+	 *
 	 * @param properties
 	 *            Properties to store the neuron types colors.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 21 Oct 2011
 	 */
 	public void writeNeuronsTypesAndWorkAreaBackgroundColor(
-			JTextField showNeuronColorField, String colorProperty,
-			Properties properties) {
+		JTextField showNeuronColorField, String colorProperty,
+		Properties properties) {
 
 		String color = Integer.toString(showNeuronColorField.getBackground()
-				.getRGB());
+										.getRGB());
 		properties.setProperty(colorProperty, color);
 	}
 
 	/**
 	 * Reads the current neurons size from a file and selects it in the
 	 * available sizes combobox.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 06 Dec 2011
 	 */
 	public void readNeuronsSize() {
@@ -763,11 +763,11 @@ public class SettingsPane extends JPanel {
 	/**
 	 * Reads the current neurons' numbers size from a file and selects it in the
 	 * available sizes combobox.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 23 Nov 2011
 	 */
 	public void readNeuronsNumbersSize() {
@@ -776,7 +776,7 @@ public class SettingsPane extends JPanel {
 			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int currentNeuronsNumberSize = Integer.parseInt(properties
-					.getProperty("NeuronsNumbersSize"));
+										   .getProperty("NeuronsNumbersSize"));
 			chooseNeuronsNumbersSize.setSelectedItem(currentNeuronsNumberSize);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -785,64 +785,64 @@ public class SettingsPane extends JPanel {
 
 	/**
 	 * Writes the new size of neurons to a file.
-	 * 
+	 *
 	 * @param properties
 	 *            Properties to store the size of neurons.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 06 Dec 2011
 	 */
 	public void writeNeuronsSize(Properties properties) {
 		String neuronsSelectedSize = chooseNeuronsSize.getSelectedItem()
-				.toString();
+									 .toString();
 		properties.setProperty("NeuronsSize", neuronsSelectedSize);
 	}
 
 	/**
 	 * Writes the new size of neurons' numbers to a file.
-	 * 
+	 *
 	 * @param properties
 	 *            Properties to store the size of neurons' numbers.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 23 Nov 2011
 	 */
 	public void writeNeuronsNumbersSize(Properties properties) {
 		String neuronsNumbersSelectedSize = chooseNeuronsNumbersSize
-				.getSelectedItem().toString();
+											.getSelectedItem().toString();
 		properties
-				.setProperty("NeuronsNumbersSize", neuronsNumbersSelectedSize);
+		.setProperty("NeuronsNumbersSize", neuronsNumbersSelectedSize);
 	}
 
 	/**
 	 * Helps arranging the elements on the screen.
-	 * 
+	 *
 	 * @param component
 	 *            The component to be placed inside the panel.
-	 * 
+	 *
 	 * @param gridX
 	 *            X-coordinate of the component.
-	 * 
+	 *
 	 * @param gridY
 	 *            Y-coordinate of the component.
-	 * 
+	 *
 	 * @param editable
 	 *            Determines whether the component is enabled.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 25 Oct 2011
 	 */
 	public void arrangeElements(JComponent component, int gridX, int gridY,
-			boolean enabled) {
+								boolean enabled) {
 		constraints.gridx = gridX;
 		constraints.gridy = gridY;
 		constraints.insets = new Insets(10, 10, 8, 10);

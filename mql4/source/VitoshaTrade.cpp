@@ -35,13 +35,14 @@
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 
+#include <windows.h>
+
 #include <vector>
 
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 
 #include "../../client/source/Trainer.h"
 #include "../../client/source/RateInfo.h"
@@ -49,7 +50,12 @@
 
 #include "pdh.h"
 
-#include "VitoshaTrade.h"
+using namespace std;
+
+/**
+ * DLL functions prototype style.
+ */
+#define MT4_EXPFUNC __declspec(dllexport)
 
 /**
  * Thread identifier.
@@ -296,10 +302,42 @@ DWORD WINAPI run(void *arg) {
 	LeaveCriticalSection( &criticalSection );
 }
 
+/**
+ * Show about message dialog.
+ *
+ * @author Todor Balabanov
+ *
+ * @email tdb@tbsoft.eu
+ *
+ * @date 07 Apr 2009
+ */
 MT4_EXPFUNC void about() {
 	//MessageBox(NULL, "Forex forecasting.", "About VitoshaTrade", 0);
 }
 
+/**
+ * Start predictor instance and calculation loop of it.
+ *
+ * @param dbId Database identifier of specific record.
+ *
+ * @param symbol Forex symbol for trading.
+ *
+ * @param period Chart period value.
+ *
+ * @param neuronsAmount Neurons amout to be used if predictor will not be loaded from database.
+ *
+ * @param populationSize Population size to be used if predictor will not be loaded from database.
+ *
+ * @param bars Learning bars interval.
+ *
+ * @param bars Prediction bars interval.
+ *
+ * @author Todor Balabanov
+ *
+ * @email tdb@tbsoft.eu
+ *
+ * @date 07 Apr 2009
+ */
 MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
 	/*
 	 * Initialize critical section object.
@@ -380,6 +418,15 @@ MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int pe
 	//MessageBox(NULL, netType, "Network type:", 0);
 }
 
+/**
+ * Stop predictor and its loop.
+ *
+ * @author Todor Balabanov
+ *
+ * @email tdb@tbsoft.eu
+ *
+ * @date 07 Apr 2009
+ */
 MT4_EXPFUNC void stopPredictor() {
 	/*
 	 * Deactivate calculation thread.
@@ -399,6 +446,19 @@ MT4_EXPFUNC void stopPredictor() {
 	//MessageBox(NULL, "Indicator stop!", "Closing...", 0);
 }
 
+/**
+ * Load chart historical data.
+ *
+ * @param rates Chart time series.
+ *
+ * @param size Size of the time series.
+ *
+ * @author Todor Balabanov
+ *
+ * @email tdb@tbsoft.eu
+ *
+ * @date 11 Aug 2009
+ */
 MT4_EXPFUNC void loadChartData(double rates[][6], int size) {
 	/*
 	 * Return if there is no conditions to update.
@@ -467,6 +527,17 @@ MT4_EXPFUNC void loadChartData(double rates[][6], int size) {
 	}
 }
 
+/**
+ * Load historical data into predictig module.
+ *
+ * @return Prediction price value.
+ *
+ * @author Iliyan Zankinski
+ *
+ * @email iliyan_mf@abv.bg
+ *
+ * @date 26 Jul 2009
+ */
 MT4_EXPFUNC double prediction() {
 	return( predictedValue );
 }

@@ -42,15 +42,15 @@ void ActivitiesMatrix::setAllToMax() {
 }
 
 ActivitiesMatrix::ActivitiesMatrix() : GraphMatrix() {
-   setAllToMax();
+	setAllToMax();
 }
 
 ActivitiesMatrix::ActivitiesMatrix(int size) : GraphMatrix(size) {
-   setAllToMax();
+	setAllToMax();
 }
 
 ActivitiesMatrix::ActivitiesMatrix(const ActivitiesMatrix &activities) : GraphMatrix(activities) {
-   setAllToMax();
+	setAllToMax();
 }
 
 void ActivitiesMatrix::normalize() {

@@ -42,11 +42,11 @@ import javax.swing.JComboBox;
 
 /**
  * Panel with GUI controls for Neural Network Management.
- * 
+ *
  * @author Momchil Anachkov
- * 
+ *
  * @email mZer0000@gmail.com
- * 
+ *
  * @date 18 Nov 2010
  */
 public class NetworkPane extends JPanel {
@@ -54,11 +54,11 @@ public class NetworkPane extends JPanel {
 	/**
 	 * Determines what filter should be applied when symbol and/or period are
 	 * changed.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 30 Oct 2011
 	 */
 	private class SetFiltersBySimbolAndPeriod implements ItemListener {
@@ -66,11 +66,11 @@ public class NetworkPane extends JPanel {
 		/**
 		 * Calls functions to apply different filters depending on the chosen
 		 * values in the drop down menus for currency pair and period.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 30 Oct 2011
 		 */
 		public void itemStateChanged(ItemEvent event) {
@@ -82,7 +82,7 @@ public class NetworkPane extends JPanel {
 			if ((networkSymbol.getItemCount() == 0 || "---"
 					.equals(networkSymbol.getSelectedItem()) == true)
 					&& (networkPeriod.getItemCount() == 0 || "---"
-							.equals(networkPeriod.getSelectedItem()) == true)) {
+						.equals(networkPeriod.getSelectedItem()) == true)) {
 
 				/*
 				 * Loads all ANN IDs.
@@ -95,9 +95,9 @@ public class NetworkPane extends JPanel {
 			 * are shown in the ANN ID JComboBox.
 			 */
 			else if ((networkSymbol.getItemCount() > 0 && "---"
-					.equals(networkSymbol.getSelectedItem()) == false)
-					&& (networkPeriod.getItemCount() > 0 && "---"
-							.equals(networkPeriod.getSelectedItem()) == false)) {
+					  .equals(networkSymbol.getSelectedItem()) == false)
+					 && (networkPeriod.getItemCount() > 0 && "---"
+						 .equals(networkPeriod.getSelectedItem()) == false)) {
 
 				/*
 				 * Loads ANN IDs depending on the chosen symbol and period.
@@ -113,9 +113,9 @@ public class NetworkPane extends JPanel {
 				 * shown in the ANN ID JComboBox.
 				 */
 			} else if ((networkSymbol.getItemCount() > 0 && "---"
-					.equals(networkSymbol.getSelectedItem()) == false)
-					&& (networkPeriod.getItemCount() > 0 && "---"
-							.equals(networkPeriod.getSelectedItem()) == true)) {
+						.equals(networkSymbol.getSelectedItem()) == false)
+					   && (networkPeriod.getItemCount() > 0 && "---"
+						   .equals(networkPeriod.getSelectedItem()) == true)) {
 
 				/*
 				 * Loads ANN IDs depending on the chosen symbol.
@@ -131,9 +131,9 @@ public class NetworkPane extends JPanel {
 				 * shown in the ANN ID JComboBox.
 				 */
 			} else if ((networkSymbol.getItemCount() > 0 && "---"
-					.equals(networkSymbol.getSelectedItem()) == true)
-					&& (networkPeriod.getItemCount() > 0 && "---"
-							.equals(networkPeriod.getSelectedItem()) == false)) {
+						.equals(networkSymbol.getSelectedItem()) == true)
+					   && (networkPeriod.getItemCount() > 0 && "---"
+						   .equals(networkPeriod.getSelectedItem()) == false)) {
 
 				/*
 				 * Load ANN IDs depending on the chosen period.
@@ -148,11 +148,11 @@ public class NetworkPane extends JPanel {
 
 		/**
 		 * Shows all ANN IDs in the ANN ID JComboBox.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 29 Oct 2011
 		 */
 		public void setAllAnnIds() {
@@ -166,21 +166,21 @@ public class NetworkPane extends JPanel {
 
 		/**
 		 * Shows ANN IDs in the ANN ID JComboBox filtered by symbol and period.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 29 Oct 2011
 		 */
 		public void setFilteredAnnIdsBySymbolAndPeriod() {
 			String selectedSymbol = networkSymbol.getSelectedItem().toString();
 			int selectedPeriod = ((SymbolPeriodKeyValue) networkPeriod
-					.getSelectedItem()).getKey();
+								  .getSelectedItem()).getKey();
 			networkId.removeAllItems();
 			networkId.addItem("---");
 			String listFilteredId[][] = parent.dbHelp.loadAnnList(
-					selectedSymbol, selectedPeriod);
+											selectedSymbol, selectedPeriod);
 			try {
 				for (int i = 0; i < listFilteredId.length; i++) {
 					networkId.addItem(listFilteredId[i][2]);
@@ -192,20 +192,20 @@ public class NetworkPane extends JPanel {
 
 		/**
 		 * Shows ANN IDs in the ANN ID JComboBox filtered by period.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 29 Oct 2011
 		 */
 		public void setFilteredAnnIdsByPeriod() {
 			int selectedPeriod = ((SymbolPeriodKeyValue) networkPeriod
-					.getSelectedItem()).getKey();
+								  .getSelectedItem()).getKey();
 			networkId.removeAllItems();
 			networkId.addItem("---");
 			String listFilteredId[][] = parent.dbHelp
-					.loadAnnListByPeriod(selectedPeriod);
+										.loadAnnListByPeriod(selectedPeriod);
 			try {
 				for (int i = 0; i < listFilteredId.length; i++) {
 					networkId.addItem(listFilteredId[i][2]);
@@ -217,11 +217,11 @@ public class NetworkPane extends JPanel {
 
 		/**
 		 * Shows ANN IDs in the ANN ID JComboBox filtered by symbol.
-		 * 
+		 *
 		 * @author Ralitza Koleva
-		 * 
+		 *
 		 * @email rallly@abv.bg
-		 * 
+		 *
 		 * @date 29 Oct 2011
 		 */
 		public void setFilteredAnnIdsBySymbol() {
@@ -229,7 +229,7 @@ public class NetworkPane extends JPanel {
 			networkId.removeAllItems();
 			networkId.addItem("---");
 			String listFilteredId[][] = parent.dbHelp
-					.loadAnnListBySymbol(selectedSymbol);
+										.loadAnnListBySymbol(selectedSymbol);
 			try {
 				for (int i = 0; i < listFilteredId.length; i++) {
 					networkId.addItem(listFilteredId[i][2]);
@@ -282,20 +282,20 @@ public class NetworkPane extends JPanel {
 
 	/**
 	 * Constructing network pane.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent class.
-	 * 
+	 *
 	 * @author Momchil Anachkov
-	 * 
+	 *
 	 * @email mZer0000@gmail.com
-	 * 
+	 *
 	 * @date 18 Nov 2010
 	 */
 	public NetworkPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-				VitoshaTradeApplet.EAST_PANE_HEIGHT));
+											VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
@@ -324,7 +324,7 @@ public class NetworkPane extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					int ann_id = Integer.parseInt((String) networkId
-							.getSelectedItem());
+												  .getSelectedItem());
 					parent.ann = parent.dbHelp.loadAnn(ann_id);
 					parent.workArea.repaint();
 				} catch (Exception ex) {
@@ -379,7 +379,7 @@ public class NetworkPane extends JPanel {
 				 */
 				for (int i = 0; i < listPeriod.length; i++) {
 					networkPeriod.addItem(new SymbolPeriodKeyValue(
-							listPeriod[i][0], listPeriod[i][1]));
+											  listPeriod[i][0], listPeriod[i][1]));
 				}
 			}
 		});
@@ -387,18 +387,18 @@ public class NetworkPane extends JPanel {
 
 	/**
 	 * Shows a message if no ANN ID is selected to load/save.
-	 * 
+	 *
 	 * @author Ralitza Koleva
-	 * 
+	 *
 	 * @email rallly@abv.bg
-	 * 
+	 *
 	 * @date 05 Dec 2011
 	 */
 	private void showInformationMessage() {
 		InformationMessages error = new InformationMessages(
-				Texts.INFORMATION_SELECT_ANN_ID,
-				Texts.INFORMATION_SELECT_ANN_ID_TITLE,
-				JOptionPane.INFORMATION_MESSAGE);
+			Texts.INFORMATION_SELECT_ANN_ID,
+			Texts.INFORMATION_SELECT_ANN_ID_TITLE,
+			JOptionPane.INFORMATION_MESSAGE);
 		error.showMessage();
 	}
 }

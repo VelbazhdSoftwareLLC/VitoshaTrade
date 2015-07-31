@@ -48,36 +48,36 @@ json_global_decl(json_string, CONST_FALSE, JSON_TEXT("false"));
 json_global_decl(json_string, CONST_NULL, JSON_TEXT("null"));
 
 #ifndef JSON_NEWLINE
-	json_global_decl(json_string, NEW_LINE, JSON_TEXT("\n"));
+json_global_decl(json_string, NEW_LINE, JSON_TEXT("\n"));
 #else
-	json_global_decl_strconfig(json_string, NEW_LINE, JSON_NEWLINE);
+json_global_decl_strconfig(json_string, NEW_LINE, JSON_NEWLINE);
 #endif
 
 #ifdef JSON_WRITE_BASH_COMMENTS
-	json_global_decl(json_string, SINGLELINE_COMMENT, JSON_TEXT("#"));
+json_global_decl(json_string, SINGLELINE_COMMENT, JSON_TEXT("#"));
 #else
-	json_global_decl(json_string, SINGLELINE_COMMENT, JSON_TEXT("//"));
+json_global_decl(json_string, SINGLELINE_COMMENT, JSON_TEXT("//"));
 #endif
 
 #ifdef JSON_INDENT
-	json_global_decl_strconfig(json_string, INDENT, JSON_INDENT);
+json_global_decl_strconfig(json_string, INDENT, JSON_INDENT);
 #endif
 
 #ifdef JSON_MUTEX_CALLBACKS
-	#include <map>
-	json_global_decl(JSON_MAP(void *, unsigned int), MUTEX_MANAGER, );
-	json_global_decl(JSON_MAP(int, JSON_MAP(void *, unsigned int) ), THREAD_LOCKS, );
+#include <map>
+json_global_decl(JSON_MAP(void *, unsigned int), MUTEX_MANAGER, );
+json_global_decl(JSON_MAP(int, JSON_MAP(void *, unsigned int) ), THREAD_LOCKS, );
 #endif
 
 #ifdef JSON_LIBRARY
-	#ifdef JSON_MEMORY_MANAGE
-		#include "JSONMemory.h"
-		json_global_decl(auto_expand, STRING_HANDLER, );
-		json_global_decl(auto_expand_node, NODE_HANDLER, );
-		#ifdef JSON_STREAM
-			json_global_decl(auto_expand_stream, STREAM_HANDLER, );
-		#endif
-	#endif
+#ifdef JSON_MEMORY_MANAGE
+#include "JSONMemory.h"
+json_global_decl(auto_expand, STRING_HANDLER, );
+json_global_decl(auto_expand_node, NODE_HANDLER, );
+#ifdef JSON_STREAM
+json_global_decl(auto_expand_stream, STREAM_HANDLER, );
+#endif
+#endif
 #endif
 
 //These are common error responses
