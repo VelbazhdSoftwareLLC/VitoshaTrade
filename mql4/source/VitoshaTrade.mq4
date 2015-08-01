@@ -29,20 +29,12 @@
  *                                                                             *
  ******************************************************************************/
 
-#property copyright "Copyright © 2008-2014, Todor Balabanov"
+#property copyright "Copyright © 2008-2015, Todor Balabanov"
 #property link "http://vitoshatrade.veldsoft.eu/"
 #property version "1.001"
 #property strict
 #property indicator_chart_window
 #property indicator_buffers 0
-
-#import "VitoshaTrade.dll"
-double _Z10predictionv();
-void _Z13loadChartDataPA6_di(double &rates[][6], int size);
-void _Z13stopPredictorv();
-void _Z14startPredictoriPKciiiii(int dbId, char &symbol[], int period, int neuronsAmount, int populationSize, int learn, int bars);
-void _Z5aboutv();
-#import
 
 /**
  * Right arrow symbol.
@@ -142,7 +134,18 @@ void sendDataToPredictor() {
 		}
 	}
 
-	//_Z13loadChartDataPA6_di(rates, TRAINING_BARS);
+	/*
+	 * Send rates to the predictor.
+	 */{
+		int file = FileOpen("rates.txt", FILE_CSV|FILE_WRITE, ' ');
+		FileWrite(file, size);
+		for(int i=0; i<size; i++) {
+			for(int r=0; r<6; r++) {
+				FileWrite(file, rates[i][r]);
+			}
+		}
+		FileClose(file);
+	}
 }
 
 /**
@@ -157,11 +160,6 @@ void sendDataToPredictor() {
  * @date 01 Aug 2014
  */
 int OnInit() {
-	/*
-	 * Show about box as welcome screen.
-	 */
-	//_Z5aboutv();
-
 	/*
 	 * Validate input data.
 	 */
@@ -197,9 +195,20 @@ int OnInit() {
 	/*
 	 * Initialize predictor.
 	 */
-	char value[255];
-	StringToCharArray(Symbol(), value);
-	//_Z14startPredictoriPKciiiii(PREDICTOR_ID, value, Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+	{
+		int file = FileOpen("start.txt", FILE_CSV|FILE_WRITE, ' ');
+		FileWrite(file, PREDICTOR_ID, Symbol(), Period(), NEURONS_AMOUNT, POPULATION_SIZE, INSPECT_BARS, PREDICT_BARS);
+		FileClose(file);
+	}
+
+	/*
+	 * Run predictor.
+	 */{
+		int file = FileOpen("running.txt", FILE_CSV|FILE_WRITE, ' ');
+		FileWrite(file, "true");
+		FileClose(file);
+	}
+	//TODO Start VitoshaTrade executable.
 
 	return( 0 );
 }
@@ -228,8 +237,11 @@ void OnDeinit(const int reason) {
 
 	/*
 	 * Stop and destroy predictor.
-	 */
-	//_Z13stopPredictorv();
+	 */{
+		int file = FileOpen("running.txt", FILE_CSV|FILE_WRITE, ' ');
+		FileWrite(file, "false");
+		FileClose(file);
+	}
 }
 
 /**
@@ -286,7 +298,18 @@ int OnCalculate(const int rates_total,
 	 */
 	static double lastValue = 0.0;
 	double value = 0.0;
-	//value = _Z10predictionv();
+	bool successful = false;
+	/*
+	 * Run predictor.
+	 */
+	{
+		int file = FileOpen("prediction.txt", FILE_CSV|FILE_READ, ' ');
+		if(file != INVALID_HANDLE) {
+			value = FileReadNumber(file);
+			FileClose(file);
+			successful = true;
+		}
+	}
 
 	/*
 	 * Denormalize prediction.
@@ -304,9 +327,16 @@ int OnCalculate(const int rates_total,
 	value = min + value*(max-min);
 
 	/*
+	 * When there is no prediction put the average between ask and bid level.
+	 */
+	if(successful == false) {
+		value = (Ask + Bid) / 2.0;
+	}
+
+	/*
 	 * Display prediction.
 	 */
-	if (value==0.0 && lastValue==0.0) {
+	if (lastValue == 0.0) {
 		ObjectSetText("text", "Calculating ...", 8, "Arial", TEXT_COLOR);
 	} else {
 		ObjectCreate("arrow", OBJ_ARROW, 0, Time[0], WindowPriceMax());
@@ -341,7 +371,7 @@ int OnCalculate(const int rates_total,
 	/*
 	 * Keep value predicted on the previous call.
 	 */
-	if (value != 0.0) {
+	if (successful == true) {
 		lastValue = value;
 	}
 
