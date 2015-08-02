@@ -36,6 +36,10 @@
 #property indicator_chart_window
 #property indicator_buffers 0
 
+#import "shell32.dll"
+int ShellExecuteW(int hwnd,string Operation,string File,string Parameters,string Directory,int ShowCmd);
+#import
+
 /**
  * Right arrow symbol.
  */
@@ -208,7 +212,8 @@ int OnInit() {
 		FileWrite(file, "true");
 		FileClose(file);
 	}
-	//TODO Start VitoshaTrade executable.
+	ShellExecuteW(0, "Open", TerminalPath()+"/MQL4/Indicators/VitoshaTrade/VitoshaTrade.exe", "", TerminalPath()+"/MQL4/Files", 1);
+	Sleep(500);
 
 	return( 0 );
 }
