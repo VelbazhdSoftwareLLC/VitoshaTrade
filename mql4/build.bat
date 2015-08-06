@@ -98,7 +98,7 @@ rem ############################################################################
 del *.o
 del *.a
 del *.def
-del VitoshaTrade.dll
+del VitoshaTrade.exe
 
 rem ############################################################################
 rem # Compiling.                                                               #
@@ -111,14 +111,13 @@ g++ %INCLUDES% -D NDEBUG -c -w ../source/*.cpp -DBUILDING_DLL=1
 rem ############################################################################
 rem # Linking.                                                                 #
 rem ############################################################################
-rem ar rcs libVitoshaTrade.a *.o
-dllwrap --output-def VitoshaTrade.def *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a ../libraries/libjson.a --no-export-all-symbols --add-stdcall-alias --dllname VitoshaTrade.dll -lstdc++
+g++ -o VitoshaTrade.exe *.o ../libraries/libcurldll.a ../libraries/libws2_32.a ../libraries/libpdh.a ../libraries/libjson.a -lstdc++
 
 rem ############################################################################
 rem # Deploy binaries. The parameter %~dp1 is MT4 install folder.              #
 rem ############################################################################
 md "%~dp1MQL4\Indicators\VitoshaTrade"
-copy *.dll "%~dp1MQL4\Indicators\VitoshaTrade\"
+copy *.exe "%~dp1MQL4\Indicators\VitoshaTrade\"
 copy ..\libraries\libcurl.dll "%~dp1MQL4\Indicators\VitoshaTrade\"
 copy ..\source\*.mq4 "%~dp1MQL4\Indicators\VitoshaTrade\"
 
@@ -128,7 +127,7 @@ rem ############################################################################
 del *.o
 del *.a
 del *.def
-del VitoshaTrade.dll
+del VitoshaTrade.exe
 
 rem ############################################################################
 rem # Compile Java based back end system.                                      #

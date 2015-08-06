@@ -325,7 +325,7 @@ int OnCalculate(const int rates_total,
 		if(low[i] < min) {
 			min = low[ i ];
 		}
-		if(high[i] < max) {
+		if(high[i] > max) {
 			max = high[ i ];
 		}
 	}
