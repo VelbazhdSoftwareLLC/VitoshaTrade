@@ -204,7 +204,7 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, c
 	if (list.size()>0 && numberOfNeurons>0) {
 		neuronsAmount = numberOfNeurons;
 
-		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.forecast, period);
 		ann = annInstance;
 	} else if (list.size() == 0) {
 		/*
@@ -218,7 +218,7 @@ void HttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &de, c
 		 * Create new network if no record presented in database.
 		 * Input and output neurons should be specified on network creation.
 		 */
-		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.forecast, period);
 		ann = annInstance;
 		ann.setupInput( TrainingExample::NUMBER_OF_INPUT_SPLIT_DIGITS );
 		ann.setupOutput( TrainingExample::NUMBER_OF_OUTPUT_SPLIT_DIGITS );

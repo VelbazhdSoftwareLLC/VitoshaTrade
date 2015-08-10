@@ -492,7 +492,7 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 	if (list.size()>0 && numberOfNeurons>0) {
 		neuronsAmount = numberOfNeurons;
 
-		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.forecast, period);
 		ann = annInstance;
 	} else if (list.size() == 0) {
 		neuronsAmount = parameters.neuronsAmount;
@@ -508,7 +508,7 @@ void JsonHttpCommunicator::loadTrainerObjects(Counter &counters, ANN &ann, DE &d
 		 * Create new network if no record presented in database.
 		 * Input and output neurons should be specified on network creation.
 		 */
-		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.bars, period);
+		ANN annInstance(&counters, neuronsAmount, parameters.learn, parameters.forecast, period);
 		ann = annInstance;
 		ann.setupInput( parameters.inputSize );
 		ann.setupOutput( parameters.outputSize );

@@ -78,6 +78,117 @@ static double predictedValue = 0.0;
 static ModelParameters init;
 
 /**
+ * Write to file the prediction.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 10 Aug 2015
+ */
+void checkPrediction() {
+	FILE *file = fopen("prediction.txt", "wt");
+	if(file == NULL) {
+		return;
+	}
+
+	fprintf(file, "%lf", predictedValue);
+	fclose(file);
+}
+
+/**
+ * Read from file initial parameters.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 10 Aug 2015
+ */
+void checkInit() {
+	FILE *file = fopen("start.txt", "rt");
+	if(file == NULL) {
+		isRunning = false;
+		return;
+	}
+
+	static int period;
+	fscanf(file, "%d", &init.dbId);
+	fscanf(file, "%s", init.symbol);
+	fscanf(file, "%d", &period);
+	fscanf(file, "%d", &init.neuronsAmount);
+	fscanf(file, "%d", &init.populationSize);
+	fscanf(file, "%d", &init.learn);
+	fscanf(file, "%d", &init.forecast);
+	fclose(file);
+
+	init.inputSize = init.learn;
+	init.outputSize = init.forecast;
+
+	switch( period ) {
+	case M1:
+		init.period = M1;
+		break;
+	case M5:
+		init.period = M5;
+		break;
+	case M15:
+		init.period = M15;
+		break;
+	case M30:
+		init.period = M30;
+		break;
+	case H1:
+		init.period = H1;
+		break;
+	case H4:
+		init.period = H4;
+		break;
+	case D1:
+		init.period = D1;
+		break;
+	case W1:
+		init.period = W1;
+		break;
+	case MN1:
+		init.period = MN1;
+		break;
+	default:
+		init.period = NO;
+		break;
+	}
+}
+
+/**
+ * Read from file is running state.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 10 Aug 2015
+ */
+void checkIsRunning() {
+	FILE *file = fopen("running.txt", "rt");
+	if(file == NULL) {
+		isRunning = false;
+		return;
+	}
+
+	static char line[256];
+	fscanf(file, "%s", line);
+	if(strcmp(line,"true") == 0) {
+		isRunning = true;
+	} else if(strcmp(line,"false") == 0) {
+		isRunning = false;
+	} else {
+		isRunning = false;
+	}
+
+	fclose(file);
+}
+
+/**
  * Measure CPU overload by using Microsoft performance data helper.
  *
  * @return CPU overload in percent.
@@ -253,9 +364,9 @@ MT4_EXPFUNC void about() {
  *
  * @param populationSize Population size to be used if predictor will not be loaded from database.
  *
- * @param bars Learning bars interval.
+ * @param learn Learning bars interval.
  *
- * @param bars Prediction bars interval.
+ * @param forecast Prediction bars interval.
  *
  * @author Todor Balabanov
  *
@@ -263,7 +374,7 @@ MT4_EXPFUNC void about() {
  *
  * @date 07 Apr 2009
  */
-MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int bars) {
+MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int period, const int neuronsAmount, const int populationSize, const int learn, const int forecast) {
 	/*
 	 * Fill init trainer structure.
 	 */
@@ -304,9 +415,9 @@ MT4_EXPFUNC void startPredictor(const int dbId, const char *symbol, const int pe
 	init.neuronsAmount = neuronsAmount;
 	init.populationSize = populationSize;
 	init.learn = learn;
-	init.bars = bars;
+	init.forecast = forecast;
 	init.inputSize = learn;
-	init.outputSize = bars;
+	init.outputSize = forecast;
 
 	char netType[ 100 ] = "";
 	sprintf(netType, "%s%d", symbol, period);
@@ -428,6 +539,14 @@ int WINAPI WinMain(HINSTANCE hInstance,         HINSTANCE hPrevInstance,        
 	srand( time(NULL) );
 
 	/*
+	 * Initial check of the state.
+	 */
+	checkIsRunning();
+	checkInit();
+
+	//TODO Make training set available.
+
+	/*
 	 * Allocate memory for trainer object.
 	 */
 	try {
@@ -451,11 +570,11 @@ int WINAPI WinMain(HINSTANCE hInstance,         HINSTANCE hPrevInstance,        
 	/*
 	 * Application loop.
 	 */
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	while (isRunning == true) {
+		checkIsRunning();
 		run(NULL);
+		checkPrediction();
+		//TODO Check rates.
 	}
 
 	/*
@@ -471,5 +590,5 @@ int WINAPI WinMain(HINSTANCE hInstance,         HINSTANCE hPrevInstance,        
 	}
 	trainer = NULL;
 
-	return (int) msg.wParam;
+	return (int) 0;
 }

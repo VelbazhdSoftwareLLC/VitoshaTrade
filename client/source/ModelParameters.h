@@ -88,7 +88,7 @@ struct ModelParameters {
 	/**
 	 * Number of future bars where prediction will be needed.
 	 */
-	int bars;
+	int forecast;
 };
 
 #endif

@@ -115,6 +115,9 @@ void sendDataToPredictor() {
 	 */
 	if(size < TRAINING_BARS) {
 		return;
+	} else {
+		//TODO Check for bars order.
+		size = TRAINING_BARS;
 	}
 
 	/*
