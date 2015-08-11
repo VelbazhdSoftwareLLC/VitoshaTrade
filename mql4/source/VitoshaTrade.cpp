@@ -78,6 +78,102 @@ static double predictedValue = 0.0;
 static ModelParameters init;
 
 /**
+ * Update training set helper function.
+ *
+ * @param values Rates vector.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 11 Aug 2015
+ */
+void updateTrainingSet(std::vector<RateInfo> &values) {
+	static bool firstTime = true;
+	if (firstTime == true) {
+		try {
+			if (trainer != NULL) {
+				trainer->updateTrainingSet(values, values.size());
+			} else {
+				isRunning = false;
+				fprintf(stderr, "%s %s\n", "              VitoshaTrade00187", "Calculation process stopped.");
+			}
+		} catch (const char* message) {
+			isRunning = false;
+			fprintf(stderr, "%s %s\n", "              VitoshaTrade00188", message);
+		} catch (...) {
+			isRunning = false;
+			fprintf(stderr, "%s %s\n", "              VitoshaTrade00189", "Calculation process stopped.");
+		}
+
+		firstTime = false;
+	} else {
+		try {
+			if (trainer != NULL) {
+				trainer->updateTrainingSet(values, values.size());
+			} else {
+				isRunning = false;
+				fprintf(stderr, "%s %s\n", "              VitoshaTrade00190", "Calculation process stopped.");
+			}
+		} catch (const char* message) {
+			isRunning = false;
+			fprintf(stderr, "%s %s\n", "              VitoshaTrade00191", message);
+		} catch (...) {
+			isRunning = false;
+			fprintf(stderr, "%s %s\n", "              VitoshaTrade00192", "Calculation process stopped.");
+		}
+	}
+}
+
+/**
+ * Read from file the rates.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 11 Aug 2015
+ */
+void checkRates() {
+	FILE *file = fopen("rates.txt", "rt");
+	if(file == NULL) {
+		isRunning = false;
+		return;
+	}
+
+	static double value;
+	static int size;
+	fscanf(file, "%d", &size);
+
+	/*
+	 * 0 - time
+	 * 1 - open
+	 * 2 - low
+	 * 3 - high
+	 * 4 - close
+	 * 5 - volume
+	 */
+	std::vector<RateInfo> values( size );
+	for(int i=0; i<size; i++) {
+		fscanf(file, "%lf", &value);
+		values[i].time = value;
+		fscanf(file, "%lf", &value);
+		values[i].open = value;
+		fscanf(file, "%lf", &value);
+		values[i].low = value;
+		fscanf(file, "%lf", &value);
+		values[i].high = value;
+		fscanf(file, "%lf", &value);
+		values[i].close = value;
+		fscanf(file, "%lf", &value);
+		values[i].volume = value;
+	}
+	fclose(file);
+
+	updateTrainingSet(values);
+}
+
+/**
  * Write to file the prediction.
  *
  * @author Todor Balabanov
@@ -481,40 +577,7 @@ MT4_EXPFUNC void loadChartData(double rates[][6], int size) {
 		values[i].volume = rates[i][5];
 	}
 
-	static bool firstTime = true;
-	if (firstTime == true) {
-		try {
-			if (trainer != NULL) {
-				trainer->updateTrainingSet(values, size);
-			} else {
-				isRunning = false;
-				fprintf(stderr, "%s %s\n", "              VitoshaTrade00187", "Calculation process stopped.");
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			fprintf(stderr, "%s %s\n", "              VitoshaTrade00188", message);
-		} catch (...) {
-			isRunning = false;
-			fprintf(stderr, "%s %s\n", "              VitoshaTrade00189", "Calculation process stopped.");
-		}
-
-		firstTime = false;
-	} else {
-		try {
-			if (trainer != NULL) {
-				trainer->updateTrainingSet(values, size);
-			} else {
-				isRunning = false;
-				fprintf(stderr, "%s %s\n", "              VitoshaTrade00190", "Calculation process stopped.");
-			}
-		} catch (const char* message) {
-			isRunning = false;
-			fprintf(stderr, "%s %s\n", "              VitoshaTrade00191", message);
-		} catch (...) {
-			isRunning = false;
-			fprintf(stderr, "%s %s\n", "              VitoshaTrade00192", "Calculation process stopped.");
-		}
-	}
+	updateTrainingSet(values);
 }
 
 /**
@@ -572,9 +635,9 @@ int WINAPI WinMain(HINSTANCE hInstance,         HINSTANCE hPrevInstance,        
 	 */
 	while (isRunning == true) {
 		checkIsRunning();
+		checkRates();
 		run(NULL);
 		checkPrediction();
-		//TODO Check rates.
 	}
 
 	/*

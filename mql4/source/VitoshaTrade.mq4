@@ -88,7 +88,7 @@ extern int INSPECT_BARS = 25;
 /**
  * Predict interval in bars (number of future bars window).
  */
-extern int PREDICT_BARS = 5;
+extern int PREDICT_BARS = 1;
 
 /**
  * Predictor database id.

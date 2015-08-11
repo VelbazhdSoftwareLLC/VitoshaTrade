@@ -730,7 +730,7 @@ void ANN::predict() {
 
 	ANNOutput outputValues( neurons.getOutputNeuronsAmount() );
 	storeOutput(outputValues);
-	prediction = ts->mergeDigits(outputValues) / ts->FLOATING_POINT_FACTOR;
+	prediction = outputValues[0];
 }
 
 ANN::~ANN() {
