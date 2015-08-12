@@ -117,13 +117,17 @@ private:
 	/**
 	 * Load splitted digits.
 	 *
+	 * @param past How many bars in the past.
+	 *
+	 * @param future How many bars in the future.
+	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 09 Sep 2009
+	 * @date 12 Aug 2015
 	 */
-	void splitData();
+	void splitData(int past, int future);
 
 public:
 
@@ -145,22 +149,9 @@ public:
 	 *
 	 * @param size Size of all parallel arrays.
 	 *
-	 * @author Iliyan Zankinski
+	 * @param past How many bars in the past.
 	 *
-	 * @email iliyan_mf@abv.bg
-	 *
-	 * @date 06 Apr 2009
-	 */
-	TrainingSet(const std::vector<RateInfo> &rates, int size);
-
-	/**
-	 * Constructor for training set extension.
-	 *
-	 * @param set Training set to use for extension.
-	 *
-	 * @param rates Array with rates values.
-	 *
-	 * @param size Size of all parallel arrays.
+	 * @param future How many bars in the future.
 	 *
 	 * @author Iliyan Zankinski
 	 *
@@ -168,7 +159,7 @@ public:
 	 *
 	 * @date 06 Apr 2009
 	 */
-	TrainingSet(const TrainingSet &set, const std::vector<RateInfo> &rates, int size);
+	TrainingSet(const std::vector<RateInfo> &rates, int size, int past, int future);
 
 	/**
 	 * Parallel arrays size getter.
@@ -262,6 +253,40 @@ public:
 	unsigned int getTime(int index);
 
 	/**
+	 * Amount bars in the past from the index.
+	 *
+	 * @param index Starting point.
+	 *
+	 * @param amount How many bars in the past.
+	 *
+	 * @return Values of bars.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmial.com
+	 *
+	 * @date 12 Aug 2015
+	 */
+	ANNIO getBarsInPast(int index, int amount);
+
+	/**
+	 * Amount bars in the future from the index.
+	 *
+	 * @param index Starting point.
+	 *
+	 * @param amount How many bars in the future.
+	 *
+	 * @return Values of bars.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmial.com
+	 *
+	 * @date 12 Aug 2015
+	 */
+	ANNIO getBarsInFuture(int index, int amount);
+
+	/**
 	 * UNIX time at index pointer getter.
 	 *
 	 * @return UNIX time at index pointer.
@@ -272,7 +297,7 @@ public:
 	 *
 	 * @date 09 Sep 2009
 	 */
-	ANNIO& getSplittedTime(int index);
+	ANNIO& getSplittedInputed(int index);
 
 	/**
 	 * Expected value at index pointer getter.

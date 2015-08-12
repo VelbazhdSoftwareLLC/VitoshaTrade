@@ -32,11 +32,11 @@
 #include "TrainingExample.h"
 
 TrainingExample::TrainingExample() {
-	ANNIO time(NUMBER_OF_INPUT_SPLIT_DIGITS);
-	ANNIO expected(NUMBER_OF_OUTPUT_SPLIT_DIGITS);
-	ANNIO predicted(NUMBER_OF_OUTPUT_SPLIT_DIGITS);
+	ANNIO inputed(0);
+	ANNIO expected(0);
+	ANNIO predicted(0);
 
-	this->time = time;
+	this->inputed = inputed;
 	this->expected = expected;
 	this->predicted = predicted;
 }

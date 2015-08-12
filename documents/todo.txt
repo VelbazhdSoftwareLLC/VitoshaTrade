@@ -20,7 +20,7 @@
 
 -> Add invasive weed optimization as local search for each new created chromosome in the training process. If the fitness is high do small range, if the fitness is low do wide range.
 
--> Last used exception number 216.
+-> Last used exception number 218.
 
 -> Change period_id field in currency_pairs table to time_periods_id.
 

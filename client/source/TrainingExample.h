@@ -71,7 +71,7 @@ struct TrainingExample {
 	/**
 	 * Rate time values.
 	 */
-	ANNIO time;
+	ANNIO inputed;
 
 	/**
 	 * Expected values.

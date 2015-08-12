@@ -85,13 +85,17 @@ bool TrainingSet::isTimeFound(unsigned int time) const {
 	return( false );
 }
 
-void TrainingSet::splitData() {
-	for (int i=0; i<rates.size(); i++) {
-		splitDigits(examples[i].time, rates[i].time);
+void TrainingSet::splitData(int past, int future) {
+	examples.resize( rates.size() );
 
-		//TODO Some mechanisum of changing predicted value should be implemented.
-		splitDigits(examples[i].expected, (unsigned long)(FLOATING_POINT_FACTOR*(rates[i].open+rates[i].close)/2.0));
+	int j = 0;
+	for (int i=rates.size()-past-1; i>future; i--, j++) {
+		examples[j].inputed = getBarsInPast(i,past);
+		examples[j].expected = getBarsInFuture(i+1,future);
+		examples[j].predicted = getBarsInFuture(i+1,future);
 	}
+
+	examples.resize(j);
 }
 
 TrainingSet::TrainingSet() {
@@ -99,7 +103,7 @@ TrainingSet::TrainingSet() {
 	examples.clear();
 }
 
-TrainingSet::TrainingSet(const vector<RateInfo> &rates, int size) {
+TrainingSet::TrainingSet(const vector<RateInfo> &rates, int size, int past, int future) {
 	/*
 	 * It is not possible arrays size to be negative number.
 	 */
@@ -117,69 +121,11 @@ TrainingSet::TrainingSet(const vector<RateInfo> &rates, int size) {
 		this->examples.push_back( TrainingExample() );
 	}
 
-	splitData();
-}
-
-TrainingSet::TrainingSet(const TrainingSet &set, const vector<RateInfo> &rates, int size) {
-	/*
-	 * It is not possible arrays size to be negative number.
-	 */
-	if (size < 0) {
-		size = 0;
-	}
-
-	int resized = this->rates.size()+size;
-	this->rates.clear();
-
-	for (int i=0; i<resized; i++) {
-		this->rates.push_back( rates[size-i-1] );
-	}
-
-	/*
-	 * Merge time series.
-	 * Array revers because of MetaTrader 4 data presentation.
-	 */
-	int k = 0;
-	int j = 0;
-	int i = size-1;
-	for (k=0; k<resized; k++) {
-		if (i<0 && j>=set.rates.size()) {
-			break;
-		} else if (i<0) {
-			this->rates[k] = set.rates[j];
-
-			j++;
-		} else if (j>=set.rates.size()) {
-			this->rates[k] = rates[i];
-
-			i--;
-		} else if (rates[i].time == set.rates[j].time) {
-			this->rates[k] = rates[i];
-
-			i--;
-			j++;
-		} else if (rates[i].time < set.rates[j].time) {
-			this->rates[k] = rates[i];
-
-			i--;
-		} else if (rates[i].time > set.rates[j].time) {
-			this->rates[k] = set.rates[j];
-
-			j++;
-		}
-	}
-	this->rates.resize(k);
-
-	this->examples.clear();
-	for (int i=0; i<k; i++) {
-		this->examples.push_back( TrainingExample() );
-	}
-
-	splitData();
+	splitData(past, future);
 }
 
 int TrainingSet::getSize() const {
-	return( rates.size() );
+	return( examples.size() );
 }
 
 vector<RateInfo>& TrainingSet::getRates() {
@@ -231,9 +177,41 @@ unsigned int TrainingSet::getTime(int index) {
 	}
 }
 
-ANNIO& TrainingSet::getSplittedTime(int index) {
+ANNIO TrainingSet::getBarsInPast(int index, int amount) {
+	ANNIO result(amount);
+
+	if(index+amount > rates.size()) {
+		throw( "TrainingSet00217" );
+		return result;
+	}
+
+	for(int i=0; i<amount; i++){
+		//TODO Some mechanisum of changing predicted value should be implemented.
+		result[i] = (rates[index+i].high + rates[index+i].low) / 2;
+	}
+
+	return result;
+}
+
+ANNIO TrainingSet::getBarsInFuture(int index, int amount){
+	ANNIO result(amount);
+
+	if(index-amount < 0) {
+		throw( "TrainingSet00218" );
+		return result;
+	}
+
+	for(int i=0; i<amount; i++){
+		//TODO Some mechanisum of changing predicted value should be implemented.
+		result[i] = (rates[index-i].high + rates[index-i].low) / 2;
+	}
+
+	return result;
+}
+
+ANNIO& TrainingSet::getSplittedInputed(int index) {
 	if (index >= 0 && index < rates.size()) {
-		return( examples[index].time );
+		return( examples[index].inputed );
 	} else {
 		throw( "TrainingSet00125" );
 	}

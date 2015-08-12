@@ -86,7 +86,7 @@ void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {
 	 * Create new training set object and swap it with the old one.
 	 * Constructor with merge capabilities also can be used.
 	 */
-	TrainingSet swap(rates, size);
+	TrainingSet swap(rates, size, ann.getNeurons().getInputNeuronsAmount(), ann.getNeurons().getOutputNeuronsAmount());
 	ts = swap;
 
 	/*

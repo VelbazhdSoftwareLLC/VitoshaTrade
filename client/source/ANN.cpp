@@ -448,7 +448,7 @@ double ANN::totalError() {
 		/*
 		 * For each time load ANN input.
 		 */
-		loadInput(ts->getSplittedTime(i));
+		loadInput(ts->getSplittedInputed(i));
 
 		/*
 		 * Update ANN internal state.
@@ -678,7 +678,7 @@ void ANN::gradient() {
 		/*
 		 * For each time load ANN input.
 		 */
-		loadInput(ts->getSplittedTime(index));
+		loadInput(ts->getSplittedInputed(index));
 
 		/*
 		 * Feed forward ANN.
