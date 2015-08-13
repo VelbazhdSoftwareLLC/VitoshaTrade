@@ -5,7 +5,7 @@
  * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
  * the capital of Bulgaria.                                                    *
  *                                                                             *
- * Copyright (C) 2008-2013 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ * Copyright (C) 2008-2013 by Todor Balabanov  ( todor.balabanov@gmail.com )   *
  *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
  *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
  *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
@@ -45,7 +45,7 @@ class ANN;
  *
  * @author Todor Balabanov
  *
- * @email tdb@tbsoft.eu
+ * @email todor.balabanov@gmail.com
  *
  * @date 18 Jun 2013
  */
@@ -66,7 +66,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 10 May 2013
 	 */
@@ -89,7 +89,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Aug 2013
 	 */
@@ -114,7 +114,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 10 May 2013
 	 */
@@ -156,7 +156,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Aug 2013
 	 */
@@ -171,7 +171,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 23 Sep 2013
 	 */
@@ -190,7 +190,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Sep 2013
 	 */
@@ -209,7 +209,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Sep 2013
 	 */
@@ -232,7 +232,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 10 May 2013
 	 */

@@ -5,7 +5,7 @@
  * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
  * the capital of Bulgaria.                                                    *
  *                                                                             *
- * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ * Copyright (C) 2008-2011 by Todor Balabanov  ( todor.balabanov@gmail.com )   *
  *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
  *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
  *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
@@ -63,7 +63,7 @@ class Counter;
  *
  * @author Todor Balabanov
  *
- * @email tdb@tbsoft.eu
+ * @email todor.balabanov@gmail.com
  *
  * @date 10 Mar 2009
  */
@@ -78,7 +78,7 @@ public:
 	static const bool PREDICT_WITH_EACH_CHROMOSOME = true;
 
 	/**
-	 * Minimuim mutation factor.
+	 * Minimum mutation factor.
 	 */
 	static const double MIN_MUTATION_FACTOR = 0.0;
 
@@ -88,7 +88,7 @@ public:
 	static const double MAX_MUTATION_FACTOR = 2.0;
 
 	/**
-	 * Minimuim crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
+	 * Minimum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
 	 */
 	static const int MIN_CROSSOVER_RATE = 0;
 
@@ -100,7 +100,7 @@ public:
 private:
 
 	/**
-	 * Population array. Population array is dynamically allocated. Eeach
+	 * Population array. Population array is dynamically allocated. Each
 	 * member is two dimensional array (matrix of weights). Weights matrix is
 	 * also dynamically allocated.
 	 */
@@ -163,7 +163,7 @@ private:
 	 *
 	 * @date 31 Mar 2009
 	 */
-	//TODO Do in in Chromosome class.
+	//TODO Do it in Chromosome class.
 	void recombine();
 
 public:
@@ -173,7 +173,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 20 Oct 2011
 	 */
@@ -186,7 +186,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Oct 2011
 	 */
@@ -203,7 +203,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 10 Mar 2009
 	 */
@@ -216,7 +216,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 19 Aug 2009
 	 */
@@ -229,7 +229,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 20 May 2009
 	 */
@@ -242,7 +242,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -255,7 +255,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -268,7 +268,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -281,7 +281,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -294,7 +294,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -307,7 +307,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 11 Aug 2011
 	 */
@@ -319,18 +319,18 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 15 May 2009
 	 */
 	void evolve();
 
 	/**
-	 * Differential volution class destructor.
+	 * Differential evolution class destructor.
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 10 Mar 2009
 	 */
@@ -345,7 +345,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Oct 2011
 	 */

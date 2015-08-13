@@ -5,7 +5,7 @@
  * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
  * the capital of Bulgaria.                                                    *
  *                                                                             *
- * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ * Copyright (C) 2008-2011 by Todor Balabanov  ( todor.balabanov@gmail.com )   *
  *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
  *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
  *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
@@ -185,7 +185,7 @@ ANNIO TrainingSet::getBarsInPast(int index, int amount) {
 		return result;
 	}
 
-	for(int i=0; i<amount; i++){
+	for(int i=0; i<amount; i++) {
 		//TODO Some mechanisum of changing predicted value should be implemented.
 		result[i] = (rates[index+i].high + rates[index+i].low) / 2;
 	}
@@ -193,7 +193,7 @@ ANNIO TrainingSet::getBarsInPast(int index, int amount) {
 	return result;
 }
 
-ANNIO TrainingSet::getBarsInFuture(int index, int amount){
+ANNIO TrainingSet::getBarsInFuture(int index, int amount) {
 	ANNIO result(amount);
 
 	if(index-amount < 0) {
@@ -201,7 +201,7 @@ ANNIO TrainingSet::getBarsInFuture(int index, int amount){
 		return result;
 	}
 
-	for(int i=0; i<amount; i++){
+	for(int i=0; i<amount; i++) {
 		//TODO Some mechanisum of changing predicted value should be implemented.
 		result[i] = (rates[index-i].high + rates[index-i].low) / 2;
 	}

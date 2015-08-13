@@ -5,7 +5,7 @@
  * Sofia, Bulgaria. Vitosha is a mountain massif, on the outskirts of Sofia,   *
  * the capital of Bulgaria.                                                    *
  *                                                                             *
- * Copyright (C) 2008-2011 by Todor Balabanov  ( tdb@tbsoft.eu )               *
+ * Copyright (C) 2008-2011 by Todor Balabanov  ( todor.balabanov@gmail.com )   *
  *                       Iliyan Zankinski   ( iliyan_mf@abv.bg )               *
  *                       Momchil Anachkov   ( mZer0000@gmail.com )             *
  *                       Daniel Chutrov     ( d.chutrov@gmail.com )            *
@@ -48,7 +48,7 @@ class TrainingSet;
  *
  * @author Todor Balabanov
  *
- * @email tdb@tbsoft.eu
+ * @email todor.balabanov@gmail.com
  *
  * @date 19 Feb 2009
  */
@@ -111,13 +111,13 @@ private:
 private:
 
 	/**
-	 * Help function used by constructors to creat internal object structure.
+	 * Help function used by constructors to create internal object structure.
 	 *
-	 * @param neuronsAmount Nubmer of neurons to be used.
+	 * @param neuronsAmount Number of neurons to be used.
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 23 Apr 2009
 	 */
@@ -131,7 +131,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 20 Oct 2011
 	 */
@@ -145,7 +145,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Oct 2011
 	 */
@@ -167,7 +167,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -191,7 +191,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Apr 2009
 	 */
@@ -204,7 +204,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 19 Aug 2009
 	 */
@@ -230,7 +230,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 19 Aug 2009
 	 */
@@ -243,7 +243,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -256,7 +256,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 19 Aug 2009
 	 */
@@ -269,7 +269,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -286,7 +286,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 14 Mar 2009
 	 */
@@ -303,7 +303,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 14 Mar 2009
 	 */
@@ -325,7 +325,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 14 Mar 2009
 	 */
@@ -351,7 +351,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 29 Apr 2009
 	 */
@@ -364,7 +364,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 27 Oct 2011
 	 */
@@ -377,7 +377,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 27 Oct 2011
 	 */
@@ -401,7 +401,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -412,7 +412,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -425,7 +425,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -466,7 +466,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 07 Sep 2009
 	 */
@@ -479,7 +479,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 07 Sep 2009
 	 */
@@ -490,7 +490,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 07 Sep 2009
 	 */
@@ -512,7 +512,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 26 Feb 2009
 	 */
@@ -527,7 +527,7 @@ public:
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email tdb@tbsoft.eu
+	 * @email todor.balabanov@gmail.com
 	 *
 	 * @date 22 Oct 2011
 	 */
