@@ -261,7 +261,7 @@ void ANN::setupThreeLayers() {
 				if (neurons[j].isRegular() == false) {
 					continue;
 				}
-				activities(i,j) = activities.MAX_ACTIVITY;
+				activities(j,i) = activities.MAX_ACTIVITY;
 			}
 
 			break;
@@ -282,7 +282,7 @@ void ANN::setupThreeLayers() {
 				if (neurons[j].isOutput() == false) {
 					continue;
 				}
-				activities(i,j) = activities.MAX_ACTIVITY;
+				activities(j,i) = activities.MAX_ACTIVITY;
 			}
 
 			break;
@@ -301,7 +301,7 @@ void ANN::setupThreeLayers() {
 			if (neurons[j].isRegular() == false) {
 				continue;
 			}
-			activities(i,j) = activities.MAX_ACTIVITY;
+			activities(j,i) = activities.MAX_ACTIVITY;
 		}
 	}
 
@@ -317,7 +317,7 @@ void ANN::setupThreeLayers() {
 			if (neurons[j].isOutput() == false) {
 				continue;
 			}
-			activities(i,j) = activities.MAX_ACTIVITY;
+			activities(j,i) = activities.MAX_ACTIVITY;
 		}
 	}
 }
@@ -361,7 +361,7 @@ void ANN::update() {
 		}
 
 		/*
-		 * Normalize activation level of neuron i with sidmoid function.
+		 * Normalize activation level of neuron i with sigmoid function.
 		 */
 		value = 1.0 / (1.0 + exp(-value));
 
@@ -372,6 +372,11 @@ void ANN::update() {
 	 * Swap buffer to be ready for next network forward update.
 	 */
 	neurons = next;
+static int c = 0;
+if(c == 0){
+cerr<<neurons;
+while(true);}
+c++;
 }
 
 void ANN::storeOutput(ANNIO &output) {

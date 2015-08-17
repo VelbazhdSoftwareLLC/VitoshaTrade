@@ -89,7 +89,7 @@ void TrainingSet::splitData(int past, int future) {
 	examples.resize( rates.size() );
 
 	int j = 0;
-	for (int i=rates.size()-past-1; i>future; i--, j++) {
+	for (int i=future; i<rates.size()-past; i++, j++) {
 		examples[j].inputed = getBarsInPast(i,past);
 		examples[j].expected = getBarsInFuture(i+1,future);
 		examples[j].predicted = getBarsInFuture(i+1,future);
