@@ -372,11 +372,6 @@ void ANN::update() {
 	 * Swap buffer to be ready for next network forward update.
 	 */
 	neurons = next;
-static int c = 0;
-if(c == 0){
-cerr<<neurons;
-while(true);}
-c++;
 }
 
 void ANN::storeOutput(ANNIO &output) {
