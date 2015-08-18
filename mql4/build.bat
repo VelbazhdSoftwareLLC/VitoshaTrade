@@ -134,25 +134,25 @@ rem # Compile Java based back end system.                                      #
 rem ############################################################################
 md ..\..\backend\binaries
 cd ..\..\backend\binaries\
-rem javac -d .\ ..\source\*.java
-rem jar cvf VitoshaTradeUnsigned.jar *.class
-rem jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass VitoshaTrade -signedjar VitoshaTrade.jar VitoshaTradeUnsigned.jar VitoshaTrade
+javac -d .\ ..\source\*.java
+jar cvf VitoshaTradeUnsigned.jar *.class
+jarsigner -keystore ..\keys\VitoshaTrade -storepass VitoshaTrade -keypass VitoshaTrade -signedjar VitoshaTrade.jar VitoshaTradeUnsigned.jar VitoshaTrade
 
 rem ############################################################################
 rem # Depoly Java based back end system.                                       #
 rem ############################################################################
-rem del "%~dp2\backend\*.jar"
-rem del "%~dp2\backend\*.cer"
-rem del "%~dp2\backend\*.html"
-rem copy .\VitoshaTrade.jar "%~dp2\backend\"
-rem copy ..\keys\VitoshaTrade.cer "%~dp2\backend\"
-rem copy ..\source\*.html "%~dp2\backend\"
+del "%~dp2\backend\*.jar"
+del "%~dp2\backend\*.cer"
+del "%~dp2\backend\*.html"
+copy .\VitoshaTrade.jar "%~dp2\backend\"
+copy ..\keys\VitoshaTrade.cer "%~dp2\backend\"
+copy ..\source\*.html "%~dp2\backend\"
 
 rem ############################################################################
 rem # Clean to binaries directory.                                             #
 rem ############################################################################
-rem del *.class
-rem del *.jar
+del *.class
+del *.jar
 
 rem ############################################################################
 rem # Build indicator. The parameter %~d1 is MT4 install drive.                #

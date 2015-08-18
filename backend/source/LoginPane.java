@@ -165,6 +165,7 @@ public class LoginPane extends JPanel {
 					parent.showNetworkPane();
 				} catch (Exception ex) {
 					System.err.println(Texts.ERROR_DATABASE_CONNECT);
+					System.err.println(ex);
 
 					/*
 					 * Shows connection error.

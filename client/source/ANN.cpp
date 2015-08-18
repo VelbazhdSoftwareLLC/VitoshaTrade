@@ -250,20 +250,10 @@ void ANN::setupThreeLayers() {
 	/*
 	 * Set bias between input and hidden layers.
 	 */
-	for(int i=0; i<neurons.dimension(); i++) {
-		if(neurons[i].isRegular() == true) {
-			neurons[i].setBias( true );
-
-			/*
-			 * Connect bias neuron.
-			 */
-			for (int j=0; j<neurons.dimension(); j++) {
-				if (neurons[j].isRegular() == false) {
-					continue;
-				}
-				activities(j,i) = activities.MAX_ACTIVITY;
-			}
-
+	int b1 = 0;
+	for(b1=0; b1<neurons.dimension(); b1++) {
+		if(neurons[b1].isRegular() == true) {
+			neurons[b1].setBias( true );
 			break;
 		}
 	}
@@ -271,22 +261,32 @@ void ANN::setupThreeLayers() {
 	/*
 	 * Set bias between hidden and output layers.
 	 */
-	for(int i=neurons.dimension()-1; i>0; i--) {
-		if(neurons[i].isRegular() == true) {
-			neurons[i].setBias( true );
-
-			/*
-			 * Connect bias neuron.
-			 */
-			for (int j=0; j<neurons.dimension(); j++) {
-				if (neurons[j].isOutput() == false) {
-					continue;
-				}
-				activities(j,i) = activities.MAX_ACTIVITY;
-			}
-
+	int b2 = 0;
+	for(b2=neurons.dimension()-1; b2>0; b2--) {
+		if(neurons[b2].isRegular() == true) {
+			neurons[b2].setBias( true );
 			break;
 		}
+	}
+
+	/*
+	 * Connect bias neuron.
+	 */
+	for (int j=0; j<neurons.dimension(); j++) {
+		if (neurons[j].isRegular() == false) {
+			continue;
+		}
+		activities(j,b1) = activities.MAX_ACTIVITY;
+	}
+
+	/*
+	 * Connect bias neuron.
+	 */
+	for (int j=0; j<neurons.dimension(); j++) {
+		if (neurons[j].isOutput() == false) {
+			continue;
+		}
+		activities(j,b2) = activities.MAX_ACTIVITY;
 	}
 
 	/*

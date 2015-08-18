@@ -173,7 +173,7 @@ public class DatabaseHelper {
 	/**
 	 * Default database name.
 	 */
-	private static final String DEFAULT_DATABASE_NAME = "todorb_vitoshatrade";
+	private static final String DEFAULT_DATABASE_NAME = "veldsoft_vitoshatrade";
 
 	/**
 	 * Containing the address where the database is hosted.
