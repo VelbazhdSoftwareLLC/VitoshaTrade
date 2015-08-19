@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -47,7 +48,7 @@ import javax.swing.JComboBox;
  *
  * @date 27 Nov 2010
  */
-public class DeleteAnnPane extends JPanel {
+class DeleteAnnPane extends JPanel {
 
 	/**
 	 * Default serial version UID.

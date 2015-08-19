@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -52,20 +53,11 @@ import javax.swing.JPasswordField;
  *
  * @date 16 Nov 2010
  */
-public class LoginPane extends JPanel {
+class LoginPane extends JPanel {
 	/**
 	 * Default serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Frame for the connection error message.
-	 */
-
-	/**
-	 * Properties file name constant.
-	 */
-	public static final String PROPERTIES_FILE_NAME = "setup.ini";
 
 	/**
 	 * Parent applet reference.
@@ -127,7 +119,7 @@ public class LoginPane extends JPanel {
 		 */
 		try {
 			Properties p = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			p.load(in);
 			in.close();
 			dbHost.setText(p.getProperty("DatabaseHost"));
@@ -179,13 +171,13 @@ public class LoginPane extends JPanel {
 				try {
 					Properties p = new Properties();
 					FileInputStream allProperties = new FileInputStream(
-						PROPERTIES_FILE_NAME);
+						Util.PROPERTIES_FILE_NAME);
 					p.load(allProperties);
 					p.setProperty("DatabaseHost", dbHost.getText());
 					p.setProperty("DatabasePort", dbPort.getText());
 
 					FileOutputStream out = new FileOutputStream(
-						PROPERTIES_FILE_NAME);
+						Util.PROPERTIES_FILE_NAME);
 					p.store(out, "");
 					allProperties.close();
 					out.close();

@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -56,7 +57,7 @@ import javax.swing.SwingConstants;
  *
  * @date 21 Oct 2011
  */
-public class SettingsPane extends JPanel {
+class SettingsPane extends JPanel {
 
 	/**
 	 * Class ActionListener for buttons choosing a neuron type color.
@@ -411,11 +412,6 @@ public class SettingsPane extends JPanel {
 	private JPanel panel = new JPanel(new GridBagLayout());
 
 	/**
-	 * Properties file name constant.
-	 */
-	public static final String PROPERTIES_FILE_NAME = "setup.ini";
-
-	/**
 	 * Constructing settings pane.
 	 *
 	 * @param parent
@@ -603,7 +599,7 @@ public class SettingsPane extends JPanel {
 					 * Loads all properties from the property file.
 					 */
 					FileInputStream allProperties = new FileInputStream(
-						PROPERTIES_FILE_NAME);
+						Util.PROPERTIES_FILE_NAME);
 					properties.load(allProperties);
 
 					/*
@@ -650,7 +646,7 @@ public class SettingsPane extends JPanel {
 					writeNeuronsNumbersSize(properties);
 
 					FileOutputStream out = new FileOutputStream(
-						PROPERTIES_FILE_NAME);
+						Util.PROPERTIES_FILE_NAME);
 					properties.store(out, "");
 					allProperties.close();
 					out.close();
@@ -699,7 +695,7 @@ public class SettingsPane extends JPanel {
 		JTextField showNeuronColorField, String colorProperty) {
 		try {
 			Properties properties = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int color = Integer.parseInt(properties.getProperty(colorProperty));
 			Color neuronColor = new Color(color);
@@ -751,7 +747,7 @@ public class SettingsPane extends JPanel {
 	public void readNeuronsSize() {
 		try {
 			Properties properties = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			properties.load(in);
 			String currentNeuronsSize = properties.getProperty("NeuronsSize");
 			chooseNeuronsSize.setSelectedItem(currentNeuronsSize);
@@ -773,7 +769,7 @@ public class SettingsPane extends JPanel {
 	public void readNeuronsNumbersSize() {
 		try {
 			Properties properties = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int currentNeuronsNumberSize = Integer.parseInt(properties
 										   .getProperty("NeuronsNumbersSize"));

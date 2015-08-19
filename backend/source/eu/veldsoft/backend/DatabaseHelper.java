@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -41,7 +42,7 @@ import java.sql.Statement;
  *
  * @date 19 Dec 2010
  */
-public class DatabaseHelper {
+class DatabaseHelper {
 
 	/**
 	 * SQL query for selecting all ANN ids, symbols and periods.

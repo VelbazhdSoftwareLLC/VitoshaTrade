@@ -1,3 +1,5 @@
+package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -49,7 +51,7 @@ import javax.swing.JPanel;
  * 
  * @date 10 Jan 2011
  */
-public class DrawingPane extends JPanel {
+class DrawingPane extends JPanel {
 	/**
 	 * Default serial version UID.
 	 */
@@ -117,11 +119,6 @@ public class DrawingPane extends JPanel {
 	private static final int INDEX_NOT_SELECTED = -1;
 
 	/**
-	 * Pseudo-random number generator.
-	 */
-	private Random prng = new Random();
-
-	/**
 	 * Neuron visual radius.
 	 */
 	private int neuronRadius = 0;
@@ -140,63 +137,6 @@ public class DrawingPane extends JPanel {
 	 * Keep selection of second neuron index during visualization.
 	 */
 	private int secondNeuronIndex = INDEX_NOT_SELECTED;
-
-	/**
-	 * Name of the property key which has as a value the color of regular
-	 * neurons.
-	 */
-	private static final String REGULAR_NEURON_COLOR_PROPERTY_KEY = "RegularNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of input neurons.
-	 */
-	private static final String INPUT_NEURON_COLOR_PROPERTY_KEY = "InputNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of output
-	 * neurons.
-	 */
-	private static final String OUTPUT_NEURON_COLOR_PROPERTY_KEY = "OutputNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of output
-	 * neurons.
-	 */
-	private static final String BIAS_NEURON_COLOR_PROPERTY_KEY = "BiasNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of input-output
-	 * neurons.
-	 */
-	private static final String INPUT_OUTPUT_NEURON_COLOR_PROPERTY_KEY = "InputOutputNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of input-bias
-	 * neurons.
-	 */
-	private static final String INPUT_BIAS_NEURON_COLOR_PROPERTY_KEY = "InputBiasNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of output-bias
-	 * neurons.
-	 */
-	private static final String OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY = "OutputBiasNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of
-	 * input-output-bias neurons.
-	 */
-	private static final String INPUT_OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY = "InputOutputBiasNeuronColor";
-
-	/**
-	 * Name of the property key which has as a value the color of work area.
-	 */
-	private static final String WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY = "WorkAreaBackgroundColor";
-
-	/**
-	 * Properties file name constant.
-	 */
-	public static final String PROPERTIES_FILE_NAME = "setup.ini";
 
 	/**
 	 * Drawing pane constructor.
@@ -447,14 +387,14 @@ public class DrawingPane extends JPanel {
 		/*
 		 * Set neuron types colors.
 		 */
-		regularNeuronColor = readNeuronColor(REGULAR_NEURON_COLOR_PROPERTY_KEY);
-		inputNeuronColor = readNeuronColor(INPUT_NEURON_COLOR_PROPERTY_KEY);
-		outputNeuronColor = readNeuronColor(OUTPUT_NEURON_COLOR_PROPERTY_KEY);
-		biasNeuronColor = readNeuronColor(BIAS_NEURON_COLOR_PROPERTY_KEY);
-		inputOutputNeuronColor = readNeuronColor(INPUT_OUTPUT_NEURON_COLOR_PROPERTY_KEY);
-		inputBiasNeuronColor = readNeuronColor(INPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
-		outputBiasNeuronColor = readNeuronColor(OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
-		inputOutputBiasNeuronColor = readNeuronColor(INPUT_OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
+		regularNeuronColor = readNeuronColor(Util.REGULAR_NEURON_COLOR_PROPERTY_KEY);
+		inputNeuronColor = readNeuronColor(Util.INPUT_NEURON_COLOR_PROPERTY_KEY);
+		outputNeuronColor = readNeuronColor(Util.OUTPUT_NEURON_COLOR_PROPERTY_KEY);
+		biasNeuronColor = readNeuronColor(Util.BIAS_NEURON_COLOR_PROPERTY_KEY);
+		inputOutputNeuronColor = readNeuronColor(Util.INPUT_OUTPUT_NEURON_COLOR_PROPERTY_KEY);
+		inputBiasNeuronColor = readNeuronColor(Util.INPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
+		outputBiasNeuronColor = readNeuronColor(Util.OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
+		inputOutputBiasNeuronColor = readNeuronColor(Util.INPUT_OUTPUT_BIAS_NEURON_COLOR_PROPERTY_KEY);
 
 		/*
 		 * Draw neurons.
@@ -547,7 +487,7 @@ public class DrawingPane extends JPanel {
 		String neuronRadiusSize = "Small";
 		try {
 			Properties p = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			p.load(in);
 			neuronRadiusSize = p.getProperty("NeuronsSize");
 			if (neuronRadiusSize.equals("Small")) {
@@ -587,13 +527,13 @@ public class DrawingPane extends JPanel {
 		Color neuronColor = new Color(0, 0, 0);
 		try {
 			Properties properties = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int color = Integer.parseInt(properties.getProperty(colorProperty));
 			neuronColor = new Color(color);
 		} catch (Exception ex) {
-			neuronColor = new Color(prng.nextInt(256), prng.nextInt(256),
-					prng.nextInt(256));
+			neuronColor = new Color(Util.PRNG.nextInt(256),
+					Util.PRNG.nextInt(256), Util.PRNG.nextInt(256));
 		}
 		return (neuronColor);
 	}
@@ -672,10 +612,13 @@ public class DrawingPane extends JPanel {
 					* (255 / (maxActivity - minActivity));
 			int color = (int) Math.round(connectionColorTemp);
 			g.setColor(new Color(color, color, color));
-			g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
-					parent.ann.coordinates[firstNeuronIndex][1],
-					parent.ann.coordinates[secondNeuronIndex][0],
-					parent.ann.coordinates[secondNeuronIndex][1]);
+
+			if (parent.ann.activities[firstNeuronIndex][secondNeuronIndex] != 0.0) {
+				g.drawLine(parent.ann.coordinates[firstNeuronIndex][0],
+						parent.ann.coordinates[firstNeuronIndex][1],
+						parent.ann.coordinates[secondNeuronIndex][0],
+						parent.ann.coordinates[secondNeuronIndex][1]);
+			}
 
 			/*
 			 * If option "Weights" is chosen in "Mesh" menu - connections colors
@@ -755,7 +698,8 @@ public class DrawingPane extends JPanel {
 			int neuronIdFontSize = 9;
 			try {
 				Properties properties = new Properties();
-				FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+				FileInputStream in = new FileInputStream(
+						Util.PROPERTIES_FILE_NAME);
 				properties.load(in);
 				int currentNeuronsNumberSize = Integer.parseInt(properties
 						.getProperty("NeuronsNumbersSize"));
@@ -799,10 +743,10 @@ public class DrawingPane extends JPanel {
 	private void selectBackgroundColor(Graphics g) {
 		try {
 			Properties properties = new Properties();
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE_NAME);
+			FileInputStream in = new FileInputStream(Util.PROPERTIES_FILE_NAME);
 			properties.load(in);
 			int color = Integer.parseInt(properties
-					.getProperty(WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY));
+					.getProperty(Util.WORK_AREA_BACKGROUND_COLOR_PROPERTY_KEY));
 			g.setColor(new Color(color));
 		} catch (Exception ex) {
 			g.setColor(new Color(255, 255, 255));

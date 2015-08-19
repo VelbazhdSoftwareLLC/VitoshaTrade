@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -36,7 +37,7 @@
  *
  * @date 05 Dec 2011
  */
-public class Texts {
+class Texts {
 
 	/**
 	 * Menu text.

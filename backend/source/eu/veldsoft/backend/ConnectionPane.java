@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -45,7 +46,7 @@ import javax.swing.JTextField;
  *
  * @date 18 Nov 2010
  */
-public class ConnectionPane extends JPanel {
+class ConnectionPane extends JPanel {
 	/**
 	 * Default serial version UID.
 	 */

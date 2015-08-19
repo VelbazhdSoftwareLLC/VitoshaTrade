@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -49,7 +50,7 @@ import javax.swing.JComboBox;
  *
  * @date 18 Nov 2010
  */
-public class NetworkPane extends JPanel {
+class NetworkPane extends JPanel {
 
 	/**
 	 * Determines what filter should be applied when symbol and/or period are

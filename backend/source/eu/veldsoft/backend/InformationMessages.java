@@ -1,3 +1,4 @@
+package eu.veldsoft.backend;
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -10,7 +11,7 @@
  *                            Galq Cirkalova   ( galq_cirkalova@abv.bg )       *
  *                            Ivan Grozev      ( ivan.iliev.grozev@gmail.com ) *
  *                            Momchil Anachkov ( mZer0000@gmail.com )          *
- *                            Ralitza Koleva   ( rallly@abv.bg )	       *
+ *                            Ralitza Koleva   ( rallly@abv.bg )               *
  *                                                                             *
  * This program is free software: you can redistribute it and/or modify        *
  * it under the terms of the GNU General Public License as published by        *
@@ -27,90 +28,75 @@
  *                                                                             *
  ******************************************************************************/
 
+import java.awt.Component;
+import javax.swing.JOptionPane;
+
 /**
- * Gives a JComboBox two values - a visible value in the drop down menu and a
- * hidden one.
+ * Shows a pop-up message on the screen.
  *
  * @author Ralitza Koleva
  *
  * @email rallly@abv.bg
  *
- * @date 29 Oct 2011
+ * @date 05 Dec 2011
  */
-public class SymbolPeriodKeyValue {
+class InformationMessages {
 
 	/**
-	 * Hidden value of the JComboBox item.
+	 * Frame for the connection error message.
 	 */
-	private String key;
+	protected static final Component frame = null;
 
 	/**
-	 * Visible value of the JComboBox item.
+	 * Message text.
 	 */
-	private String value;
+	private String message;
 
 	/**
-	 * SymbolPeriodKeyValue constructor.
+	 * Message title.
+	 */
+	private String title;
+
+	/**
+	 * Message type.
+	 */
+	private int messageType;
+
+	/**
+	 * Constructing pop-up message.
 	 *
-	 * @param key
-	 *            Hidden value of the JComboBox item.
+	 * @param message
+	 *            Message text.
 	 *
-	 * @param value
-	 *            Visible value of the JComboBox item.
+	 * @param header
+	 *            Message header.
+	 *
+	 * @param messageType
+	 *            Message type (error/warning/information, etc.).
 	 *
 	 * @author Ralitza Koleva
 	 *
 	 * @email rallly@abv.bg
 	 *
-	 * @date 29 Oct 2011
+	 * @date 05 Dec 2011
 	 */
-	public SymbolPeriodKeyValue(String key, String value) {
-		this.key = key;
-		this.value = value;
+	public InformationMessages(String message, String header, int messageType) {
+		this.message = message;
+		this.title = header;
+		this.messageType = messageType;
 	}
 
 	/**
-	 * Gets the visible value of the JComboBox item.
+	 * Shows a pop-up message on the screen.
 	 *
 	 * @author Ralitza Koleva
 	 *
 	 * @email rallly@abv.bg
 	 *
-	 * @date 29 Oct 2011
-	 *
-	 * @return The visible value of the JComboBox item.
+	 * @date 05 Dec 2011
 	 */
-	public String getValue() {
-		return (value);
-	}
-
-	/**
-	 * Gets the hidden value of the JComboBox item.
-	 *
-	 * @author Ralitza Koleva
-	 *
-	 * @email rallly@abv.bg
-	 *
-	 * @date 29 Oct 2011
-	 *
-	 * @return The hidden value of the JComboBox item.
-	 */
-	public int getKey() {
-		return (Integer.parseInt(key));
-	}
-
-	/**
-	 * Converts the visible value of the JComboBox item to a string.
-	 *
-	 * @author Ralitza Koleva
-	 *
-	 * @email rallly@abv.bg
-	 *
-	 * @date 29 Oct 2011
-	 *
-	 * @return The visible value of the JComboBox item as a string.
-	 */
-	public String toString() {
-		return (value);
+	void showMessage() {
+		JOptionPane.showMessageDialog(frame, message, title, messageType);
+		return;
 	}
 }
