@@ -172,11 +172,6 @@ class DatabaseHelper {
 	private static final int DEFAULT_MAX_Y_COORDINATE = 500;
 
 	/**
-	 * Default database name.
-	 */
-	private static final String DEFAULT_DATABASE_NAME = "veldsoft_vitoshatrade";
-
-	/**
 	 * Containing the address where the database is hosted.
 	 */
 	private String host;
@@ -251,7 +246,7 @@ class DatabaseHelper {
 	 * @date 18 Dec 2010
 	 */
 	public DatabaseHelper() {
-		this("", 0, DEFAULT_DATABASE_NAME, "", "");
+		this("", 0, "", "", "");
 	}
 
 	/**

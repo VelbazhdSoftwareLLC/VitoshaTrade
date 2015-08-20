@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -40,11 +41,11 @@ import javax.swing.JTextField;
 
 /**
  * Panel with GUI controls for Neuron Management.
- *
+ * 
  * @author Momchil Anachkov
- *
+ * 
  * @email mZer0000@gmail.com
- *
+ * 
  * @date 18 Nov 2010
  */
 class NeuronPane extends JPanel {
@@ -100,31 +101,31 @@ class NeuronPane extends JPanel {
 	JTextField axisY = new JTextField();
 
 	/**
-	 * GUI control for obtaining neuron connection weight.
+	 * GUI control for obtaining neuron signal.
 	 */
-	private JTextField weight = new JTextField();
+	JTextField signal = new JTextField();
 
 	/**
-	 * GUI control for obtaining and setting neuron connection activity.
+	 * GUI control for obtaining neuron error.
 	 */
-	private JTextField activity = new JTextField();
+	JTextField error = new JTextField();
 
 	/**
 	 * Constructing neuron pane.
-	 *
+	 * 
 	 * @param parent
 	 *            The parent class.
-	 *
+	 * 
 	 * @author Momchil Anachkov
-	 *
+	 * 
 	 * @email mZer0000@gmail.com
-	 *
+	 * 
 	 * @date 18 Nov 2010
 	 */
 	public NeuronPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-											VitoshaTradeApplet.EAST_PANE_HEIGHT));
+				VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
@@ -144,11 +145,11 @@ class NeuronPane extends JPanel {
 		add(regularCheckbox);
 		add(biasCheckbox);
 
-		add(new JLabel(Texts.LABEL_WEIGHT));
-		add(weight);
+		//TODO add(new JLabel(Texts.LABEL_SIGNAL));
+		//TODO add(signal);
 
-		add(new JLabel(Texts.LABEL_ACTIVITY));
-		add(activity);
+		//TODO add(new JLabel(Texts.LABEL_ERROR));
+		//TODO add(error);
 
 		add(new JLabel(Texts.LABEL_X_COORDINATE));
 		add(axisX);
@@ -200,20 +201,18 @@ class NeuronPane extends JPanel {
 			}
 		});
 
-		weight.addActionListener(new ActionListener() {
+		signal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent å) {
-				parent.ann.weights[Integer.parseInt(neuronNumber.getText())][Integer
-						.parseInt(neuronNumber.getText())] = Double
-								.parseDouble(weight.getText());
+				parent.ann.signals[Integer.parseInt(neuronNumber.getText())] = Double
+						.parseDouble(signal.getText());
 				parent.workArea.repaint();
 			}
 		});
 
-		activity.addActionListener(new ActionListener() {
+		error.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent å) {
-				parent.ann.activities[Integer.parseInt(neuronNumber.getText())][Integer
-						.parseInt(neuronNumber.getText())] = Double
-								.parseDouble(activity.getText());
+				parent.ann.errors[Integer.parseInt(neuronNumber.getText())] = Double
+						.parseDouble(error.getText());
 				parent.workArea.repaint();
 			}
 		});
@@ -237,34 +236,34 @@ class NeuronPane extends JPanel {
 
 	/**
 	 * Loading neuron properties.
-	 *
+	 * 
 	 * @param neuronIndex
 	 *            Number of selected neuron.
-	 *
+	 * 
 	 * @param flags
 	 *            Flags of selected neuron.
-	 *
+	 * 
 	 * @param coordinateX
 	 *            X coordinate of selected neuron.
-	 *
+	 * 
 	 * @param coordinateY
 	 *            Y coordinate of selected neuron.
-	 *
+	 * 
 	 * @param neuronConnectionActivity
 	 *            Activity of neuron connection with itself.
-	 *
+	 * 
 	 * @param neuronConnectionWeight
 	 *            Weight of neuron connection with itself.
-	 *
+	 * 
 	 * @author Momchil Anachkov
-	 *
+	 * 
 	 * @email mZer0000@gmail.com
-	 *
+	 * 
 	 * @date 01 Feb 2010
 	 */
 	void setValues(int neuronIndex, int flags, int coordinateX,
-				   int coordinateY, double neuronConnectionActivity,
-				   double neuronConnectionWeight) {
+			int coordinateY, double neuronSignal,
+			double neuronError) {
 		neuronNumber.setText(Integer.toString(neuronIndex));
 
 		switch (flags) {
@@ -311,7 +310,7 @@ class NeuronPane extends JPanel {
 			biasCheckbox.setSelected(false);
 			break;
 		case (ArtificialNeuralNetwork.BIAS_NEURON
-						| ArtificialNeuralNetwork.INPUT_NEURON | ArtificialNeuralNetwork.OUTPUT_NEURON):
+				| ArtificialNeuralNetwork.INPUT_NEURON | ArtificialNeuralNetwork.OUTPUT_NEURON):
 			inputCheckbox.setSelected(true);
 			outputCheckbox.setSelected(true);
 			regularCheckbox.setSelected(false);
@@ -321,7 +320,7 @@ class NeuronPane extends JPanel {
 
 		axisX.setText(Integer.toString(coordinateX));
 		axisY.setText(Integer.toString(coordinateY));
-		activity.setText(Double.toString(neuronConnectionActivity));
-		weight.setText(Double.toString(neuronConnectionWeight));
+		error.setText(Double.toString(neuronError));
+		signal.setText(Double.toString(neuronSignal));
 	}
 }

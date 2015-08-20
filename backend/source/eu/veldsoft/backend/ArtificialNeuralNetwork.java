@@ -100,6 +100,16 @@ public class ArtificialNeuralNetwork {
 	double activities[][];
 
 	/**
+	 * Neurons out signals.
+	 */
+	double signals[];
+	
+	/**
+	 * Neurons out errors.
+	 */
+	double errors[];
+	
+	/**
 	 * Containing the coordinates of the neurons for the selected ANN.
 	 */
 	int coordinates[][];

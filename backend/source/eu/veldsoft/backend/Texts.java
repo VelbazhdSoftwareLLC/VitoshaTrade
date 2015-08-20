@@ -117,12 +117,17 @@ class Texts {
 	/**
 	 * Text label.
 	 */
-	public static final String LABEL_DATABASE_HOST = "Database host:";
+	public static final String LABEL_DATABASE_HOST = "Database Host:";
 
 	/**
 	 * Text label.
 	 */
-	public static final String LABEL_DATABASE_PORT = "Database port:";
+	public static final String LABEL_DATABASE_PORT = "Database Port:";
+
+	/**
+	 * Text label.
+	 */
+	public static final String LABEL_DATABASE_NAME = "Database Name:";
 
 	/**
 	 * Text label.
@@ -163,6 +168,16 @@ class Texts {
 	 * Text label.
 	 */
 	public static final String LABEL_DESTINATION = "Destination:";
+
+	/**
+	 * Text label.
+	 */
+	public static final String LABEL_SIGNAL = "Signal:";
+
+	/**
+	 * Text label.
+	 */
+	public static final String LABEL_ERROR = "Error:";
 
 	/**
 	 * Text label.
@@ -283,6 +298,11 @@ class Texts {
 	 * Text label.
 	 */
 	public static final String LABEL_BUTTON_LOGIN = "Login";
+
+	/**
+	 * Text label.
+	 */
+	public static final String LABEL_BUTTON_REARRANGE = "Rearrange";
 
 	/**
 	 * Text label.

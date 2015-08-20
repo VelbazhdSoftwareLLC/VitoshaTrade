@@ -90,6 +90,11 @@ class LoginPane extends JPanel {
 	private JTextField dbPort = new JTextField();
 
 	/**
+	 * GUI control for obtaining the database name.
+	 */
+	private JTextField dbName = new JTextField();
+
+	/**
 	 * Constructing login pane.
 	 *
 	 * @param parent
@@ -114,6 +119,9 @@ class LoginPane extends JPanel {
 		add(new JLabel(Texts.LABEL_DATABASE_PORT));
 		add(dbPort);
 
+		add(new JLabel(Texts.LABEL_DATABASE_NAME));
+		add(dbName);
+
 		/*
 		 * Load login properties.
 		 */
@@ -124,6 +132,7 @@ class LoginPane extends JPanel {
 			in.close();
 			dbHost.setText(p.getProperty("DatabaseHost"));
 			dbPort.setText(p.getProperty("DatabasePort"));
+			dbName.setText(p.getProperty("DatabaseName"));
 		} catch (Exception ex) {
 		}
 
@@ -138,6 +147,7 @@ class LoginPane extends JPanel {
 		 */
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				parent.dbHelp.setDatabaseName(dbName.getText());
 				parent.dbHelp.setHost(dbHost.getText());
 				try {
 					parent.dbHelp.setPort((new Integer(dbPort.getText()))
@@ -175,6 +185,7 @@ class LoginPane extends JPanel {
 					p.load(allProperties);
 					p.setProperty("DatabaseHost", dbHost.getText());
 					p.setProperty("DatabasePort", dbPort.getText());
+					p.setProperty("DatabaseName", dbName.getText());
 
 					FileOutputStream out = new FileOutputStream(
 						Util.PROPERTIES_FILE_NAME);
