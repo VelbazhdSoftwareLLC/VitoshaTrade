@@ -361,31 +361,38 @@ class NetworkPane extends JPanel {
 		rearrange.setText(Texts.LABEL_BUTTON_REARRANGE);
 		rearrange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(parent == null) {
+				if (parent == null) {
 					return;
 				}
-				if(parent.ann == null) {
+				if (parent.ann == null) {
 					return;
 				}
-				if(parent.ann.flags == null) {
+				if (parent.ann.flags == null) {
 					return;
 				}
-				
-				for (int k = 0, i = 20, h = 20, o = 20; k < parent.ann.flags.length; k++) {
+
+				int width = parent.workArea.getWidth();
+				int height = parent.workArea.getHeight();
+
+				int idy = height / (parent.ann.numberOfInputNeurons() + 2);
+				int hdy = height / (parent.ann.numberOfHiddenNeurons() + 2);
+				int ody = height / (parent.ann.numberOfOutputNeurons() + 2);
+
+				for (int k = 0, i = idy, h = hdy, o = ody; k < parent.ann.flags.length; k++) {
 					if (parent.ann.flags[k] == ArtificialNeuralNetwork.INPUT_NEURON) {
 						parent.ann.coordinates[k][0] = 20;
 						parent.ann.coordinates[k][1] = i;
-						i += 25;
+						i += idy;
 					}
 					if (parent.ann.flags[k] == ArtificialNeuralNetwork.REGULAR_NEURON) {
-						parent.ann.coordinates[k][0] = 520;
+						parent.ann.coordinates[k][0] = width / 2;
 						parent.ann.coordinates[k][1] = h;
-						h += 25;
+						h += hdy;
 					}
 					if (parent.ann.flags[k] == ArtificialNeuralNetwork.OUTPUT_NEURON) {
-						parent.ann.coordinates[k][0] = 1020;
+						parent.ann.coordinates[k][0] = width - 20;
 						parent.ann.coordinates[k][1] = o;
-						o += 25;
+						o += ody;
 					}
 				}
 			}

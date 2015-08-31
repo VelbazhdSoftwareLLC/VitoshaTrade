@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -30,11 +31,11 @@ package eu.veldsoft.backend;
 
 /**
  * Contains all texts used in the applet.
- *
+ * 
  * @author Ralitza Koleva
- *
+ * 
  * @email rallly@abv.bg
- *
+ * 
  * @date 05 Dec 2011
  */
 class Texts {

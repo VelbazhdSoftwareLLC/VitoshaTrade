@@ -145,11 +145,11 @@ class NeuronPane extends JPanel {
 		add(regularCheckbox);
 		add(biasCheckbox);
 
-		//TODO add(new JLabel(Texts.LABEL_SIGNAL));
-		//TODO add(signal);
+		// TODO add(new JLabel(Texts.LABEL_SIGNAL));
+		// TODO add(signal);
 
-		//TODO add(new JLabel(Texts.LABEL_ERROR));
-		//TODO add(error);
+		// TODO add(new JLabel(Texts.LABEL_ERROR));
+		// TODO add(error);
 
 		add(new JLabel(Texts.LABEL_X_COORDINATE));
 		add(axisX);
@@ -262,8 +262,7 @@ class NeuronPane extends JPanel {
 	 * @date 01 Feb 2010
 	 */
 	void setValues(int neuronIndex, int flags, int coordinateX,
-			int coordinateY, double neuronSignal,
-			double neuronError) {
+			int coordinateY, double neuronSignal, double neuronError) {
 		neuronNumber.setText(Integer.toString(neuronIndex));
 
 		switch (flags) {

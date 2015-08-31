@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -39,11 +40,11 @@ import javax.swing.JTextField;
 
 /**
  * Panel with GUI controls for Connection Management.
- *
+ * 
  * @author Momchil Anachkov
- *
+ * 
  * @email mZer0000@gmail.com
- *
+ * 
  * @date 18 Nov 2010
  */
 class ConnectionPane extends JPanel {
@@ -80,28 +81,28 @@ class ConnectionPane extends JPanel {
 
 	/**
 	 * Constructing connection pane.
-	 *
+	 * 
 	 * @param parent
 	 *            The parent class.
-	 *
+	 * 
 	 * @author Momchil Anachkov
-	 *
+	 * 
 	 * @email mZer0000@gmail.com
-	 *
+	 * 
 	 * @date 18 Nov 2010
 	 */
 	public ConnectionPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-											VitoshaTradeApplet.EAST_PANE_HEIGHT));
+				VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
-		add(new JLabel(Texts.LABEL_SOURCE));
+		add(new JLabel(Texts.LABEL_DESTINATION));
 		add(neuronSource);
 		neuronSource.setEditable(false);
 
-		add(new JLabel(Texts.LABEL_DESTINATION));
+		add(new JLabel(Texts.LABEL_SOURCE));
 		add(neuronDestination);
 		neuronDestination.setEditable(false);
 
@@ -115,7 +116,7 @@ class ConnectionPane extends JPanel {
 			public void actionPerformed(ActionEvent å) {
 				parent.ann.weights[Integer.parseInt(neuronSource.getText())][Integer
 						.parseInt(neuronDestination.getText())] = Double
-								.parseDouble(weight.getText());
+						.parseDouble(weight.getText());
 				parent.workArea.repaint();
 			}
 		});
@@ -124,7 +125,7 @@ class ConnectionPane extends JPanel {
 			public void actionPerformed(ActionEvent å) {
 				parent.ann.activities[Integer.parseInt(neuronSource.getText())][Integer
 						.parseInt(neuronDestination.getText())] = Double
-								.parseDouble(activity.getText());
+						.parseDouble(activity.getText());
 				parent.workArea.repaint();
 			}
 		});
@@ -132,27 +133,27 @@ class ConnectionPane extends JPanel {
 
 	/**
 	 * Loading connection properties.
-	 *
+	 * 
 	 * @param sourceIndex
 	 *            Source neuron of selected connection.
-	 *
+	 * 
 	 * @param destinationIndex
 	 *            Destination neuron of selected connection.
-	 *
+	 * 
 	 * @param connectionActivity
 	 *            Activity of selected connection.
-	 *
+	 * 
 	 * @param connectionWeight
 	 *            Weight of selected connection.
-	 *
+	 * 
 	 * @author Momchil Anachkov
-	 *
+	 * 
 	 * @email mZer0000@gmail.com
-	 *
+	 * 
 	 * @date 01 Feb 2010
 	 */
 	void setValues(int sourceIndex, int destinationIndex,
-				   double connectionActivity, double connectionWeight) {
+			double connectionActivity, double connectionWeight) {
 		neuronSource.setText("" + sourceIndex);
 		neuronDestination.setText("" + destinationIndex);
 		activity.setText("" + connectionActivity);

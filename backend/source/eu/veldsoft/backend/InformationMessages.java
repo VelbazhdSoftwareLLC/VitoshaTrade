@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -33,11 +34,11 @@ import javax.swing.JOptionPane;
 
 /**
  * Shows a pop-up message on the screen.
- *
+ * 
  * @author Ralitza Koleva
- *
+ * 
  * @email rallly@abv.bg
- *
+ * 
  * @date 05 Dec 2011
  */
 class InformationMessages {
@@ -64,20 +65,20 @@ class InformationMessages {
 
 	/**
 	 * Constructing pop-up message.
-	 *
+	 * 
 	 * @param message
 	 *            Message text.
-	 *
+	 * 
 	 * @param header
 	 *            Message header.
-	 *
+	 * 
 	 * @param messageType
 	 *            Message type (error/warning/information, etc.).
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 05 Dec 2011
 	 */
 	public InformationMessages(String message, String header, int messageType) {
@@ -88,11 +89,11 @@ class InformationMessages {
 
 	/**
 	 * Shows a pop-up message on the screen.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 05 Dec 2011
 	 */
 	void showMessage() {

@@ -1,0 +1,5 @@
+# Generated files
+binaries/
+
+# Eclipse log files
+*.log

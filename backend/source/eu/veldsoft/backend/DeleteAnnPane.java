@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -41,11 +42,11 @@ import javax.swing.JComboBox;
 
 /**
  * Panel with GUI controls for Neural Network Management.
- *
+ * 
  * @author Ralitza Koleva
- *
+ * 
  * @email rallly@abv.bg
- *
+ * 
  * @date 27 Nov 2010
  */
 class DeleteAnnPane extends JPanel {
@@ -77,20 +78,20 @@ class DeleteAnnPane extends JPanel {
 
 	/**
 	 * Constructing delete ANN pane.
-	 *
+	 * 
 	 * @param parent
 	 *            The parent class.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 27 Nov 2011
 	 */
 	public DeleteAnnPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-											VitoshaTradeApplet.EAST_PANE_HEIGHT));
+				VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
@@ -109,17 +110,17 @@ class DeleteAnnPane extends JPanel {
 
 			/**
 			 * Deletes all ANN information.
-			 *
+			 * 
 			 * @author Ralitza Koleva
-			 *
+			 * 
 			 * @email rallly@abv.bg
-			 *
+			 * 
 			 * @date 27 Nov 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
 				try {
 					int ann_id = Integer.parseInt((String) networkId
-												  .getSelectedItem());
+							.getSelectedItem());
 					parent.dbHelp.deleteAnn(ann_id);
 					loadAllAnnIds();
 					parent.workArea.repaint();
@@ -140,11 +141,11 @@ class DeleteAnnPane extends JPanel {
 
 			/**
 			 * Refreshes ANN IDs in the ANN ID JComboBox.
-			 *
+			 * 
 			 * @author Ralitza Koleva
-			 *
+			 * 
 			 * @email rallly@abv.bg
-			 *
+			 * 
 			 * @date 27 Nov 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -155,11 +156,11 @@ class DeleteAnnPane extends JPanel {
 
 	/**
 	 * Loads all ANN IDs in the ANN ID JComboBox.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 29 Oct 2011
 	 */
 	public void loadAllAnnIds() {
@@ -173,18 +174,18 @@ class DeleteAnnPane extends JPanel {
 
 	/**
 	 * Shows a message if no ANN ID is selected to delete.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 05 Dec 2011
 	 */
 	private void showInformationMessage() {
 		InformationMessages error = new InformationMessages(
-			Texts.INFORMATION_SELECT_ANN_ID,
-			Texts.INFORMATION_SELECT_ANN_ID_TITLE,
-			JOptionPane.INFORMATION_MESSAGE);
+				Texts.INFORMATION_SELECT_ANN_ID,
+				Texts.INFORMATION_SELECT_ANN_ID_TITLE,
+				JOptionPane.INFORMATION_MESSAGE);
 		error.showMessage();
 	}
 }

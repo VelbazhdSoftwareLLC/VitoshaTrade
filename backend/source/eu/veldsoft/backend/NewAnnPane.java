@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -44,11 +45,11 @@ import javax.swing.JTextField;
 
 /**
  * Panel with GUI controls for a new ANN management.
- *
+ * 
  * @author Ralitza Koleva
- *
+ * 
  * @email rallly@abv.bg
- *
+ * 
  * @date 18 Sep 2011
  */
 class NewAnnPane extends JPanel {
@@ -90,20 +91,20 @@ class NewAnnPane extends JPanel {
 
 	/**
 	 * Constructing new ANN pane.
-	 *
+	 * 
 	 * @param parent
 	 *            The parent class.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 18 Sep 2011
 	 */
 	public NewAnnPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-											VitoshaTradeApplet.EAST_PANE_HEIGHT));
+				VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
@@ -125,17 +126,17 @@ class NewAnnPane extends JPanel {
 		networkNumberNeurons.addKeyListener(new KeyAdapter() {
 			/**
 			 * Deletes all tokens different from numbers typed by the user.
-			 *
+			 * 
 			 * @author Ralitza Koleva
-			 *
+			 * 
 			 * @email rallly@abv.bg
-			 *
+			 * 
 			 * @date 17 Oct 2011
 			 */
 			public void keyTyped(KeyEvent event) {
 				char c = event.getKeyChar();
 				if ((c < '0') || (c > '9') || (c == KeyEvent.VK_BACK_SPACE)
-				|| (c == KeyEvent.VK_DELETE)) {
+						|| (c == KeyEvent.VK_DELETE)) {
 					getToolkit().beep();
 					event.consume();
 				}
@@ -153,11 +154,11 @@ class NewAnnPane extends JPanel {
 
 			/**
 			 * Prepares a new ANN for saving and calls a function to save it.
-			 *
+			 * 
 			 * @author Ralitza Koleva
-			 *
+			 * 
 			 * @email rallly@abv.bg
-			 *
+			 * 
 			 * @date 18 Sep 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
@@ -167,21 +168,21 @@ class NewAnnPane extends JPanel {
 					 * ANN.
 					 */
 					String selectedSymbol = networkSymbol.getSelectedItem()
-											.toString();
+							.toString();
 
 					/*
 					 * Gets the selected period ID of the new ANN.
 					 */
 					int selectedPeriod = ((SymbolPeriodKeyValue) networkPeriod
-										  .getSelectedItem()).getKey();
+							.getSelectedItem()).getKey();
 
 					/*
 					 * Gets the input number of neurons of the new ANN.
 					 */
 					String networkNumberNeuronsStr = networkNumberNeurons
-													 .getText();
+							.getText();
 					int networkNumberNeurons = Integer
-											   .parseInt(networkNumberNeuronsStr);
+							.parseInt(networkNumberNeuronsStr);
 
 					/*
 					 * Prepares the default weights, fitness and flags of the
@@ -201,8 +202,8 @@ class NewAnnPane extends JPanel {
 					 * Calls a function for saving the new ANN.
 					 */
 					int newAnn = parent.dbHelp.saveNewAnn(selectedSymbol,
-														  selectedPeriod, networkNumberNeurons,
-														  networkWeights, networkFitness, networkFlags);
+							selectedPeriod, networkNumberNeurons,
+							networkWeights, networkFitness, networkFlags);
 
 					/*
 					 * Loads the new ANN in the work area.
@@ -232,16 +233,16 @@ class NewAnnPane extends JPanel {
 			/**
 			 * Updates ANN server information in the symbol and period
 			 * JComboBoxes.
-			 *
+			 * 
 			 * @author Ralitza Koleva
-			 *
+			 * 
 			 * @email rallly@abv.bg
-			 *
+			 * 
 			 * @date 18 Sep 2011
 			 */
 			public void actionPerformed(ActionEvent event) {
 				String listCurrencyPairs[][] = parent.dbHelp
-											   .loadCurrencyPairs();
+						.loadCurrencyPairs();
 				if (listCurrencyPairs == null) {
 					return;
 				}
@@ -265,7 +266,7 @@ class NewAnnPane extends JPanel {
 				networkPeriod.removeAllItems();
 				for (int i = 0; i < listPeriods.length; i++) {
 					networkPeriod.addItem(new SymbolPeriodKeyValue(
-											  listPeriods[i][0], listPeriods[i][1]));
+							listPeriods[i][0], listPeriods[i][1]));
 				}
 			}
 		});
@@ -273,18 +274,18 @@ class NewAnnPane extends JPanel {
 
 	/**
 	 * Shows a message if no symbol/period is selected to save the new ANN.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 05 Dec 2011
 	 */
 	private void showInformationMessage() {
 		InformationMessages error = new InformationMessages(
-			Texts.INFORMATION_SELECT_SYMBOL_AND_PERIOD,
-			Texts.INFORMATION_SELECT_SYMBOL_AND_PERIOD_TITLE,
-			JOptionPane.INFORMATION_MESSAGE);
+				Texts.INFORMATION_SELECT_SYMBOL_AND_PERIOD,
+				Texts.INFORMATION_SELECT_SYMBOL_AND_PERIOD_TITLE,
+				JOptionPane.INFORMATION_MESSAGE);
 		error.showMessage();
 	}
 }

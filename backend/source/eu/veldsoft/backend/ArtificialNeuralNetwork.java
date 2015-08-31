@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -30,11 +31,11 @@ package eu.veldsoft.backend;
 
 /**
  * Data structure containing ANN for visual representation.
- *
+ * 
  * @author Momchil Anachkov
- *
+ * 
  * @email mZer0000@gmail.com
- *
+ * 
  * @date 24 Dec 2010
  */
 public class ArtificialNeuralNetwork {
@@ -103,14 +104,89 @@ public class ArtificialNeuralNetwork {
 	 * Neurons out signals.
 	 */
 	double signals[];
-	
+
 	/**
 	 * Neurons out errors.
 	 */
 	double errors[];
-	
+
 	/**
 	 * Containing the coordinates of the neurons for the selected ANN.
 	 */
 	int coordinates[][];
+
+	/**
+	 * Size of input layer.
+	 * 
+	 * @return The size of the input layer.
+	 * 
+	 * @author Todor Balabanov
+	 * 
+	 * @email todor.balabanov@gmail.com
+	 * 
+	 * @date 31 Aug 2015
+	 */
+	int numberOfInputNeurons() {
+		int size = 0;
+
+		for (int k = 0; k < flags.length; k++) {
+			if (flags[k] != INPUT_NEURON) {
+				continue;
+			}
+
+			size++;
+		}
+
+		return size;
+	}
+
+	/**
+	 * Size of hidden layer.
+	 * 
+	 * @return The size of the hidden layer.
+	 * 
+	 * @author Todor Balabanov
+	 * 
+	 * @email todor.balabanov@gmail.com
+	 * 
+	 * @date 31 Aug 2015
+	 */
+	int numberOfHiddenNeurons() {
+		int size = 0;
+
+		for (int k = 0; k < flags.length; k++) {
+			if (flags[k] != REGULAR_NEURON) {
+				continue;
+			}
+
+			size++;
+		}
+
+		return size;
+	}
+
+	/**
+	 * Size of output layer.
+	 * 
+	 * @return The size of the output layer.
+	 * 
+	 * @author Todor Balabanov
+	 * 
+	 * @email todor.balabanov@gmail.com
+	 * 
+	 * @date 31 Aug 2015
+	 */
+	int numberOfOutputNeurons() {
+		int size = 0;
+
+		for (int k = 0; k < flags.length; k++) {
+			if (flags[k] != OUTPUT_NEURON) {
+				continue;
+			}
+
+			size++;
+		}
+
+		return size;
+	}
 }

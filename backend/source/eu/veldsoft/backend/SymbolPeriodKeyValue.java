@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -31,11 +32,11 @@ package eu.veldsoft.backend;
 /**
  * Gives a JComboBox two values - a visible value in the drop down menu and a
  * hidden one.
- *
+ * 
  * @author Ralitza Koleva
- *
+ * 
  * @email rallly@abv.bg
- *
+ * 
  * @date 29 Oct 2011
  */
 class SymbolPeriodKeyValue {
@@ -52,17 +53,17 @@ class SymbolPeriodKeyValue {
 
 	/**
 	 * SymbolPeriodKeyValue constructor.
-	 *
+	 * 
 	 * @param key
 	 *            Hidden value of the JComboBox item.
-	 *
+	 * 
 	 * @param value
 	 *            Visible value of the JComboBox item.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 29 Oct 2011
 	 */
 	public SymbolPeriodKeyValue(String key, String value) {
@@ -72,13 +73,13 @@ class SymbolPeriodKeyValue {
 
 	/**
 	 * Gets the visible value of the JComboBox item.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 29 Oct 2011
-	 *
+	 * 
 	 * @return The visible value of the JComboBox item.
 	 */
 	public String getValue() {
@@ -87,13 +88,13 @@ class SymbolPeriodKeyValue {
 
 	/**
 	 * Gets the hidden value of the JComboBox item.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 29 Oct 2011
-	 *
+	 * 
 	 * @return The hidden value of the JComboBox item.
 	 */
 	public int getKey() {
@@ -102,13 +103,13 @@ class SymbolPeriodKeyValue {
 
 	/**
 	 * Converts the visible value of the JComboBox item to a string.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 29 Oct 2011
-	 *
+	 * 
 	 * @return The visible value of the JComboBox item as a string.
 	 */
 	public String toString() {

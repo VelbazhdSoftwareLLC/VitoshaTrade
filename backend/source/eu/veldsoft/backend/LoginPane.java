@@ -1,4 +1,5 @@
 package eu.veldsoft.backend;
+
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -46,11 +47,11 @@ import javax.swing.JPasswordField;
 
 /**
  * Panel with GUI controls for longin.
- *
+ * 
  * @author Momchil Anachkov
- *
+ * 
  * @email mZer0000@gmail.com
- *
+ * 
  * @date 16 Nov 2010
  */
 class LoginPane extends JPanel {
@@ -96,20 +97,20 @@ class LoginPane extends JPanel {
 
 	/**
 	 * Constructing login pane.
-	 *
+	 * 
 	 * @param parent
 	 *            The parent class.
-	 *
+	 * 
 	 * @author Momchil Anachkov
-	 *
+	 * 
 	 * @email mZer0000@gmail.com
-	 *
+	 * 
 	 * @date 16 Nov 2010
 	 */
 	public LoginPane(final VitoshaTradeApplet parent) {
 		this.parent = parent;
 		this.setPreferredSize(new Dimension(VitoshaTradeApplet.EAST_PANE_WIDTH,
-											VitoshaTradeApplet.EAST_PANE_HEIGHT));
+				VitoshaTradeApplet.EAST_PANE_HEIGHT));
 
 		setLayout(new GridLayout(25, 1));
 
@@ -151,7 +152,7 @@ class LoginPane extends JPanel {
 				parent.dbHelp.setHost(dbHost.getText());
 				try {
 					parent.dbHelp.setPort((new Integer(dbPort.getText()))
-										  .intValue());
+							.intValue());
 				} catch (Exception ex) {
 					System.err.println(Texts.ERROR_DATABASE_PORT);
 					// TODO Inform user that port should be number.
@@ -181,14 +182,14 @@ class LoginPane extends JPanel {
 				try {
 					Properties p = new Properties();
 					FileInputStream allProperties = new FileInputStream(
-						Util.PROPERTIES_FILE_NAME);
+							Util.PROPERTIES_FILE_NAME);
 					p.load(allProperties);
 					p.setProperty("DatabaseHost", dbHost.getText());
 					p.setProperty("DatabasePort", dbPort.getText());
 					p.setProperty("DatabaseName", dbName.getText());
 
 					FileOutputStream out = new FileOutputStream(
-						Util.PROPERTIES_FILE_NAME);
+							Util.PROPERTIES_FILE_NAME);
 					p.store(out, "");
 					allProperties.close();
 					out.close();
@@ -202,17 +203,17 @@ class LoginPane extends JPanel {
 
 	/**
 	 * Shows error message when login fails.
-	 *
+	 * 
 	 * @author Ralitza Koleva
-	 *
+	 * 
 	 * @email rallly@abv.bg
-	 *
+	 * 
 	 * @date 24 Nov 2011
 	 */
 	private void showConnectionError() {
 		InformationMessages error = new InformationMessages(
-			Texts.ERROR_DATABASE_CONNECT,
-			Texts.ERROR_DATABASE_CONNECT_TITLE, JOptionPane.ERROR_MESSAGE);
+				Texts.ERROR_DATABASE_CONNECT,
+				Texts.ERROR_DATABASE_CONNECT_TITLE, JOptionPane.ERROR_MESSAGE);
 		error.showMessage();
 		parent.showLoginPane();
 	}
