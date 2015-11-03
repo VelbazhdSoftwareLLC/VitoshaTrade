@@ -75,27 +75,27 @@ public:
 	 * Do prediction with each chromosome, not only with the best one.
 	 */
 	//TODO implement it as member variable.
-	static const bool PREDICT_WITH_EACH_CHROMOSOME = true;
+	static const bool PREDICT_WITH_EACH_CHROMOSOME;
 
 	/**
 	 * Minimum mutation factor.
 	 */
-	static const double MIN_MUTATION_FACTOR = 0.0;
+	static const double MIN_MUTATION_FACTOR;
 
 	/**
 	 * Maximum mutation factor.
 	 */
-	static const double MAX_MUTATION_FACTOR = 2.0;
+	static const double MAX_MUTATION_FACTOR;
 
 	/**
 	 * Minimum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
 	 */
-	static const int MIN_CROSSOVER_RATE = 0;
+	static const int MIN_CROSSOVER_RATE;
 
 	/**
 	 * Maximum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
 	 */
-	static const int MAX_CROSSOVER_RATE = 10000;
+	static const int MAX_CROSSOVER_RATE;
 
 private:
 

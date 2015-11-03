@@ -53,7 +53,7 @@ public:
 	/**
 	 * Floating point factor to convert from floating point to integer.
 	 */
-	static const double FLOATING_POINT_FACTOR = 10000.0;
+	static const double FLOATING_POINT_FACTOR;
 
 public:
 

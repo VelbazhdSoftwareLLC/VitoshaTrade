@@ -53,17 +53,17 @@ public:
 	/**
 	 * Less optimal fitness value constant.
 	 */
-	static const double LESS_OPTIMAL_FITNESS_VALUE = RAND_MAX;
+	static const double LESS_OPTIMAL_FITNESS_VALUE;
 
 	/**
 	 * Minimuim random initializaton value for initial chromosome values.
 	 */
-	static const double MIN_INIT_RANDOM = -1.0;
+	static const double MIN_INIT_RANDOM;
 
 	/**
 	 * Maximum random initializaton value for initial chromosome values.
 	 */
-	static const double MAX_INIT_RANDOM = +1.0;
+	static const double MAX_INIT_RANDOM;
 
 private:
 

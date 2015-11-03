@@ -1,0 +1,162 @@
+# depslib dependency file v1.0
+1446561880 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ActivitiesMatrix.cpp
+	"ActivitiesMatrix.h"
+
+1446561850 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ActivitiesMatrix.h
+	"GraphMatrix.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/GraphMatrix.h
+	<vector>
+	<iostream>
+
+1446562747 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANN.cpp
+	<cmath>
+	<climits>
+	<cstdlib>
+	<iomanip>
+	"ANN.h"
+	"ANNInput.h"
+	"ANNOutput.h"
+	"Counter.h"
+	"WeightsMatrix.h"
+	"TrainingSet.h"
+	"ActivitiesMatrix.h"
+
+1446562757 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANN.h
+	<iostream>
+	"NeuronsList.h"
+	"WeightsMatrix.h"
+	"TimePeriod.h"
+	"ActivitiesMatrix.h"
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/NeuronsList.h
+	<vector>
+	<iostream>
+	"Neuron.h"
+
+1446562081 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Neuron.h
+	<iostream>
+	"NeuronType.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/NeuronType.h
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.h
+	"GraphMatrix.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/TimePeriod.h
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNIO.h
+	<vector>
+	<iostream>
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNInput.h
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNOutput.h
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.h
+	<map>
+	<iostream>
+
+1446562824 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingSet.h
+	<vector>
+	<iostream>
+	"RateInfo.h"
+	"TrainingExample.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/RateInfo.h
+	<ctime>
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingExample.h
+	"ANNIO.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNInput.cpp
+	"ANNInput.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNIO.cpp
+	"ANNIO.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNOutput.cpp
+	"ANNOutput.h"
+
+1446563372 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Chromosome.cpp
+	"Chromosome.h"
+
+1446563393 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Chromosome.h
+	<cstdlib>
+	<iostream>
+	"WeightsMatrix.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Communicator.cpp
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
+	"Counter.h"
+
+1446563944 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
+	<cmath>
+	<climits>
+	<cstdlib>
+	<iomanip>
+	"DE.h"
+	"ANN.h"
+	"Counter.h"
+
+1446563989 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.h
+	<iostream>
+	"Population.h"
+	"CrossoverType.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Population.h
+	<vector>
+	<iostream>
+	"Chromosome.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/CrossoverType.h
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/GraphMatrix.cpp
+	<iomanip>
+	"GraphMatrix.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Init.cpp
+	<stdio.h>
+	<cstdlib>
+	<cstring>
+	"Init.h"
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Init.h
+
+1446561992 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Neuron.cpp
+	<iomanip>
+	"Neuron.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/NeuronsList.cpp
+	"NeuronsList.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Population.cpp
+	"Population.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingExample.cpp
+	"TrainingExample.h"
+
+1446562813 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingSet.cpp
+	<cstdlib>
+	<iomanip>
+	"TrainingSet.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.cpp
+	"WeightsMatrix.h"
+
+1446564262 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+	<iostream>
+	<DE.h>
+	<ANN.h>
+	<Counter.h>
+	<TimePeriod.h>
+	<TrainingSet.h>
+	<ModelParameters.h>
+
+1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ModelParameters.h
+	"TimePeriod.h"
+

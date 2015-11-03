@@ -52,17 +52,17 @@ public:
 	/**
 	 * Bias neuron value.
 	 */
-	static const double BIAS_VALUE = 1.0;
+	static const double BIAS_VALUE;
 
 	/**
 	 * Neurons reset constant value.
 	 */
-	static const double RESET_VALUE = 0.5;
+	static const double RESET_VALUE;
 
 	/**
 	 * Minimal error constant value.
 	 */
-	static const double MIN_ERROR = 0.0;
+	static const double MIN_ERROR;
 
 private:
 

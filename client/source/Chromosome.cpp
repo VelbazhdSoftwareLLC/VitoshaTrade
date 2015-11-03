@@ -33,6 +33,12 @@ using namespace std;
 
 #include "Chromosome.h"
 
+const double Chromosome::LESS_OPTIMAL_FITNESS_VALUE = RAND_MAX;
+
+const double Chromosome::MIN_INIT_RANDOM = -1.0;
+
+const double Chromosome::MAX_INIT_RANDOM = +1.0;
+
 Chromosome::Chromosome() {
 	fitness = LESS_OPTIMAL_FITNESS_VALUE;
 }

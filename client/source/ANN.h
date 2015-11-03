@@ -59,7 +59,7 @@ public:
 	/**
 	 * Learning rate of backpropagation.
 	 */
-	static const double LEARNING_RATE = 0.35;
+	static const double LEARNING_RATE;
 
 private:
 

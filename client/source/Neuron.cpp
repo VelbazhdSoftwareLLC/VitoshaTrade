@@ -35,6 +35,12 @@ using namespace std;
 
 #include "Neuron.h"
 
+const double Neuron::BIAS_VALUE = 1.0;
+
+const double Neuron::RESET_VALUE = 0.5;
+
+const double Neuron::MIN_ERROR = 0.0;
+
 Neuron::Neuron() {
 	setRegular( true );
 	reset();

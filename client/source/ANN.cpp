@@ -51,6 +51,8 @@ extern void sleep();
  */
 extern bool isRunning;
 
+const double ANN::LEARNING_RATE = 0.35;
+
 void ANN::create(int neuronsAmount) {
 	NeuronsList neurons(neuronsAmount);
 	this->neurons = neurons;

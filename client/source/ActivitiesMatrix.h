@@ -50,12 +50,12 @@ public:
 	/**
 	 * Minimum possible weight activity.
 	 */
-	static const double MIN_ACTIVITY = 0.0;
+	static const double MIN_ACTIVITY;
 
 	/**
 	 * Maximum possible weight activity.
 	 */
-	static const double MAX_ACTIVITY = 1.0;
+	static const double MAX_ACTIVITY;
 
 private:
 

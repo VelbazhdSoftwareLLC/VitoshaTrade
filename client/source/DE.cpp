@@ -47,6 +47,16 @@ extern void sleep();
  */
 extern bool isRunning;
 
+const bool DE::PREDICT_WITH_EACH_CHROMOSOME = true;
+
+const double DE::MIN_MUTATION_FACTOR = 0.0;
+
+const double DE::MAX_MUTATION_FACTOR = 2.0;
+
+const int DE::MIN_CROSSOVER_RATE = 0;
+
+const int DE::MAX_CROSSOVER_RATE = 10000;
+
 bool DE::validIndexes() {
 	if(trialIndex == xIndex || trialIndex == aIndex || trialIndex == bIndex || trialIndex == cIndex) {
 		return false;

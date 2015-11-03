@@ -36,6 +36,8 @@ using namespace std;
 
 #include "TrainingSet.h"
 
+const double TrainingSet::FLOATING_POINT_FACTOR = 10000.0;
+
 void TrainingSet::splitDigits(ANNIO &values, unsigned long number) {
 	for (int i=values.dimension()-1; i>=0; i--) {
 		values[i] = ((double)(number % 10) / 10.0);
