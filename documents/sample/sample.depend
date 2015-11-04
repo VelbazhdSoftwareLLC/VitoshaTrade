@@ -148,7 +148,8 @@
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.cpp
 	"WeightsMatrix.h"
 
-1446564262 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+1446642049 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+	<cmath>
 	<iostream>
 	<DE.h>
 	<ANN.h>
