@@ -9,7 +9,7 @@
 	<vector>
 	<iostream>
 
-1446562747 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANN.cpp
+1449081570 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANN.cpp
 	<cmath>
 	<climits>
 	<cstdlib>
@@ -91,10 +91,10 @@
 
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Communicator.cpp
 
-1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
+1449082284 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
 	"Counter.h"
 
-1446563944 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
+1449081544 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
 	<cmath>
 	<climits>
 	<cstdlib>
@@ -140,7 +140,7 @@
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingExample.cpp
 	"TrainingExample.h"
 
-1446562813 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingSet.cpp
+1449081708 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingSet.cpp
 	<cstdlib>
 	<iomanip>
 	"TrainingSet.h"
@@ -148,7 +148,7 @@
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.cpp
 	"WeightsMatrix.h"
 
-1446642049 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+1449081789 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
 	<cmath>
 	<iostream>
 	<DE.h>

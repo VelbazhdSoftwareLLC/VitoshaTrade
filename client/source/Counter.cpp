@@ -51,7 +51,7 @@ void Counter::setValue(const char* key, long value) {
 
 void Counter::increment(const char* key) {
 	if (counters.count(key) == 0) {
-		counters[key] = 0;
+		counters[key] = +1;
 	} else {
 		counters[key]++;
 	}
@@ -59,7 +59,7 @@ void Counter::increment(const char* key) {
 
 void Counter::decrement(const char* key) {
 	if (counters.count(key) == 0) {
-		counters[key] = 0;
+		counters[key] = -1;
 	} else {
 		counters[key]--;
 	}
@@ -70,8 +70,13 @@ long Counter::operator[](const char* key) {
 }
 
 ostream& operator<<(ostream &out, Counter &counter) {
-	for (map<const char*, long>::iterator i=counter.counters.begin(); i!=counter.counters.end(); ++i) {
-		out << (*i).first << "\t :\t " << (*i).second << endl;
+	for (map<const char*, long>::iterator i=counter.counters.begin(); i!=counter.counters.end();) {
+		out << (*i).first << "\t :\t " << (*i).second;
+
+        ++i;
+		if (i != counter.counters.end()) {
+			out << endl;
+		}
 	}
 
 	return( out );

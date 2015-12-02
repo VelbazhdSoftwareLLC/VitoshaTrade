@@ -91,6 +91,14 @@ void DE::recombine() {
 	WeightsMatrix &b = population[bIndex].getWeights();
 	WeightsMatrix &c = population[cIndex].getWeights();
 
+	/*
+	 * Size of the ANN should not be zero.
+	 */
+    if(trial.dimension() <= 0) {
+		throw( "DE00219" );
+		return;
+    }
+
 	//TODO Implement recombination as polymorphic class.
 	int R = rand() % (2*trial.dimension());
 	for (int j=0, k=0; j<trial.dimension(); j++) {

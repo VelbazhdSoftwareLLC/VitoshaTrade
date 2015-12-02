@@ -708,30 +708,14 @@ void ANN::predict() {
 		return;
 	}
 
-	/*
-	 * Minutes shoud be converted to seconds.
-	 */
-	static unsigned long period = this->period * 60;
+    loadInput(ts->getSplittedInputed(0));
 
-	/*
-	 * Loop over future time values.
-	 */
-	unsigned long moment = ts->getTime( ts->getSize()-1 ) + period;
-	for (int i=0; i<bars&&isRunning==true; i++) {
-		/*
-		 * For each time load ANN input.
-		 */
-		ANNInput inputValues( neurons.getInputNeuronsAmount() );
-		ts->splitDigits(inputValues, moment);
-		loadInput(inputValues);
-
-		update();
-
-		moment += period;
-	}
+	update();
 
 	ANNOutput outputValues( neurons.getOutputNeuronsAmount() );
 	storeOutput(outputValues);
+
+	//TODO Should have array of predicted future values.
 	prediction = outputValues[0];
 }
 

@@ -18,13 +18,12 @@ void sleep() {
 int main(){
     srand( time(NULL) );
 
-    char symbol[ 10 ];
-    TimePeriod period;
     Counter counters;
-    ANN ann(&counters, 12, 5, 1, M1);
-    DE de(&counters, &ann, 13);
-    TrainingSet ts;
 
+    /*
+     * Form ANN with three layers.
+     */
+    ANN ann(&counters, 12, 5, 1, M1);
     ann.setupInput( 5 );
 	ann.setupOutput( 1 );
 	ann.setupThreeLayers();
@@ -32,7 +31,7 @@ int main(){
     /*
      * Implement simple rates test case.
      */
-    std::vector<RateInfo> &rates = ts.getRates();
+    std::vector<RateInfo> rates;
     rates.resize(31);
     for(int i=0; i<rates.size(); i++) {
         //TODO May be it should be in the oposite direction.
@@ -45,23 +44,52 @@ int main(){
 
         rates[i].volume = rand();
     }
+    TrainingSet ts(rates, rates.size(), 5, 1);
 
+    /*
+     * Link ANN with the training set.
+     */
 	ann.setTrainingSetPointer( &ts );
 
-    cout << "===" << endl;
+    /*
+     * Initialize DE population.
+     */
+    DE de(&counters, &ann, 13);
+	Population &population = de.getPopulation();
+	for(int i=0; i<population.dimension(); i++) {
+		WeightsMatrix weights( ann.getNeurons().dimension() );
+		Chromosome chromosome(weights, (double)RAND_MAX);
+		population[i] = chromosome;
+	}
+	population.initRandom();
+
+	de.setPopulation( population );
+
+    /*
+     * Do the training.
+     */
+    de.evolve();
+    cout << ann.getPrediction();
     cout << endl;
+
+    //cout << "===" << endl;
+    //cout << endl;
     //cout << ann << endl;
-    cout << endl;
-    cout << "===" << endl;
-    cout << endl;
+    //cout << endl;
+    //cout << "===" << endl;
+    //cout << endl;
     //cout << de << endl;
-    cout << endl;
-    cout << "===" << endl;
-    cout << endl;
+    //cout << endl;
+    //cout << "===" << endl;
+    //cout << endl;
     //cout << ts << endl;
-    cout << endl;
-    cout << "===" << endl;
-    cout << endl;
+    //cout << endl;
+    //cout << "===" << endl;
+    //cout << endl;
+    cout << counters << endl;
+    //cout << endl;
+    //cout << "===" << endl;
+    //cout << endl;
 
     return EXIT_SUCCESS;
 }
