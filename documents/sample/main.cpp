@@ -10,51 +10,62 @@
 
 using namespace std;
 
+#define NUMBER_OF_RECOMBINATIONS 10000000L
+#define TIME_SERIES_SIZE 31
+
 bool isRunning = true;
 
 void sleep() {
 }
 
-int main(){
-    srand( time(NULL) );
+void sineDataTest() {
 
-    Counter counters;
+	Counter counters;
 
-    /*
-     * Form ANN with three layers.
-     */
-    ANN ann(&counters, 12, 5, 1, M1);
-    ann.setupInput( 5 );
+	/*
+	 * Form ANN with three layers.
+	 */
+	ANN ann(&counters, 12, 5, 1, M1);
+	ann.setupInput( 5 );
 	ann.setupOutput( 1 );
 	ann.setupThreeLayers();
 
-    /*
-     * Implement simple rates test case.
-     */
-    std::vector<RateInfo> rates;
-    rates.resize(31);
-    for(int i=0; i<rates.size(); i++) {
-        //TODO May be it should be in the oposite direction.
-        rates[i].time = rates.size()-i-1;
+	/*
+	 * Implement simple rates test case.
+	 */
+	RateInfo expected;
+	std::vector<RateInfo> rates;
+	rates.resize(TIME_SERIES_SIZE);
+	for(int i=0; i<rates.size(); i++) {
+		//TODO May be it should be in the oposite direction.
+		rates[i].time = rates.size()-i-1;
 
-        rates[i].open = (1 + sin((double)i/rates.size()*M_PI+M_PI/17.0)) / 2.0;
-        rates[i].low = (1 + sin((double)i/rates.size()*M_PI+M_PI/19.0)) / 2.0;
-        rates[i].high = (1 + sin((double)i/rates.size()*M_PI+M_PI/23.0)) / 2.0;
-        rates[i].close = (1 + sin((double)i/rates.size()*M_PI+M_PI/31.0)) / 2.0;
+		rates[i].open = (1 + sin((double)i/rates.size()*M_PI+M_PI/17.0)) / 2.0;
+		rates[i].low = (1 + sin((double)i/rates.size()*M_PI+M_PI/19.0)) / 2.0;
+		rates[i].high = (1 + sin((double)i/rates.size()*M_PI+M_PI/23.0)) / 2.0;
+		rates[i].close = (1 + sin((double)i/rates.size()*M_PI+M_PI/31.0)) / 2.0;
 
-        rates[i].volume = rand();
-    }
-    TrainingSet ts(rates, rates.size(), 5, 1);
+		rates[i].volume = rand();
+	}
+	expected.open = (1 + sin((double)TIME_SERIES_SIZE/rates.size()*M_PI+M_PI/17.0)) / 2.0;
+	expected.low = (1 + sin((double)TIME_SERIES_SIZE/rates.size()*M_PI+M_PI/19.0)) / 2.0;
+	expected.high = (1 + sin((double)TIME_SERIES_SIZE/rates.size()*M_PI+M_PI/23.0)) / 2.0;
+	expected.close = (1 + sin((double)TIME_SERIES_SIZE/rates.size()*M_PI+M_PI/31.0)) / 2.0;
 
-    /*
-     * Link ANN with the training set.
-     */
+	/*
+	 * Form training set.
+	 */
+	TrainingSet ts(rates, rates.size(), 5, 1);
+
+	/*
+	 * Link ANN with the training set.
+	 */
 	ann.setTrainingSetPointer( &ts );
 
-    /*
-     * Initialize DE population.
-     */
-    DE de(&counters, &ann, 13);
+	/*
+	 * Initialize DE population.
+	 */
+	DE de(&counters, &ann, 13);
 	Population &population = de.getPopulation();
 	for(int i=0; i<population.dimension(); i++) {
 		WeightsMatrix weights( ann.getNeurons().dimension() );
@@ -65,31 +76,58 @@ int main(){
 
 	de.setPopulation( population );
 
+	/*
+	 * Do the training.
+	 */
+	for(long g=0; g<NUMBER_OF_RECOMBINATIONS; g++) {
+		//de.evolve();
+		ann.setWeights(de.getPopulation()[0].getWeights());
+		ann.gradient();
+		de.getPopulation()[0].setWeights(ann.getWeights());
+	}
+
     /*
-     * Do the training.
+     * Produce prediction after training.
      */
-    de.evolve();
-    cout << ann.getPrediction();
-    cout << endl;
+    ann.predict();
 
-    //cout << "===" << endl;
-    //cout << endl;
-    //cout << ann << endl;
-    //cout << endl;
-    //cout << "===" << endl;
-    //cout << endl;
-    //cout << de << endl;
-    //cout << endl;
-    //cout << "===" << endl;
-    //cout << endl;
-    //cout << ts << endl;
-    //cout << endl;
-    //cout << "===" << endl;
-    //cout << endl;
-    cout << counters << endl;
-    //cout << endl;
-    //cout << "===" << endl;
-    //cout << endl;
+	cout << "Next expected value: ";
+	cout << "\t";
+	cout << (expected.high+expected.low)/2.0;
+	cout << endl;
+	cout << "Predicted value: ";
+	cout << "\t";
+	cout << ann.getPrediction();
+	cout << endl;
 
-    return EXIT_SUCCESS;
+	//cout << "===" << endl;
+	//cout << endl;
+	//cout << ann << endl;
+	//cout << endl;
+	//cout << "===" << endl;
+	//cout << endl;
+	//cout << de << endl;
+	//cout << endl;
+	//cout << "===" << endl;
+	//cout << endl;
+	//cout << ts << endl;
+	//cout << endl;
+	//cout << "===" << endl;
+	//cout << endl;
+	cout << counters << endl;
+	//cout << endl;
+	//cout << "===" << endl;
+	//cout << endl;
+}
+
+int main() {
+	srand( time(NULL) );
+
+    try{
+        sineDataTest();
+    } catch(const char *exception) {
+        cerr << exception;
+    }
+
+	return EXIT_SUCCESS;
 }
