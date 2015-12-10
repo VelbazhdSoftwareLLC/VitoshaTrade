@@ -114,22 +114,22 @@ private:
 	/**
 	 * In original DE x vector is selected in a loop and each element is visited. Here we will select x random way (statistically it should not have a difference).
 	 */
-	int xIndex;
+	int baseIndex;
 
 	/**
 	 * Vector a from the original DE implementation.
 	 */
-	int aIndex;
+	int targetIndex;
 
 	/**
 	 * Vector b from the original DE implementation.
 	 */
-	int bIndex;
+	int firstIndex;
 
 	/**
 	 * Vector c from the original DE implementation.
 	 */
-	int cIndex;
+	int secondIndex;
 
 	/**
 	 * Link to counters object.

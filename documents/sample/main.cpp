@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define NUMBER_OF_RECOMBINATIONS 10000000L
+#define NUMBER_OF_RECOMBINATIONS 100L
 #define TIME_SERIES_SIZE 31
 
 bool isRunning = true;
@@ -19,7 +19,9 @@ void sleep() {
 }
 
 void sineDataTest() {
-
+	/*
+	 * Collect statistics.
+	 */
 	Counter counters;
 
 	/*
@@ -80,7 +82,8 @@ void sineDataTest() {
 	 * Do the training.
 	 */
 	for(long g=0; g<NUMBER_OF_RECOMBINATIONS; g++) {
-		//de.evolve();
+		de.evolve();
+
 		ann.setWeights(de.getPopulation()[0].getWeights());
 		ann.gradient();
 		de.getPopulation()[0].setWeights(ann.getWeights());

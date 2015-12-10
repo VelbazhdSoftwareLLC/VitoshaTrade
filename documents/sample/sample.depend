@@ -94,7 +94,7 @@
 1449082284 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
 	"Counter.h"
 
-1449081544 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
+1449768730 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
 	<cmath>
 	<climits>
 	<cstdlib>
@@ -103,7 +103,7 @@
 	"ANN.h"
 	"Counter.h"
 
-1446563989 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.h
+1449768842 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.h
 	<iostream>
 	"Population.h"
 	"CrossoverType.h"
@@ -148,7 +148,7 @@
 1449131559 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.cpp
 	"WeightsMatrix.h"
 
-1449133536 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+1449151081 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
 	<cmath>
 	<iostream>
 	<DE.h>

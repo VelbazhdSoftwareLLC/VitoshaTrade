@@ -49,28 +49,28 @@ extern bool isRunning;
 
 const bool DE::PREDICT_WITH_EACH_CHROMOSOME = true;
 
-const double DE::MIN_MUTATION_FACTOR = 0.0;
+const double DE::MIN_MUTATION_FACTOR = 0.000;
 
-const double DE::MAX_MUTATION_FACTOR = 2.0;
+const double DE::MAX_MUTATION_FACTOR = 0.002;
 
 const int DE::MIN_CROSSOVER_RATE = 0;
 
 const int DE::MAX_CROSSOVER_RATE = 10000;
 
 bool DE::validIndexes() {
-	if(trialIndex == xIndex || trialIndex == aIndex || trialIndex == bIndex || trialIndex == cIndex) {
+	if(trialIndex == baseIndex || trialIndex == targetIndex || trialIndex == firstIndex || trialIndex == secondIndex) {
 		return false;
 	}
 
-	if(xIndex == aIndex || xIndex == bIndex || xIndex == cIndex) {
+	if(baseIndex == targetIndex || baseIndex == firstIndex || baseIndex == secondIndex) {
 		return false;
 	}
 
-	if(aIndex == bIndex || aIndex == cIndex) {
+	if(targetIndex == firstIndex || targetIndex == secondIndex) {
 		return false;
 	}
 
-	if(bIndex == cIndex) {
+	if(firstIndex == secondIndex) {
 		return false;
 	}
 
@@ -83,13 +83,29 @@ void DE::recombine() {
 	double F = MIN_MUTATION_FACTOR + (MAX_MUTATION_FACTOR - MIN_MUTATION_FACTOR) * ((double)rand() / (double)RAND_MAX);
 
 	/*
-	 * Get copies of the chromosomes.
+	 * Trail vector.
 	 */
 	WeightsMatrix &trial = population[trialIndex].getWeights();
-	WeightsMatrix &x = population[xIndex].getWeights();
-	WeightsMatrix &a = population[aIndex].getWeights();
-	WeightsMatrix &b = population[bIndex].getWeights();
-	WeightsMatrix &c = population[cIndex].getWeights();
+
+	/*
+	 * Base vector.
+	 */
+	WeightsMatrix &base = population[baseIndex].getWeights();
+
+	/*
+	 * Target vector.
+	 */
+	WeightsMatrix &target = population[targetIndex].getWeights();
+
+	/*
+	 * First vector for the difference.
+	 */
+	WeightsMatrix &first = population[firstIndex].getWeights();
+
+	/*
+	 * Second vector for the difference.
+	 */
+	WeightsMatrix &second = population[secondIndex].getWeights();
 
 	/*
 	 * Size of the ANN should not be zero.
@@ -100,23 +116,31 @@ void DE::recombine() {
     }
 
 	//TODO Implement recombination as polymorphic class.
-	int R = rand() % (2*trial.dimension());
+
+	/*
+	 * It is a guarantee that at least one element will be crossed.
+	 */
+	int R = rand() % (trial.dimension() * trial.dimension());
+
+    /*
+     * Binomial crossover.
+     */
 	for (int j=0, k=0; j<trial.dimension(); j++) {
 		for (int i=0; i<trial.dimension(); i++, k++) {
 			int ri = MIN_CROSSOVER_RATE + rand() % (MAX_CROSSOVER_RATE - MIN_CROSSOVER_RATE + 1);
 
 			if (ri < CR || k == R) {
-				trial(i,j) = x(i,j) + F * (b(i,j)-c(i,j));
+				trial(i,j) = base(i,j) + F * (first(i,j)-second(i,j));
 			} else {
-				trial(i,j) = x(i,j);
+				trial(i,j) = target(i,j);
 			}
 		}
 	}
 
 	/*
-	 * Update result chromosome.
+	 * Update result chromosome. When reference is used result is already on place.
 	 */
-	population[trialIndex].setWeights( trial );
+	//TODO population[trialIndex].setWeights( trial );
 }
 
 
@@ -203,7 +227,7 @@ void DE::evolve() {
 	}
 
 	/*
-	 * Select trial vector index.
+	 * Select trial vector index (it is used as buffer).
 	 */
 	//TODO Use the chromosome with the worst fitness.
 	trialIndex = rand() % population.dimension();
@@ -219,13 +243,13 @@ void DE::evolve() {
 		 */
 		do {
 			/*
-			 * Vector x should never be equal to the trial vector. That is why k can not be used as x vector selection.
+			 * Base vector should never be equal to the trial vector. That is why k can not be used as x vector selection.
 			 */
-			xIndex = rand() % population.dimension();
+			baseIndex = rand() % population.dimension();
 
-			aIndex = rand() % population.dimension();
-			bIndex = rand() % population.dimension();
-			cIndex = rand() % population.dimension();
+			targetIndex = rand() % population.dimension();
+			firstIndex = rand() % population.dimension();
+			secondIndex = rand() % population.dimension();
 		} while (validIndexes() == false);
 
 		/*
@@ -258,10 +282,10 @@ void DE::evolve() {
 		}
 
 		/*
-		 * If trial vector is better than x vector than switch indexes.
+		 * If trial vector is better than base vector than switch indexes.
 		 */
-		if(population[ trialIndex ].getFitness() < population[ xIndex ].getFitness()) {
-			trialIndex = xIndex;
+		if(population[ trialIndex ].getFitness() < population[ baseIndex ].getFitness()) {
+			trialIndex = baseIndex;
 		}
 
 		/*
