@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="230" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="../../client/source/ANN.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="16054" topLine="711" />
@@ -16,24 +11,44 @@
 			<Cursor1 position="1617" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="../../client/source/ActivitiesMatrix.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3284" topLine="27" />
+		</Cursor>
+	</File>
 	<File name="../../client/source/DE.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="8639" topLine="288" />
 		</Cursor>
 	</File>
-	<File name="../../client/source/Population.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3223" topLine="35" />
-		</Cursor>
-	</File>
 	<File name="../../client/source/Counter.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3347" topLine="50" />
+			<Cursor1 position="3197" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="../../client/source/ANNIO.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3305" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="230" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="../../client/source/Chromosome.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3045" topLine="27" />
+			<Cursor1 position="2845" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="../../client/source/NeuronsList.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4538" topLine="92" />
+		</Cursor>
+	</File>
+	<File name="../../client/source/Population.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5002" topLine="120" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
