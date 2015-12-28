@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "Chromosome.h"
 
 const double Chromosome::LESS_OPTIMAL_FITNESS_VALUE = RAND_MAX;
@@ -43,9 +41,9 @@ Chromosome::Chromosome() {
 	fitness = LESS_OPTIMAL_FITNESS_VALUE;
 }
 
-Chromosome::Chromosome(WeightsMatrix &weights, double fintess) {
+Chromosome::Chromosome(WeightsMatrix &weights, double value) {
 	this->weights = weights;
-	this->fitness = fitness;
+	this->fitness = value;
 }
 
 Chromosome::Chromosome(const Chromosome &chromosome) {
@@ -65,8 +63,8 @@ double Chromosome::getFitness() const {
 	return( fitness );
 }
 
-void Chromosome::setFitness(double fitness) {
-	this->fitness = fitness;
+void Chromosome::setFitness(double value) {
+	this->fitness = value;
 }
 
 void Chromosome::random() {
@@ -92,12 +90,12 @@ Chromosome& Chromosome::operator=(const Chromosome &chromosome) {
 	return( *this );
 }
 
-ostream& operator<<(ostream &out, Chromosome &chromosome) {
+std::ostream& operator<<(std::ostream &out, Chromosome &chromosome) {
 	out << chromosome.weights;
-	out << endl;
+	out << std::endl;
 
 	out << chromosome.fitness;
-	out << endl;
+	out << std::endl;
 
 	return( out );
 }

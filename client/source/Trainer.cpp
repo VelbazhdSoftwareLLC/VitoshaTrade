@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include <ctime>
 #include <climits>
 #include <cstdlib>
@@ -74,7 +72,7 @@ void Trainer::setup(const ModelParameters &parameters) {
 	ann.setTrainingSetPointer( &ts );
 }
 
-void Trainer::updateTrainingSet(const vector<RateInfo> &rates, int size) {
+void Trainer::updateTrainingSet(const std::vector<RateInfo> &rates, int size) {
 	/*
 	 * Do not update if there is no new data at latest known time.
 	 */

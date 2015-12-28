@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "ActivitiesMatrix.h"
 
 const double ActivitiesMatrix::MIN_ACTIVITY = 0.0;
@@ -38,8 +36,8 @@ const double ActivitiesMatrix::MIN_ACTIVITY = 0.0;
 const double ActivitiesMatrix::MAX_ACTIVITY = 1.0;
 
 void ActivitiesMatrix::setAllToMax() {
-	for (vector< vector<double> >::iterator i=values.begin(); i!=values.end(); i++) {
-		for (vector<double>::iterator ij=(*i).begin(); ij!=(*i).end(); ij++) {
+	for (std::vector< std::vector<double> >::iterator i=values.begin(); i!=values.end(); i++) {
+		for (std::vector<double>::iterator ij=(*i).begin(); ij!=(*i).end(); ij++) {
 			*ij = MAX_ACTIVITY;
 		}
 	}
@@ -58,8 +56,8 @@ ActivitiesMatrix::ActivitiesMatrix(const ActivitiesMatrix &activities) : GraphMa
 }
 
 void ActivitiesMatrix::normalize() {
-	for (vector< vector<double> >::iterator i=values.begin(); i!=values.end(); i++) {
-		for (vector<double>::iterator ij=(*i).begin(); ij!=(*i).end(); ij++) {
+	for (std::vector< std::vector<double> >::iterator i=values.begin(); i!=values.end(); i++) {
+		for (std::vector<double>::iterator ij=(*i).begin(); ij!=(*i).end(); ij++) {
 			if (*ij < MIN_ACTIVITY) {
 				*ij = MIN_ACTIVITY;
 			}

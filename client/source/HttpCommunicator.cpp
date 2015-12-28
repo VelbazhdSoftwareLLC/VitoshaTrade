@@ -473,7 +473,7 @@ void HttpCommunicator::saveTrainingSet(char symbol[], TimePeriod period, const v
 		if (i > 0) {
 			strcat(buffer, " ");
 		}
-		sprintf(number, "%d", rates[i].time);
+		sprintf(number, "%ld", rates[i].time);
 		strcat(buffer, number);
 	}
 	sprintf(position, "time=%s&", buffer);

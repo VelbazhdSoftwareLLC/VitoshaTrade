@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "NeuronsList.h"
 
 NeuronsList::NeuronsList() {
@@ -60,7 +58,7 @@ NeuronsList::NeuronsList(const NeuronsList &neurons) {
 int NeuronsList::getInputNeuronsAmount() const {
 	int inputNeuronsAmount = 0;
 
-	for (vector<Neuron>::const_iterator i=list.begin(); i!=list.end(); i++) {
+	for (std::vector<Neuron>::const_iterator i=list.begin(); i!=list.end(); i++) {
 		if((*i).isInput() == true) {
 			inputNeuronsAmount++;
 		}
@@ -72,7 +70,7 @@ int NeuronsList::getInputNeuronsAmount() const {
 int NeuronsList::getOutputNeuronsAmount() const {
 	int outputNeuronsAmount = 0;
 
-	for (vector<Neuron>::const_iterator i=list.begin(); i!=list.end(); i++) {
+	for (std::vector<Neuron>::const_iterator i=list.begin(); i!=list.end(); i++) {
 		if((*i).isOutput() == true) {
 			outputNeuronsAmount++;
 		}
@@ -86,13 +84,13 @@ int NeuronsList::dimension() const {
 }
 
 void NeuronsList::clearTypes() {
-	for (vector<Neuron>::iterator i=list.begin(); i!=list.end(); i++) {
+	for (std::vector<Neuron>::iterator i=list.begin(); i!=list.end(); i++) {
 		(*i).setRegular( true );
 	}
 }
 
 void NeuronsList::reset() {
-	for (vector<Neuron>::iterator i=list.begin(); i!=list.end(); i++) {
+	for (std::vector<Neuron>::iterator i=list.begin(); i!=list.end(); i++) {
 		(*i).reset();
 	}
 }
@@ -123,17 +121,17 @@ NeuronsList& NeuronsList::operator=(const NeuronsList &neurons) {
 	return( *this );
 }
 
-ostream& operator<<(ostream &out, NeuronsList &neurons) {
+std::ostream& operator<<(std::ostream &out, NeuronsList &neurons) {
 	out << neurons.list.size();
-	out << endl;
+	out << std::endl;
 
 	out << neurons.getInputNeuronsAmount();
-	out << endl;
+	out << std::endl;
 
 	out << neurons.getOutputNeuronsAmount();
-	out << endl;
+	out << std::endl;
 
-	for (vector<Neuron>::iterator i=neurons.list.begin(); i!=neurons.list.end(); i++) {
+	for (std::vector<Neuron>::iterator i=neurons.list.begin(); i!=neurons.list.end(); i++) {
 		out << (*i);
 		if (i+1 != neurons.list.end()) {
 			out << " ";

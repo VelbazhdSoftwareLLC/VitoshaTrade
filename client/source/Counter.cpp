@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "Counter.h"
 
 void Counter::clear() {
@@ -69,13 +67,13 @@ long Counter::operator[](const char* key) {
 	return( getValue(key) );
 }
 
-ostream& operator<<(ostream &out, Counter &counter) {
-	for (map<const char*, long>::iterator i=counter.counters.begin(); i!=counter.counters.end();) {
+std::ostream& operator<<(std::ostream &out, Counter &counter) {
+	for (std::map<const char*, long>::iterator i=counter.counters.begin(); i!=counter.counters.end();) {
 		out << (*i).first << "\t :\t " << (*i).second;
 
         ++i;
 		if (i != counter.counters.end()) {
-			out << endl;
+			out << std::endl;
 		}
 	}
 

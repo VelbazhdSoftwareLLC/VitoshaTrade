@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "ANNIO.h"
 
 ANNIO::ANNIO() {
@@ -79,11 +77,11 @@ ANNIO& ANNIO::operator=(const ANNIO &io) {
 	return( *this );
 }
 
-ostream& operator<<(ostream &out, ANNIO &io) {
+std::ostream& operator<<(std::ostream &out, ANNIO &io) {
 	out << io.values.size();
-	out << endl;
+	out << std::endl;
 
-	for (vector<double>::const_iterator i=io.values.begin(); i!=io.values.end(); i++) {
+	for (std::vector<double>::const_iterator i=io.values.begin(); i!=io.values.end(); i++) {
 		out << *i;
 		if ((i+1) != io.values.end()) {
 			out << " ";

@@ -29,6 +29,7 @@
  *  for release candidates
  */
 //#define JSON_DEBUG
+#define NDEBUG
 
 
 /*

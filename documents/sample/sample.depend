@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1446561880 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ActivitiesMatrix.cpp
+1451311683 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ActivitiesMatrix.cpp
 	"ActivitiesMatrix.h"
 
 1446561850 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ActivitiesMatrix.h
@@ -75,13 +75,13 @@
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNInput.cpp
 	"ANNInput.h"
 
-1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNIO.cpp
+1451311714 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNIO.cpp
 	"ANNIO.h"
 
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/ANNOutput.cpp
 	"ANNOutput.h"
 
-1446563372 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Chromosome.cpp
+1451312223 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Chromosome.cpp
 	"Chromosome.h"
 
 1446563393 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/Chromosome.h
@@ -91,7 +91,7 @@
 
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Communicator.cpp
 
-1449082284 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
+1451312045 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Counter.cpp
 	"Counter.h"
 
 1449768730 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/DE.cpp
@@ -131,10 +131,10 @@
 	<iomanip>
 	"Neuron.h"
 
-1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/NeuronsList.cpp
+1451312751 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/NeuronsList.cpp
 	"NeuronsList.h"
 
-1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Population.cpp
+1451312659 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/Population.cpp
 	"Population.h"
 
 1446473602 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/TrainingExample.cpp
@@ -148,7 +148,7 @@
 1449131559 source:/Users/todorbalabanov/Desktop/vitoshatrade/client/source/WeightsMatrix.cpp
 	"WeightsMatrix.h"
 
-1451233035 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
+1451296567 source:/Users/todorbalabanov/Desktop/vitoshatrade/documents/sample/main.cpp
 	<cmath>
 	<iostream>
 	<DE.h>

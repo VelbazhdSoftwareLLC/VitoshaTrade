@@ -29,8 +29,6 @@
  *                                                                             *
  ******************************************************************************/
 
-using namespace std;
-
 #include "Population.h"
 
 Population::Population() {
@@ -77,7 +75,7 @@ bool Population::hasDuplication(Chromosome &chromosome) {
 	/*
 	 * Check chromosome for duplication.
 	 */
-	for (vector<Chromosome>::iterator k=list.begin(); k!=list.end(); k++) {
+	for (std::vector<Chromosome>::iterator k=list.begin(); k!=list.end(); k++) {
 		if ((*k).getFitness()==chromosome.getFitness() && (&(*k) != &chromosome)) {
 			return( true );
 		}
@@ -87,7 +85,7 @@ bool Population::hasDuplication(Chromosome &chromosome) {
 }
 
 void Population::initRandom() {
-	for (vector<Chromosome>::iterator i=list.begin(); i!=list.end(); i++) {
+	for (std::vector<Chromosome>::iterator i=list.begin(); i!=list.end(); i++) {
 		(*i).random();
 	}
 
@@ -142,17 +140,17 @@ Population& Population::operator=(const Population &population) {
 	return( *this );
 }
 
-ostream& operator<<(ostream &out, Population &population) {
+std::ostream& operator<<(std::ostream &out, Population &population) {
 	out << population.list.size();
-	out << endl;
+	out << std::endl;
 
-	for (vector<Chromosome>::iterator i=population.list.begin(); i!=population.list.end(); i++) {
+	for (std::vector<Chromosome>::iterator i=population.list.begin(); i!=population.list.end(); i++) {
 		out << (*i);
 		if (i+1 != population.list.end()) {
-			out << endl;
+			out << std::endl;
 		}
 	}
-	out << endl;
+	out << std::endl;
 
 	out << population.bestFitnessIndex;
 
