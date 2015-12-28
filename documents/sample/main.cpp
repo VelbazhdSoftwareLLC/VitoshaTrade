@@ -10,10 +10,12 @@
 
 using namespace std;
 
-#define NUMBER_OF_RECOMBINATIONS 10000000L
+#define DEFAULT_NUMBER_OF_RECOMBINATIONS 10000000L
 #define TIME_SERIES_SIZE 31
 
 bool isRunning = true;
+
+long numberOfRecombinations = DEFAULT_NUMBER_OF_RECOMBINATIONS;
 
 void sleep() {
 }
@@ -81,7 +83,7 @@ void sineDataTest() {
 	/*
 	 * Do the training.
 	 */
-	for(long g=0; g<NUMBER_OF_RECOMBINATIONS; g++) {
+	for(long g=0; g<numberOfRecombinations; g++) {
 		de.evolve();
 
         static int r = 0;
@@ -127,8 +129,12 @@ void sineDataTest() {
 	//cout << endl;
 }
 
-int main() {
+int main(const int argc, char **argv) {
 	srand( time(NULL) );
+
+    if(argc > 1) {
+        sscanf(argv[1], "%ld", &numberOfRecombinations);
+    }
 
     try{
         sineDataTest();

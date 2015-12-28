@@ -161,3 +161,152 @@
 1446473602 /Users/todorbalabanov/Desktop/vitoshatrade/client/source/ModelParameters.h
 	"TimePeriod.h"
 
+1451311683 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ActivitiesMatrix.cpp
+	"ActivitiesMatrix.h"
+
+1446561850 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ActivitiesMatrix.h
+	"GraphMatrix.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/GraphMatrix.h
+	<vector>
+	<iostream>
+
+1449081570 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANN.cpp
+	<cmath>
+	<climits>
+	<cstdlib>
+	<iomanip>
+	"ANN.h"
+	"ANNInput.h"
+	"ANNOutput.h"
+	"Counter.h"
+	"WeightsMatrix.h"
+	"TrainingSet.h"
+	"ActivitiesMatrix.h"
+
+1446562757 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANN.h
+	<iostream>
+	"NeuronsList.h"
+	"WeightsMatrix.h"
+	"TimePeriod.h"
+	"ActivitiesMatrix.h"
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/NeuronsList.h
+	<vector>
+	<iostream>
+	"Neuron.h"
+
+1446562081 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Neuron.h
+	<iostream>
+	"NeuronType.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/NeuronType.h
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/WeightsMatrix.h
+	"GraphMatrix.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/TimePeriod.h
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNIO.h
+	<vector>
+	<iostream>
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNInput.h
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNOutput.h
+	"ANNIO.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Counter.h
+	<map>
+	<iostream>
+
+1446562824 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/TrainingSet.h
+	<vector>
+	<iostream>
+	"RateInfo.h"
+	"TrainingExample.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/RateInfo.h
+	<ctime>
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/TrainingExample.h
+	"ANNIO.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNInput.cpp
+	"ANNInput.h"
+
+1451311714 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNIO.cpp
+	"ANNIO.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/ANNOutput.cpp
+	"ANNOutput.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Communicator.cpp
+
+1451312045 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Counter.cpp
+	"Counter.h"
+
+1449768730 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/DE.cpp
+	<cmath>
+	<climits>
+	<cstdlib>
+	<iomanip>
+	"DE.h"
+	"ANN.h"
+	"Counter.h"
+
+1449768842 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/DE.h
+	<iostream>
+	"Population.h"
+	"CrossoverType.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Population.h
+	<vector>
+	<iostream>
+	"Chromosome.h"
+
+1446563393 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Chromosome.h
+	<cstdlib>
+	<iostream>
+	"WeightsMatrix.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/CrossoverType.h
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/GraphMatrix.cpp
+	<iomanip>
+	"GraphMatrix.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Init.cpp
+	<stdio.h>
+	<cstdlib>
+	<cstring>
+	"Init.h"
+
+1446473602 /Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Init.h
+
+1446561992 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Neuron.cpp
+	<iomanip>
+	"Neuron.h"
+
+1451312751 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/NeuronsList.cpp
+	"NeuronsList.h"
+
+1451312659 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Population.cpp
+	"Population.h"
+
+1446473602 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/TrainingExample.cpp
+	"TrainingExample.h"
+
+1449081708 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/TrainingSet.cpp
+	<cstdlib>
+	<iomanip>
+	"TrainingSet.h"
+
+1449131559 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/WeightsMatrix.cpp
+	"WeightsMatrix.h"
+
+1451313643 source:/Users/todorbalabanov/Desktop/VitoshaTrade/client/source/Chromosome.cpp
+	"Chromosome.h"
+
