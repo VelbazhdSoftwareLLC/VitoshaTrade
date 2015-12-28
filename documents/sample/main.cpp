@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define NUMBER_OF_RECOMBINATIONS 100000L
+#define NUMBER_OF_RECOMBINATIONS 10000000L
 #define TIME_SERIES_SIZE 31
 
 bool isRunning = true;
