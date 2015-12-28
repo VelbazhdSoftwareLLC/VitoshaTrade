@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define NUMBER_OF_RECOMBINATIONS 100L
+#define NUMBER_OF_RECOMBINATIONS 1000000L
 #define TIME_SERIES_SIZE 31
 
 bool isRunning = true;
@@ -67,7 +67,7 @@ void sineDataTest() {
 	/*
 	 * Initialize DE population.
 	 */
-	DE de(&counters, &ann, 13);
+	DE de(&counters, &ann, 31);
 	Population &population = de.getPopulation();
 	for(int i=0; i<population.dimension(); i++) {
 		WeightsMatrix weights( ann.getNeurons().dimension() );
@@ -84,14 +84,18 @@ void sineDataTest() {
 	for(long g=0; g<NUMBER_OF_RECOMBINATIONS; g++) {
 		de.evolve();
 
-		ann.setWeights(de.getPopulation()[0].getWeights());
+        static int r = 0;
+        r = de.getPopulation().getBestFitnessIndex();
+
+		ann.setWeights(de.getPopulation()[r].getWeights());
 		ann.gradient();
-		de.getPopulation()[0].setWeights(ann.getWeights());
+		de.getPopulation()[r].setWeights(ann.getWeights());
 	}
 
     /*
      * Produce prediction after training.
      */
+	ann.setWeights(de.getPopulation()[de.getPopulation().getBestFitnessIndex()].getWeights());
     ann.predict();
 
 	cout << "Next expected value: ";
