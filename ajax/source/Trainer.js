@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -256,5 +255,3 @@ function Trainer(dbId, symbol, period, neuronsAmount, populationSize, bars) {
 //		this.lastBestFitnessReportTime = (new Date()).getTime();
 	}
 }
-
-//-->

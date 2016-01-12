@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -815,4 +814,3 @@ function ANN(ts, neuronsAmount, bars, period) {
 		this.prediction = this.ts.mergeDigits(this.outputValues, this.outputNeuronsAmount) / this.ts.FLOATING_POINT_FACTOR;
 	}
 }
-//-->

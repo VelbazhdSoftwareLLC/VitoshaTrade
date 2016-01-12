@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -862,5 +861,4 @@ function HttpCommunicator() {
 //		return(result);
 //	}
 }
-//-->
 

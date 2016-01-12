@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -316,74 +315,74 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 	 * @date 19 Dec 2010
 	 */
 	this.crossover = function(resultIndex, firstParentIndex, secondParentIndex) {
-		if (this.crossoverType == CROSSOVER_TYPE_NONE) {
-			return;
-		}
-
-		if (Math.random()*100 > this.crossoverPercent) {
-			return;
-		}
-
-		if (resultIndex < 0 || resultIndex >= this.populationSize) {
-			return;
-		}
-
-		if (firstParentIndex < 0 || firstParentIndex >= this.populationSize) {
-			return;
-		}
-
-		if (secondParentIndex < 0 || secondParentIndex >= this.populationSize) {
-			return;
-		}
-
-		if (this.crossoverType == CROSSOVER_TYPE_RANDOM) {
-			//TODO Implement crossover as private helper method.
-			for (var j=0; j<this.neuronsAmount; j++) {
-				for (var i=0; i<this.neuronsAmount; i++) {
-					this.population[resultIndex][i][j] = (Math.random()<0.5) ? this.population[firstParentIndex][i][j] : this.population[secondParentIndex][i][j];
-				}
-			}
-		} else if (this.crossoverType == CROSSOVER_TYPE_50_50) {
-			//TODO Implement crossover as private helper method.
-			for (var i=0; i<this.neuronsAmount; i++) {
-				if (i%2 == 0) {
-					for (var j=0; j<this.neuronsAmount; j++) {
-						this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
-					}
-				} else {
-					for (var j=0; j<neuronsAmount; j++) {
-						this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
-					}
-				}
-			}
-		} else if (this.crossoverType == DE::CROSSOVER_TYPE_SINGLE_CUT) {
-			//TODO Implement crossover as private helper method.
-			var x = Math.floor(Math.random()*(this.neuronsAmount+1));
-			var y = Math.floor(Math.random()*(this.neuronsAmount+1));
-
-			for (var j=0; j<this.neuronsAmount; j++) {
-				for (var i=0; i<y; i++) {
-					this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
-				}
-			}
-
-			for (var i=0; i<this.neuronsAmount; i++) {
-				if (i < x) {
-					this.population[resultIndex][y][i] = this.population[firstParentIndex][y][i];
-				} else {
-					this.population[resultIndex][y][i] = this.population[secondParentIndex][y][i];
-				}
-			}
-
-			for (var j=0; j<this.neuronsAmount; j++) {
-				for (var i=y+1; i<this.neuronsAmount; i++) {
-					this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
-				}
-			}
-		} else if (this.crossoverType == CROSSOVER_TYPE_BINARY_MATRIX) {
-			//TODO Implement crossover as private helper method.
-			//TODO Implement binary matrix template for crossover.
-		}
+		// if (this.crossoverType == CROSSOVER_TYPE_NONE) {
+			// return;
+		// }
+// 
+		// if (Math.random()*100 > this.crossoverPercent) {
+			// return;
+		// }
+// 
+		// if (resultIndex < 0 || resultIndex >= this.populationSize) {
+			// return;
+		// }
+// 
+		// if (firstParentIndex < 0 || firstParentIndex >= this.populationSize) {
+			// return;
+		// }
+// 
+		// if (secondParentIndex < 0 || secondParentIndex >= this.populationSize) {
+			// return;
+		// }
+// 
+		// if (this.crossoverType == CROSSOVER_TYPE_RANDOM) {
+			// //TODO Implement crossover as private helper method.
+			// for (var j=0; j<this.neuronsAmount; j++) {
+				// for (var i=0; i<this.neuronsAmount; i++) {
+					// this.population[resultIndex][i][j] = (Math.random()<0.5) ? this.population[firstParentIndex][i][j] : this.population[secondParentIndex][i][j];
+				// }
+			// }
+		// } else if (this.crossoverType == CROSSOVER_TYPE_50_50) {
+			// //TODO Implement crossover as private helper method.
+			// for (var i=0; i<this.neuronsAmount; i++) {
+				// if (i%2 == 0) {
+					// for (var j=0; j<this.neuronsAmount; j++) {
+						// this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
+					// }
+				// } else {
+					// for (var j=0; j<neuronsAmount; j++) {
+						// this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
+					// }
+				// }
+			// }
+		// } else if (this.crossoverType == DE::CROSSOVER_TYPE_SINGLE_CUT) {
+			// //TODO Implement crossover as private helper method.
+			// var x = Math.floor(Math.random()*(this.neuronsAmount+1));
+			// var y = Math.floor(Math.random()*(this.neuronsAmount+1));
+// 
+			// for (var j=0; j<this.neuronsAmount; j++) {
+				// for (var i=0; i<y; i++) {
+					// this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
+				// }
+			// }
+// 
+			// for (var i=0; i<this.neuronsAmount; i++) {
+				// if (i < x) {
+					// this.population[resultIndex][y][i] = this.population[firstParentIndex][y][i];
+				// } else {
+					// this.population[resultIndex][y][i] = this.population[secondParentIndex][y][i];
+				// }
+			// }
+// 
+			// for (var j=0; j<this.neuronsAmount; j++) {
+				// for (var i=y+1; i<this.neuronsAmount; i++) {
+					// this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
+				// }
+			// }
+		// } else if (this.crossoverType == CROSSOVER_TYPE_BINARY_MATRIX) {
+			// //TODO Implement crossover as private helper method.
+			// //TODO Implement binary matrix template for crossover.
+		// }
 	}
 
 	/**
@@ -605,4 +604,3 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 		}
 	}
 }
-//-->

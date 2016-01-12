@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -68,5 +67,3 @@ function RateInfo()  {
 	 */
 	this.volume = 0.0;
 }
-
-//-->

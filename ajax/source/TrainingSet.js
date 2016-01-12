@@ -1,4 +1,3 @@
-<!--
 /*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
@@ -166,4 +165,3 @@ function TrainingSet(set, rates, size) {
 //		}
 //	}
 }
-//-->
