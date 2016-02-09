@@ -35,6 +35,27 @@ document.write('<script type="text/javascript" src="' + 'ANN.js' + '"></scr' + '
 document.write('<script type="text/javascript" src="' + 'DE.js' + '"></scr' + 'ipt>');
 
 /**
+ * Constructing trainer by using database data or user defined parameters.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 12 Sep 2009
+ */
+function Trainer() {
+	/*
+	 * At start there is no report at all.
+	 */
+	this.lastBestFitnessReportTime = 0;
+
+	/*
+	 * Estimate work done.
+	 */
+	//TODO this.counters.setValue("Training start time seconds", clock()/CLOCKS_PER_SEC);
+}
+
+/**
  * Artificial neural network trainer.
  *
  * @author Daniel Chutrov
