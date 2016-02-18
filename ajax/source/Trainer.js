@@ -29,11 +29,12 @@
 /*
  * Include files.
  */
-document.write('<script type="text/javascript" src="' + 'HttpCommunicator.js' + '"></scr' + 'ipt>');
-document.write('<script type="text/javascript" src="' + 'TrainingSet.js' + '"></scr' + 'ipt>');
-document.write('<script type="text/javascript" src="' + 'ANN.js' + '"></scr' + 'ipt>');
-document.write('<script type="text/javascript" src="' + 'DE.js' + '"></scr' + 'ipt>');
-document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></scr' + 'ipt>');
+document.write('<script type="text/javascript" src="' + 'JsonHttpCommunicator.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'TrainingSet.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'ANN.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'DE.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'ModelParameters.js' + '"></script>');
 
 /**
  * Constructing trainer by using database data or user defined parameters.
@@ -45,6 +46,27 @@ document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></scr'
  * @date 12 Sep 2009
  */
 function Trainer() {
+
+	/**
+	 * Default random maximum value.
+	 */
+	const RAND_MAX = 32767;
+
+	/**
+	 * Do report flag.
+	 */
+	const DO_FINAL_REPORT = true;
+
+	/**
+	 * Number of seconds to request training set update.
+	 */
+	const TRAINING_SET_UPDATE_INTERVAL = 600;
+
+	/**
+	 * Number of seconds to report local best fitness.
+	 */
+	const BEST_FITNESS_REPORT_INTERVAL = 600;
+
 	/**
 	 * At start there is no report at all.
 	 */
@@ -54,6 +76,11 @@ function Trainer() {
 	 * Statistic counters dynamic instance.
 	 */
 	this.counters = new Counter();
+
+	/**
+	 * HTTP comunication dynamic instance.
+	 */
+	this.http = new JsonHttpCommunicator();
 
 	/*
 	 * Estimate work done.
@@ -70,78 +97,42 @@ function Trainer() {
 	 *
 	 * @date 29 Dec 2010
 	 */
-	this.setup = function(dbId, symbol, period, neuronsAmount, populationSize, bars) {
-		//
-		// /**
-		// * Default random maximum value.
-		// */
-		// const RAND_MAX = 32767;
-		//
-		// /**
-		// * Do report flag.
-		// */
-		// const DO_FINAL_REPORT = true;
-		//
-		// /**
-		// * Number of seconds to request training set update.
-		// */
-		// const TRAINING_SET_UPDATE_INTERVAL = 600;
-		//
-		// /**
-		// * Number of seconds to report local best fitness.
-		// */
-		// const BEST_FITNESS_REPORT_INTERVAL = 600;
-		//
-		// /**
-		// * MetaTrader 4 chart symbol.
-		// */
-		// this.symbol = symbol;
-		//
-		// /**
-		// * MetaTrader 4 chart period.
-		// */
-		// this.period = period;
-		//
-		// /**
-		// * HTTP comunication dynamic instance.
-		// */
-		// this.http = new HttpCommunicator();
-		//
-		// /**
-		// * Training set dynamic instance.
-		// */
-		// this.ts = new TrainingSet(null, this.http.loadTrainingSetSize(symbol, period));
-		//
-		// /**
-		// * Statistic counters dynamic instance.
-		// */
-		// this.counters = new Counter();
-		//
-		// /**
-		// * Artificial neural network dynamic instance.
-		// */
-		// this.ann = new ANN(this.ts, neuronsAmount, bars, period);
-		//
-		// /**
-		// * Differential evolution dynamic instance.
-		// */
-		// this.de = new DE(this.ann, populationSize, 90.0, 10.0);
-		//
-		// /**
-		// * Last best local fitness report UNIX time.
-		// */
-		// this.lastBestFitnessReportTime = 0;
-		//
-		// /*
-		// * At the beggining there is no training set.
-		// */
-		// this.http.loadTrainingSet(symbol, period, this.ts.rates, this.ts.size);
-		//
-		// /*
-		// * Create object structure.
-		// */
-		// this.http.loadTrainerObjects(this.ann, this.de, this.dbId, this.symbol, this.period, this.neuronsAmount, this.populationSize, this.bars);
-		// this.ann.ts = this.ts;
+	this.setup = function(parameters) {
+		/*
+		 * MetaTrader 4 chart symbol.
+		 */
+		this.symbol = parameters.symbol;
+
+		/*
+		 * MetaTrader 4 chart period.
+		 */
+		this.period = parameters.period;
+
+		/*
+		* Training set dynamic instance.
+		*/
+		//TODO this.ts = new TrainingSet();
+
+		/*
+		* At the beggining there is no training set.
+		*/
+		//TODO this.http.loadTrainingSet(symbol, period, this.ts.rates, this.ts.size);
+
+		/*
+		* Artificial neural network dynamic instance.
+		*/
+		//TODO this.ann = new ANN();
+
+		/*
+		* Differential evolution dynamic instance.
+		*/
+		//TODO this.de = new DE();
+
+		/*
+		* Create object structure.
+		*/
+		//TODO this.http.loadTrainerObjects(this.ann, this.de, parameters);
+		//TODO this.ann.ts = this.ts;
 	}
 	/**
 	 * Update training set.
@@ -231,6 +222,7 @@ function Trainer() {
 	 * @date 23 Dec 2010
 	 */
 	this.predict = function() {
+		return Math.round(Math.random() * 100000.0) / 100.0;
 		//		/*
 		//		 * If training set is not present training can not be done.
 		//		 */

@@ -40,7 +40,8 @@
 		<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
 
 		<!-- External includes. -->
-		<script type="text/javascript" src="Trainer.js"></script>
+		<script src="ModelParameters.js"></script>
+		<script src="Trainer.js"></script>
 		<!-- External includes. -->
 
 		<!-- Ajax distributed computing code. -->
@@ -60,14 +61,18 @@
 			 * @date 31 Jan 2011
 			 */
 			function init() {
-				var dbId = document.getElementById('annId').value;
-				var symbol = document.getElementById('symbol').value;
-				var period = document.getElementById('period').value;
-				var neuronsAmount = document.getElementById('numberOfNeurons').value;
-				var populationSize = document.getElementById('populationSize').value;
-				var bars = document.getElementById('numberOfBars').value;
-				//trainer = new Trainer(dbId, symbol, period, neuronsAmount, populationSize, bars);
+				var parameters = new ModelParameters();
+				
+				parameters.dbId = document.getElementById('annId').value;
+				parameters.symbol = document.getElementById('symbol').value;
+				parameters.period = document.getElementById('period').value;
+				parameters.neuronsAmount = document.getElementById('numberOfNeurons').value;
+				parameters.populationSize = document.getElementById('populationSize').value;
+				parameters.bars = document.getElementById('numberOfBars').value;
+				
 				trainer = new Trainer();
+				
+				trainer.setup(parameters);
 			}
 
 			/**
@@ -85,8 +90,7 @@
 				 */
 				trainer.train();
 
-				//TODO Call predition procedure.
-				document.getElementById('prediction').innerHTML = Math.round(Math.random() * 100000.0) / 100.0;
+				document.getElementById('prediction').innerHTML = trainer.predict();
 			}
 
 			/*
