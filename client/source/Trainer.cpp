@@ -68,6 +68,7 @@ void Trainer::setup(const ModelParameters &parameters) {
 	/*
 	 * Create object structure.
 	 */
+	 //TODO Symbol and period parameters are not needed during the function call.
 	http.loadTrainerObjects(counters, ann, de, symbol, period, parameters);
 	ann.setTrainingSetPointer( &ts );
 }
