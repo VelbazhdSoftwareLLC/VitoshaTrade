@@ -121,7 +121,7 @@ function Trainer() {
 		/*
 		* Artificial neural network dynamic instance.
 		*/
-		//TODO this.ann = new ANN();
+		//this.ann = new ANN();
 
 		/*
 		* Differential evolution dynamic instance.

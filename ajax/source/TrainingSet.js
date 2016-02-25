@@ -36,6 +36,94 @@
  * @date 19 Dec 2010
  */
 function TrainingSet(rates, size, past, future) {
+	/**
+	 * Amount bars in the past from the index.
+	 *
+	 * @param index Starting point.
+	 *
+	 * @param amount How many bars in the past.
+	 *
+	 * @return Values of bars.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmial.com
+	 *
+	 * @date 12 Aug 2015
+	 */
+	this.getBarsInPast = function(index, amount) { 
+		//TODO Implement ANNIO structure.
+		result = new Array(amount);
+
+		if (index + amount > rates.length) {
+			//TODO Report exception.
+			return;
+		}
+
+		for (var i = 0; i < amount; i++) {
+			//TODO Some mechanisum of changing predicted value should be implemented.
+			result[i] = (rates[index + i].high + rates[index + i].low) / 2;
+		}
+
+		return result;
+	}
+	/**
+	 * Amount bars in the future from the index.
+	 *
+	 * @param index Starting point.
+	 *
+	 * @param amount How many bars in the future.
+	 *
+	 * @return Values of bars.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmial.com
+	 *
+	 * @date 12 Aug 2015
+	 */
+	this.getBarsInFuture = function(index, amount) { 
+		//TODO Implement ANNIO structure.
+		result = new Array(amount);
+
+		if (index - amount < 0) {
+			//TODO Report exception.
+			return;
+		}
+
+		for (var i = 0; i < amount; i++) {
+			//TODO Some mechanisum of changing predicted value should be implemented.
+			result[i] = (rates[index - i].high + rates[index - i].low) / 2;
+		}
+
+		return result;
+	}
+	/**
+	 * Load splitted digits.
+	 *
+	 * @param past How many bars in the past.
+	 *
+	 * @param future How many bars in the future.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 12 Aug 2015
+	 */
+	this.splitData = function(past, future) {
+		var j = 0;
+		for (var i = future; i < rates.size() - past; i++, j++) {
+			examples[j].inputted = getBarsInPast(i, past);
+			examples[j].expected = getBarsInFuture(i + 1, future);
+			examples[j].predicted = getBarsInFuture(i + 1, future);
+		}
+
+		/*
+		 * Examples are less than the historical bars. Reduction is according future window size.
+		 */
+		examples = examples.slice(0, j);
+	}
 
 	/**
 	 * Floating point factor to convert from floating point to integer.
@@ -67,7 +155,7 @@ function TrainingSet(rates, size, past, future) {
 		this.examples[i] = new TrainingExample();
 	}
 
-	//TODO splitData(past, future);
+	splitData(past, future);
 
 	/**
 	 * Split number digits in separate double values. Devide each double value by 10.

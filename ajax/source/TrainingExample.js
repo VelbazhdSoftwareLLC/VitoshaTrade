@@ -50,18 +50,15 @@ function TrainingExample() {
 	/**
 	 * Rate time values.
 	 */
-	this.time = new Array(NUMBER_OF_INPUT_SPLIT_DIGITS);
+	this.inputted = new Array(0);
 
 	/**
 	 * Expected values.
 	 */
-	this.expected = new Array(NUMBER_OF_OUTPUT_SPLIT_DIGITS);
+	this.expected = new Array(0);
 
 	/**
 	 * Predicted values.
 	 */
-	this.predicted = new Array(NUMBER_OF_OUTPUT_SPLIT_DIGITS);
+	this.predicted = new Array(0);
 }
-
-//-->
-
