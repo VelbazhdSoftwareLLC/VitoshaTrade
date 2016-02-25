@@ -71,6 +71,7 @@ struct TrainingExample {
 	/**
 	 * Rate time values.
 	 */
+	//TODO Wrong spelling. It should be inputted.
 	ANNIO inputed;
 
 	/**
