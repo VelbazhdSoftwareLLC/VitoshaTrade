@@ -32,6 +32,15 @@
 #ifndef NEURON_TYPE_H
 #define NEURON_TYPE_H
 
+/**
+ * Neuron type constants.
+ *
+ * @author Todor Balabanov
+ *
+ * @email todor.balabanov@gmail.com
+ *
+ * @date 25 Feb 2016
+ */
 enum NeuronType {
 	/**
 	 * Regular neuron flag.
