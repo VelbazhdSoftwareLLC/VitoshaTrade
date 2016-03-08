@@ -111,7 +111,7 @@ public:
 	/**
 	 * Is regular neuron getter.
 	 *
-	 * @return True if neuron is bias, false otherwise.
+	 * @return True if neuron is regular, false otherwise.
 	 *
 	 * @author Todor Balabanov
 	 *
