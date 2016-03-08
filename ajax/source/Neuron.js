@@ -59,7 +59,7 @@ function Neuron() {
 	 * Neuron type. More than one neuron can be bias, input and output in multi
 	 * layer networks. Also each neuron can be in more than single type.
 	 */
-	this.type = (new NeuronType()).REGULAR;
+	this.type = REGULAR;
 
 	/**
 	 * Neuron value.
@@ -70,4 +70,373 @@ function Neuron() {
 	 * Neuron error in back-propagation training.
 	 */
 	this.error = 0.0;
+
+	/**
+	 * Is regular neuron getter.
+	 *
+	 * @return True if neuron is regular, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.isRegular = function() {
+		if (type == REGULAR) {
+			return (true );
+		} else {
+			return (false );
+		}
+	};
+
+	/**
+	 * Regular neuron setter.
+	 *
+	 * @param value True if neuron will be regular, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.setRegular = function(value) {
+		if (value == true) {
+			type = REGULAR;
+		}
+	};
+
+	/**
+	 * Is bias neuron getter.
+	 *
+	 * @return True if neuron is bias, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 21 Aug 2009
+	 */
+	this.isBias = function() {
+		if ((type & BIAS) == BIAS) {
+			return (true );
+		} else {
+			return (false );
+		}
+	};
+
+	/**
+	 * Input neurons setter.
+	 *
+	 * @param value True if neuron will be input, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 29 Apr 2009
+	 */
+	this.setBias = function(value) {
+		if (value == true) {
+			switch (type) {
+			case REGULAR:
+				type = BIAS;
+				break;
+			case BIAS:
+				break;
+			case INPUT:
+				type = INPUT_BIAS;
+				break;
+			case INPUT_BIAS:
+				break;
+			case OUTPUT:
+				type = OUTPUT_BIAS;
+				break;
+			case OUTPUT_BIAS:
+				break;
+			case OUTPUT_INPUT:
+				type = OUTPUT_INPUT_BIAS;
+				break;
+			case OUTPUT_INPUT_BIAS:
+				break;
+			}
+
+			this.value = BIAS_VALUE;
+		} else if (value == false) {
+			switch (type) {
+			case REGULAR:
+				break;
+			case BIAS:
+				type = REGULAR;
+				break;
+			case INPUT:
+				break;
+			case INPUT_BIAS:
+				type = INPUT;
+				break;
+			case OUTPUT:
+				break;
+			case OUTPUT_BIAS:
+				type = OUTPUT;
+				break;
+			case OUTPUT_INPUT:
+				break;
+			case OUTPUT_INPUT_BIAS:
+				type = OUTPUT_INPUT;
+				break;
+			}
+		}
+	};
+
+	/**
+	 * Is input neuron getter.
+	 *
+	 * @return True if neuron is input, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 30 Apr 2009
+	 */
+	this.isInput = function() {
+		if ((type & INPUT) == INPUT) {
+			return (true );
+		} else {
+			return (false );
+		}
+	};
+
+	/**
+	 * Input neurons setter.
+	 *
+	 * @param value True if neuron will be input, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 29 Apr 2009
+	 */
+	this.setInput = function(value) {
+		if (value == true) {
+			switch (type) {
+			case REGULAR:
+				type = INPUT;
+				break;
+			case BIAS:
+				type = INPUT_BIAS;
+				break;
+			case INPUT:
+				break;
+			case INPUT_BIAS:
+				break;
+			case OUTPUT:
+				type = OUTPUT_INPUT;
+				break;
+			case OUTPUT_BIAS:
+				type = OUTPUT_INPUT_BIAS;
+				break;
+			case OUTPUT_INPUT:
+				break;
+			case OUTPUT_INPUT_BIAS:
+				break;
+			}
+		} else if (value == false) {
+			switch (type) {
+			case REGULAR:
+				break;
+			case BIAS:
+				break;
+			case INPUT:
+				break;
+			case INPUT_BIAS:
+				type = BIAS;
+				break;
+			case OUTPUT:
+				break;
+			case OUTPUT_BIAS:
+				break;
+			case OUTPUT_INPUT:
+				type = OUTPUT;
+				break;
+			case OUTPUT_INPUT_BIAS:
+				type = OUTPUT_BIAS;
+				break;
+			}
+		}
+	};
+
+	/**
+	 * Is output neuron getter.
+	 *
+	 * @return True if neuron is output, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 30 Apr 2009
+	 */
+	this.isOutput = function() {
+		if ((type & OUTPUT) == OUTPUT) {
+			return (true );
+		} else {
+			return (false );
+		}
+	};
+
+	/**
+	 * Output neurons setter.
+	 *
+	 * @param value True if neuron will be output, false otherwise.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 29 Apr 2009
+	 */
+	this.setOutput = function(value) {
+		if (value == true) {
+			switch (type) {
+			case REGULAR:
+				type = OUTPUT;
+				break;
+			case BIAS:
+				type = OUTPUT_BIAS;
+				break;
+			case INPUT:
+				type = OUTPUT_INPUT;
+				break;
+			case INPUT_BIAS:
+				type = OUTPUT_INPUT_BIAS;
+				break;
+			case OUTPUT:
+				break;
+			case OUTPUT_BIAS:
+				break;
+			case OUTPUT_INPUT:
+				break;
+			case OUTPUT_INPUT_BIAS:
+				break;
+			}
+		} else if (value == false) {
+			switch (type) {
+			case REGULAR:
+				type = OUTPUT;
+				break;
+			case BIAS:
+				type = OUTPUT_BIAS;
+				break;
+			case INPUT:
+				type = OUTPUT_INPUT;
+				break;
+			case INPUT_BIAS:
+				type = OUTPUT_INPUT_BIAS;
+				break;
+			case OUTPUT:
+				break;
+			case OUTPUT_BIAS:
+				break;
+			case OUTPUT_INPUT:
+				break;
+			case OUTPUT_INPUT_BIAS:
+				break;
+			}
+		}
+	};
+
+	/**
+	 * Neuron type getter.
+	 *
+	 * @return Neuron type.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 04 Aug 2011
+	 */
+	this.getType = function() {
+		return (type );
+	};
+
+	/**
+	 * Neuron type setter.
+	 *
+	 * @param type Neuron type.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 04 Aug 2011
+	 */
+	this.setType = function(type) {
+		this.type = type;
+	};
+
+	/**
+	 * Neuron value getter.
+	 *
+	 * @return Neuron value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.getValue = function() {
+		return (value );
+	};
+
+	/**
+	 * Neuron value setter.
+	 *
+	 * @param value Neuron value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.setValue = function(value) {
+		this.value = value;
+	};
+
+	/**
+	 * Neuron error getter.
+	 *
+	 * @return Neuron value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.getError = function() {
+		return (error );
+	};
+
+	/**
+	 * Neuron error setter.
+	 *
+	 * @param value Neuron value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.setError = function(error) {
+		this.error = error;
+	};
+	
+	//TODO Implement other methods.
 }

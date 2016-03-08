@@ -27,52 +27,41 @@
  ******************************************************************************/
 
 /**
- * Neuron type constants.
- *
- * @author Todor Balabanov
- *
- * @email todor.balabanov@gmail.com
- *
- * @date 25 Feb 2016
+ * Regular neuron flag.
  */
-function NeuronType() {
-	/**
-	 * Regular neuron flag.
-	 */
-	this.REGULAR = 0x00,
+REGULAR = 0x00;
 
-	/**
-	 * Bias neuron flag.
-	 */
-	this.BIAS = 0x01,
+/**
+ * Bias neuron flag.
+ */
+BIAS = 0x01;
 
-	/**
-	 * Input neuron flag.
-	 */
-	this.INPUT = 0x02,
+/**
+ * Input neuron flag.
+ */
+INPUT = 0x02;
 
-	/**
-	 * Input and bias neuron flag.
-	 */
-	this.INPUT_BIAS = 0x03,
+/**
+ * Input and bias neuron flag.
+ */
+INPUT_BIAS = 0x03;
 
-	/**
-	 * Output neuron flag.
-	 */
-	this.OUTPUT = 0x04,
+/**
+ * Output neuron flag.
+ */
+OUTPUT = 0x04;
 
-	/**
-	 * Output and bias neuron flag.
-	 */
-	this.OUTPUT_BIAS = 0x05,
+/**
+ * Output and bias neuron flag.
+ */
+OUTPUT_BIAS = 0x05;
 
-	/**
-	 * Output and input neuron flag.
-	 */
-	this.OUTPUT_INPUT = 0x06,
+/**
+ * Output and input neuron flag.
+ */
+OUTPUT_INPUT = 0x06;
 
-	/**
-	 * Output, input and bias neuron flag.
-	 */
-	this.OUTPUT_INPUT_BIAS = 0x07
-}
+/**
+ * Output; input and bias neuron flag.
+ */
+OUTPUT_INPUT_BIAS = 0x07;
