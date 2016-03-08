@@ -124,7 +124,7 @@ public:
 	/**
 	 * Regular neuron setter.
 	 *
-	 * @param value True if neuron will be bias, false otherwise.
+	 * @param value True if neuron will be regular, false otherwise.
 	 *
 	 * @author Todor Balabanov
 	 *
