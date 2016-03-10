@@ -66,6 +66,21 @@ function WeightsMatrix(size) {
 		return values.length;
 	};
 	
+	/**
+	 * Matrix elements accessor.
+	 *
+	 * @param col Column.
+	 *
+	 * @param row Row.
+	 *
+	 * @return Constant element value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
 	this.get = function(col, row) {
 		if (col<0 || col>=values.size() || row<0 || row>=values.size()) {
 			//TODO Do exception handling.
@@ -75,6 +90,21 @@ function WeightsMatrix(size) {
 		return values[col][row];
 	};
 
+	/**
+	 * Matrix elements accessor.
+	 *
+	 * @param col Column.
+	 *
+	 * @param row Row.
+	 *
+	 * @return Constant element value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
 	this.set = function(col, row, value) {
 		if (col<0 || col>=values.size() || row<0 || row>=values.size()) {
 			//TODO Do exception handling.
