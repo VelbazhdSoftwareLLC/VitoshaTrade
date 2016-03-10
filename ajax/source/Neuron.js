@@ -437,6 +437,23 @@ function Neuron() {
 	this.setError = function(error) {
 		this.error = error;
 	};
-	
-	//TODO Implement other methods.
+
+	/**
+	 * Reset neuron to constant value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 19 Aug 2009
+	 */
+	this.reset = function() {
+		if (isBias() == true) {
+			value = BIAS_VALUE;
+		} else {
+			value = RESET_VALUE;
+		}
+
+		error = MIN_ERROR;
+	};
 }
