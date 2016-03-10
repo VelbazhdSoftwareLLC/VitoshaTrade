@@ -53,17 +53,17 @@ public:
 	/**
 	 * Minumum input amount of ANN neurons.
 	 */
-	static const int MIN_INPUT_NEURONS_AMOUNT = 10;
+	static const int MIN_INPUT_NEURONS_AMOUNT = 1;
 
 	/**
 	 * Minumum regular amount of ANN neurons.
 	 */
-	static const int MIN_REGULAR_NEURONS_AMOUNT = 5;
+	static const int MIN_REGULAR_NEURONS_AMOUNT = 1;
 
 	/**
 	 * Minumum output amount of ANN neurons.
 	 */
-	static const int MIN_OUTPUT_NEURONS_AMOUNT = 5;
+	static const int MIN_OUTPUT_NEURONS_AMOUNT = 1;
 
 	/**
 	 * Minumum amount of ANN neurons.
