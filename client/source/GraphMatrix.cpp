@@ -94,6 +94,7 @@ double& GraphMatrix::operator()(int col, int row) {
 		return( dummy );
 	}
 
+	//TODO Change the internal value!!!
 	return( values[col][row] );
 }
 
