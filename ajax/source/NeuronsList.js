@@ -25,9 +25,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.        *
  *                                                                             *
  ******************************************************************************/
+/*
+ * Include files.
+ */
+document.write('<script type="text/javascript" src="' + 'Neuron.js' + '"></script>');
 
 /**
- * ANN typology graph adjacency matrix class.
+ * List of neurons class.
  *
  * @author Todor Balabanov
  *
@@ -35,68 +39,132 @@
  *
  * @date 03 Aug 2011
  */
-function ActivitiesMatrix(size) {
+function NeuronsList(size) {
 	/**
-	 * Minimum possible weight activity.
+	 * Minumum input amount of ANN neurons.
 	 */
-	this.MIN_ACTIVITY = 0.0;
+	this.MIN_INPUT_NEURONS_AMOUNT = 1;
 
 	/**
-	 * Maximum possible weight activity.
+	 * Minumum regular amount of ANN neurons.
 	 */
-	this.MAX_ACTIVITY = 1.0;
+	this.MIN_REGULAR_NEURONS_AMOUNT = 1;
 
 	/**
-	 * Matrix values.
+	 * Minumum output amount of ANN neurons.
 	 */
-	this.values = new Array(size);
+	this.MIN_OUTPUT_NEURONS_AMOUNT = 1;
 
-	for ( i = 0; i < size; i++) {
-		this.values[i] = new Array(size);
+	/**
+	 * Minumum amount of ANN neurons.
+	 */
+	this.MIN_NEURONS_AMOUNT = this.MIN_INPUT_NEURONS_AMOUNT + this.MIN_REGULAR_NEURONS_AMOUNT + this.MIN_OUTPUT_NEURONS_AMOUNT;
+
+	/*
+	 * It is not possible neurons amount to be negative number.
+	 */
+	if (size < this.MIN_NEURONS_AMOUNT) {
+		size = this.MIN_NEURONS_AMOUNT;
 	}
 
-	for ( i = 0; i < size; i++) {
-		for ( j = 0; j < size; j++) {
-			this.values[i][j] = MAX_ACTIVITY;
+	/**
+	 * Neurons list.
+	 */
+	this.list = new Array(size);
+	for (var i = 0; i < list.length; i++) {
+		list[i] = new Neuron();
+	}
+
+	/**
+	 * Input neurons amount getter.
+	 *
+	 * @return Input neurons amount.
+	 *
+	 * @author Iliyan Zankinski
+	 *
+	 * @email iliyan_mf@abv.bg
+	 *
+	 * @date 27 Jul 2009
+	 */
+	this.getInputNeuronsAmount = function() {
+		var inputNeuronsAmount = 0;
+
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].isInput() == true) {
+				inputNeuronsAmount++;
+			}
 		}
-	}
+
+		return inputNeuronsAmount;
+	};
 
 	/**
-	 * Set all activities to the maximum valid value.
+	 * Output neurons amount getter.
+	 *
+	 * @return Output neurons amount.
+	 *
+	 * @author Iliyan Zankinski
+	 *
+	 * @email iliyan_mf@abv.bg
+	 *
+	 * @date 27 Jul 2009
+	 */
+	this.getOutputNeuronsAmount = function() {
+		var outputNeuronsAmount = 0;
+
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].isOutput() == true) {
+				outputNeuronsAmount++;
+			}
+		}
+
+		return outputNeuronsAmount;
+	};
+
+	/**
+	 * Size of neurons list getter.
+	 *
+	 * @return Size of neurons list.
 	 *
 	 * @author Todor Balabanov
 	 *
 	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 17 Jul 2015
+	 * @date 03 Aug 2011
 	 */
-	this.setAllToMax = function() {
-		for ( i = 0; i < this.values.length; i++) {
-			for ( j = 0; j < this.values[i].length; j++) {
-				this.values[i][j] = MAX_ACTIVITY;
-			}
+	this.dimension = function() {
+		return list.length;
+	};
+
+	/**
+	 * Clear all type flags.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 21 Aug 2009
+	 */
+	this.clearTypes = function() {
+		for (var i = 0; i < list.length; i++) {
+			list[i].setRegular(true);
 		}
 	};
 
 	/**
-	 * Activities normalizatoin.
+	 * Reset all neurons values.
 	 *
 	 * @author Todor Balabanov
 	 *
-	 * @email todor.balabanov@gmail.comm
+	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 03 Aug 2011
+	 * @date 21 Aug 2009
 	 */
-	this.normalize = function() {
-		for ( i = 0; i < this.values.length; i++) {
-			for ( j = 0; j < this.values[i].length; j++) {
-				if (this.values[i][j] < MIN_ACTIVITY) {
-					this.values[i][j] = MIN_ACTIVITY;
-				}
-				if (this.values[i][j] > MAX_ACTIVITY) {
-					this.values[i][j] = MAX_ACTIVITY;
-				}
-			}
+	this.reset = function() {
+		for (var i = 0; i < list.length; i++) {
+			list[i].reset();
 		}
 	};
+
+	clearTypes();
 }
