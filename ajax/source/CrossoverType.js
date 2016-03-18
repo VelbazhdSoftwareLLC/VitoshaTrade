@@ -27,57 +27,26 @@
  ******************************************************************************/
 
 /**
- * Training and predicting model parameters.
- *
- * @author Todor Balabanov
- *
- * @email todor.balabanov@gmail.com
- *
- * @date 25 Oct 2011
+ * Flag to switch off crossover at all.
  */
-function ModelParameters() {
-	/**
-	 * Database identifier of ANN.
-	 */
-	this.dbId = 0;
+NONE = 0x00;
 
-	/**
-	 * Currency pair symbol.
-	 */
-	this.symbol = "";
+/**
+ * Crossover by randomly selected gens flag.
+ */
+RANDOM = 0x01;
 
-	/**
-	 * Time series period.
-	 */
-	this.period = 0;
+/**
+ * Crossover by randomly selected gens flag.
+ */
+FIFTY_FIFTY = 0x02;
 
-	/**
-	 * Number of neurons in ANN.
-	 */
-	this.neuronsAmount = 0;
+/**
+ * Crossover by single intersection flag.
+ */
+SINGLE_CUT = 0x03;
 
-	/**
-	 * Number of neurons used for input.
-	 */
-	this.inputSize = 0;
-
-	/**
-	 * Number of neurons used for output.
-	 */
-	this.outputSize = 0;
-
-	/**
-	 * Number of chromosomes in DE population.
-	 */
-	this.populationSize = 0;
-
-	/**
-	 * Number of past bars where history information will be used for the training.
-	 */
-	this.learn = 0;
-
-	/**
-	 * Number of future bars where prediction will be needed.
-	 */
-	this.forecast = 0;
-}
+/**
+ * Crossover by binary metrix flag.
+ */
+BINARY_MATRIX = 0x04;

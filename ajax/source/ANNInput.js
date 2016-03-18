@@ -30,106 +30,32 @@
  ******************************************************************************/
 
 /**
- * Counter for application statistics.
+ * ANN input class.
  *
  * @author Todor Balabanov
  *
  * @email todor.balabanov@gmail.com
  *
- * @date 28 Sep 2009
+ * @date 11 Aug 2011
  */
-function Counter() {
+function ANNInput() {
 	/**
-	 * Container with counters values.
+	 * Input/output values.
 	 */
-	this.counters = [];
+	this.values = [];
 
 	/**
-	 * Clear counters.
+	 * Size of ANN input.
+	 *
+	 * @return Size of ANN input/ouput.
 	 *
 	 * @author Todor Balabanov
 	 *
 	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 28 Sep 2009
+	 * @date 11 Aug 2011
 	 */
-	this.clear = function() {
-		this.counters = [];
-	};
-
-	/**
-	 * Get counter value.
-	 *
-	 * @param key Counter key.
-	 *
-	 * @return Counter value.
-	 *
-	 * @author Todor Balabanov
-	 *
-	 * @email todor.balabanov@gmail.com
-	 *
-	 * @date 28 Sep 2009
-	 */
-	this.getValue = function(key) {
-		if (!("key" in counters)) {
-			return (0 );
-		} else {
-			return (counters[key] );
-		}
-	};
-
-	/**
-	 * Set counter value.
-	 *
-	 * @param key Counter key.
-	 *
-	 * @param value Counter value.
-	 *
-	 * @author Todor Balabanov
-	 *
-	 * @email todor.balabanov@gmail.com
-	 *
-	 * @date 28 Sep 2009
-	 */
-	this.setValue = function(key, value) {
-		counters[key] = value;
-	};
-
-	/**
-	 * Increment counter value.
-	 *
-	 * @param key Counter key.
-	 *
-	 * @author Todor Balabanov
-	 *
-	 * @email todor.balabanov@gmail.com
-	 *
-	 * @date 28 Sep 2009
-	 */
-	this.increment = function(key) {
-		if (!("key" in counters) == true) {
-			counters[key] = -1;
-		} else {
-			counters[key]--;
-		}
-	};
-
-	/**
-	 * Decrement counter value.
-	 *
-	 * @param key Counter key.
-	 *
-	 * @author Todor Balabanov
-	 *
-	 * @email todor.balabanov@gmail.com
-	 *
-	 * @date 28 Sep 2009
-	 */
-	this.decrement = function(key) {
-		if (!("key" in counters) == true) {
-			counters[key] = +1;
-		} else {
-			counters[key]++;
-		}
+	this.dimension = function() {
+		return values.length;
 	};
 }

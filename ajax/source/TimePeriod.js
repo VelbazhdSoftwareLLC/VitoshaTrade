@@ -27,57 +27,52 @@
  ******************************************************************************/
 
 /**
- * Training and predicting model parameters.
- *
- * @author Todor Balabanov
- *
- * @email todor.balabanov@gmail.com
- *
- * @date 25 Oct 2011
+ * No time period at all.
  */
-function ModelParameters() {
-	/**
-	 * Database identifier of ANN.
-	 */
-	this.dbId = 0;
+NO = 0;
 
-	/**
-	 * Currency pair symbol.
-	 */
-	this.symbol = "";
+/**
+ * One minute.
+ */
+M1 = 1;
 
-	/**
-	 * Time series period.
-	 */
-	this.period = 0;
+/**
+ * Five minutes.
+ */
+M5 = 5;
 
-	/**
-	 * Number of neurons in ANN.
-	 */
-	this.neuronsAmount = 0;
+/**
+ * Fifteen minutes.
+ */
+M15 = 15;
 
-	/**
-	 * Number of neurons used for input.
-	 */
-	this.inputSize = 0;
+/**
+ * Thirty minutes.
+ */
+M30 = 30;
 
-	/**
-	 * Number of neurons used for output.
-	 */
-	this.outputSize = 0;
+/**
+ * One hour.
+ */
+H1 = 60;
 
-	/**
-	 * Number of chromosomes in DE population.
-	 */
-	this.populationSize = 0;
+/**
+ * Four hours.
+ */
+H4 = 240;
 
-	/**
-	 * Number of past bars where history information will be used for the training.
-	 */
-	this.learn = 0;
+/**
+ * One day.
+ */
+D1 = 1440;
 
-	/**
-	 * Number of future bars where prediction will be needed.
-	 */
-	this.forecast = 0;
-}
+/**
+ * One week.
+ */
+W1 = 10080;
+
+/**
+ * One month.
+ */
+MN1 = 43200;
+ 

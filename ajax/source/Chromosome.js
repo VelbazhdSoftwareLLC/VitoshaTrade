@@ -25,59 +25,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.        *
  *                                                                             *
  ******************************************************************************/
+/*
+ * Include files.
+ */
+document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '"></script>');
 
 /**
- * Training and predicting model parameters.
+ * Less optimal fitness value constant.
+ */
+LESS_OPTIMAL_FITNESS_VALUE = 32767;
+
+/**
+ * Minimuim random initializaton value for initial chromosome values.
+ */
+MIN_INIT_RANDOM = -1.0;
+
+/**
+ * Maximum random initializaton value for initial chromosome values.
+ */
+MAX_INIT_RANDOM = +1.0;
+
+/**
+ * DE chromosome class.
  *
  * @author Todor Balabanov
  *
  * @email todor.balabanov@gmail.com
  *
- * @date 25 Oct 2011
+ * @date 05 Aug 2011
  */
-function ModelParameters() {
+function Chromosome() {
 	/**
-	 * Database identifier of ANN.
+	 * Each chromosome is matrix of weights.
 	 */
-	this.dbId = 0;
+	this.weights = WeightsMatrix(0);
 
 	/**
-	 * Currency pair symbol.
+	 * Chromosome fitness value. Smaller output error is better fitness for the
+	 * chromosome (weights set).
 	 */
-	this.symbol = "";
-
-	/**
-	 * Time series period.
-	 */
-	this.period = 0;
-
-	/**
-	 * Number of neurons in ANN.
-	 */
-	this.neuronsAmount = 0;
-
-	/**
-	 * Number of neurons used for input.
-	 */
-	this.inputSize = 0;
-
-	/**
-	 * Number of neurons used for output.
-	 */
-	this.outputSize = 0;
-
-	/**
-	 * Number of chromosomes in DE population.
-	 */
-	this.populationSize = 0;
-
-	/**
-	 * Number of past bars where history information will be used for the training.
-	 */
-	this.learn = 0;
-
-	/**
-	 * Number of future bars where prediction will be needed.
-	 */
-	this.forecast = 0;
+	this.fitness = LESS_OPTIMAL_FITNESS_VALUE;
 }
