@@ -65,4 +65,86 @@ function Chromosome() {
 	 * chromosome (weights set).
 	 */
 	this.fitness = LESS_OPTIMAL_FITNESS_VALUE;
+
+	/**
+	 * Weights matrix getter.
+	 *
+	 * @return Weights matrix reference.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 05 Aug 2011
+	 */
+	this.getWeights = function() {
+		return weights;
+	};
+
+	/**
+	 * Weights matrix setter.
+	 *
+	 * @param weights Weights matrix.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 05 Aug 2011
+	 */
+	this.setWeights = function(weights) {
+		this.weights = weights;
+	};
+
+	/**
+	 * Chromosome fintess value getter.
+	 *
+	 * @return Fitness value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 05 Aug 2011
+	 */
+	this.getFitness = function() {
+		return (fitness );
+	};
+
+	/**
+	 * Chromosome fintess value setter.
+	 *
+	 * @param fitness Fitness value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 05 Aug 2011
+	 */
+	this.setFitness = function(value) {
+		this.fitness = value;
+	};
+
+	/**
+	 * Initialize chromosome with random values.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 25 Aug 2009
+	 */
+	this.random = function() {
+		/*
+		 * Initialize chromosome with random values.
+		 */
+		for (var j=0; j<weights.dimension(); j++) {
+			for (var i=0; i<weights.dimension(); i++) {
+				weights[i][j] = MIN_INIT_RANDOM + (MAX_INIT_RANDOM-MIN_INIT_RANDOM) * Math.random();
+			}
+		}
+	
+		fitness = LESS_OPTIMAL_FITNESS_VALUE * Math.random();
+	};
 }
