@@ -29,39 +29,39 @@
 /**
  * Regular neuron flag.
  */
-REGULAR = 0x00;
+const REGULAR = 0x00;
 
 /**
  * Bias neuron flag.
  */
-BIAS = 0x01;
+const BIAS = 0x01;
 
 /**
  * Input neuron flag.
  */
-INPUT = 0x02;
+const INPUT = 0x02;
 
 /**
  * Input and bias neuron flag.
  */
-INPUT_BIAS = 0x03;
+const INPUT_BIAS = 0x03;
 
 /**
  * Output neuron flag.
  */
-OUTPUT = 0x04;
+const OUTPUT = 0x04;
 
 /**
  * Output and bias neuron flag.
  */
-OUTPUT_BIAS = 0x05;
+const OUTPUT_BIAS = 0x05;
 
 /**
  * Output and input neuron flag.
  */
-OUTPUT_INPUT = 0x06;
+const OUTPUT_INPUT = 0x06;
 
 /**
  * Output; input and bias neuron flag.
  */
-OUTPUT_INPUT_BIAS = 0x07;
+const OUTPUT_INPUT_BIAS = 0x07;

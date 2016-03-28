@@ -33,17 +33,17 @@ document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '">
 /**
  * Less optimal fitness value constant.
  */
-LESS_OPTIMAL_FITNESS_VALUE = 32767;
+const LESS_OPTIMAL_FITNESS_VALUE = 32767;
 
 /**
  * Minimuim random initializaton value for initial chromosome values.
  */
-MIN_INIT_RANDOM = -1.0;
+const MIN_INIT_RANDOM = -1.0;
 
 /**
  * Maximum random initializaton value for initial chromosome values.
  */
-MAX_INIT_RANDOM = +1.0;
+const MAX_INIT_RANDOM = +1.0;
 
 /**
  * DE chromosome class.

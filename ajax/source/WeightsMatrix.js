@@ -41,11 +41,10 @@ function WeightsMatrix(size) {
 	 */
 	this.values = new Array(size);
 
-	for ( i = 0; i < size; i++) {
+	for (var i = 0; i < size; i++) {
 		this.values[i] = new Array(size);
 	}
-
-	for ( i = 0; i < size; i++) {
+	for (var i = 0; i < size; i++) {
 		for ( j = 0; j < size; j++) {
 			values[i][j] = 0.0;
 		}

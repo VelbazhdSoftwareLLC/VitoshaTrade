@@ -27,6 +27,16 @@
  ******************************************************************************/
 
 /**
+ * Size of arrays with input split digits.
+ */
+const NUMBER_OF_INPUT_SPLIT_DIGITS = 10;
+
+/**
+ * Size of arrays with output split digits.
+ */
+const NUMBER_OF_OUTPUT_SPLIT_DIGITS = 5;
+
+/**
  * Single training example structure.
  *
  * @author Daniel Chutrov
@@ -36,29 +46,18 @@
  * @date 25 Dec 2010
  */
 function TrainingExample() {
-
-	/**
-	 * Size of arrays with input split digits.
-	 */
-	const NUMBER_OF_INPUT_SPLIT_DIGITS = 10;
-
-	/**
-	 * Size of arrays with output split digits.
-	 */
-	const NUMBER_OF_OUTPUT_SPLIT_DIGITS = 5;
-
 	/**
 	 * Rate time values.
 	 */
-	this.inputted = new Array(0);
+	this.inputted = [];
 
 	/**
 	 * Expected values.
 	 */
-	this.expected = new Array(0);
+	this.expected = [];
 
 	/**
 	 * Predicted values.
 	 */
-	this.predicted = new Array(0);
+	this.predicted = [];
 }

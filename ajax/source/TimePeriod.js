@@ -29,50 +29,49 @@
 /**
  * No time period at all.
  */
-NO = 0;
+const NO = 0;
 
 /**
  * One minute.
  */
-M1 = 1;
+const M1 = 1;
 
 /**
  * Five minutes.
  */
-M5 = 5;
+const M5 = 5;
 
 /**
  * Fifteen minutes.
  */
-M15 = 15;
+const M15 = 15;
 
 /**
  * Thirty minutes.
  */
-M30 = 30;
+const M30 = 30;
 
 /**
  * One hour.
  */
-H1 = 60;
+const H1 = 60;
 
 /**
  * Four hours.
  */
-H4 = 240;
+const H4 = 240;
 
 /**
  * One day.
  */
-D1 = 1440;
+const D1 = 1440;
 
 /**
  * One week.
  */
-W1 = 10080;
+const W1 = 10080;
 
 /**
  * One month.
  */
-MN1 = 43200;
- 
+const MN1 = 43200;

@@ -37,6 +37,26 @@ document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></scri
 document.write('<script type="text/javascript" src="' + 'ModelParameters.js' + '"></script>');
 
 /**
+ * Default random maximum value.
+ */
+const RAND_MAX = 32767;
+
+/**
+ * Do report flag.
+ */
+const DO_FINAL_REPORT = true;
+
+/**
+ * Number of seconds to request training set update.
+ */
+const TRAINING_SET_UPDATE_INTERVAL = 600;
+
+/**
+ * Number of seconds to report local best fitness.
+ */
+const BEST_FITNESS_REPORT_INTERVAL = 600;
+
+/**
  * Constructing trainer by using database data or user defined parameters.
  *
  * @author Todor Balabanov
@@ -46,27 +66,6 @@ document.write('<script type="text/javascript" src="' + 'ModelParameters.js' + '
  * @date 12 Sep 2009
  */
 function Trainer() {
-
-	/**
-	 * Default random maximum value.
-	 */
-	const RAND_MAX = 32767;
-
-	/**
-	 * Do report flag.
-	 */
-	const DO_FINAL_REPORT = true;
-
-	/**
-	 * Number of seconds to request training set update.
-	 */
-	const TRAINING_SET_UPDATE_INTERVAL = 600;
-
-	/**
-	 * Number of seconds to report local best fitness.
-	 */
-	const BEST_FITNESS_REPORT_INTERVAL = 600;
-
 	/**
 	 * At start there is no report at all.
 	 */

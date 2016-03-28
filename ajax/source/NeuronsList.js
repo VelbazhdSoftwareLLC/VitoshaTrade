@@ -31,6 +31,26 @@
 document.write('<script type="text/javascript" src="' + 'Neuron.js' + '"></script>');
 
 /**
+ * Minumum input amount of ANN neurons.
+ */
+const MIN_INPUT_NEURONS_AMOUNT = 1;
+
+/**
+ * Minumum regular amount of ANN neurons.
+ */
+const MIN_REGULAR_NEURONS_AMOUNT = 1;
+
+/**
+ * Minumum output amount of ANN neurons.
+ */
+const MIN_OUTPUT_NEURONS_AMOUNT = 1;
+
+/**
+ * Minumum amount of ANN neurons.
+ */
+const MIN_NEURONS_AMOUNT = this.MIN_INPUT_NEURONS_AMOUNT + this.MIN_REGULAR_NEURONS_AMOUNT + this.MIN_OUTPUT_NEURONS_AMOUNT;
+
+/**
  * List of neurons class.
  *
  * @author Todor Balabanov
@@ -40,26 +60,6 @@ document.write('<script type="text/javascript" src="' + 'Neuron.js' + '"></scrip
  * @date 03 Aug 2011
  */
 function NeuronsList(size) {
-	/**
-	 * Minumum input amount of ANN neurons.
-	 */
-	this.MIN_INPUT_NEURONS_AMOUNT = 1;
-
-	/**
-	 * Minumum regular amount of ANN neurons.
-	 */
-	this.MIN_REGULAR_NEURONS_AMOUNT = 1;
-
-	/**
-	 * Minumum output amount of ANN neurons.
-	 */
-	this.MIN_OUTPUT_NEURONS_AMOUNT = 1;
-
-	/**
-	 * Minumum amount of ANN neurons.
-	 */
-	this.MIN_NEURONS_AMOUNT = this.MIN_INPUT_NEURONS_AMOUNT + this.MIN_REGULAR_NEURONS_AMOUNT + this.MIN_OUTPUT_NEURONS_AMOUNT;
-
 	/*
 	 * It is not possible neurons amount to be negative number.
 	 */

@@ -34,7 +34,7 @@ document.write('<script type="text/javascript" src="' + 'Chromosome.js' + '"></s
  * Minimum population size. Four is useful at each crossover and mutation to
  * have two parents, one child and one reserved best chromosome.
  */
-var MIN_POPULATION_SIZE = 4;
+const MIN_POPULATION_SIZE = 4;
 
 /**
  * List of weights used as population class.

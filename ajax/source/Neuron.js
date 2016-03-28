@@ -31,6 +31,21 @@
 document.write('<script type="text/javascript" src="' + 'NeuronType.js' + '"></script>');
 
 /**
+ * Bias neuron value.
+ */
+const BIAS_VALUE = 1.0;
+
+/**
+ * Neurons reset constant value.
+ */
+const RESET_VALUE = 0.5;
+
+/**
+ * Minimal error constant value.
+ */
+const MIN_ERROR = 0.0;
+
+/**
  * Single neuron class.
  *
  * @author Todor Balabanov
@@ -40,21 +55,6 @@ document.write('<script type="text/javascript" src="' + 'NeuronType.js' + '"></s
  * @date 03 Aug 2011
  */
 function Neuron() {
-	/**
-	 * Bias neuron value.
-	 */
-	this.BIAS_VALUE = 1.0;
-
-	/**
-	 * Neurons reset constant value.
-	 */
-	this.RESET_VALUE = 0.5;
-
-	/**
-	 * Minimal error constant value.
-	 */
-	this.MIN_ERROR = 0.0;
-
 	/**
 	 * Neuron type. More than one neuron can be bias, input and output in multi
 	 * layer networks. Also each neuron can be in more than single type.

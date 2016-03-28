@@ -27,6 +27,16 @@
  ******************************************************************************/
 
 /**
+ * Minimum possible weight activity.
+ */
+const MIN_ACTIVITY = 0.0;
+
+/**
+ * Maximum possible weight activity.
+ */
+const MAX_ACTIVITY = 1.0;
+
+/**
  * ANN typology graph adjacency matrix class.
  *
  * @author Todor Balabanov
@@ -36,16 +46,6 @@
  * @date 03 Aug 2011
  */
 function ActivitiesMatrix(size) {
-	/**
-	 * Minimum possible weight activity.
-	 */
-	this.MIN_ACTIVITY = 0.0;
-
-	/**
-	 * Maximum possible weight activity.
-	 */
-	this.MAX_ACTIVITY = 1.0;
-
 	/**
 	 * Matrix values.
 	 */
