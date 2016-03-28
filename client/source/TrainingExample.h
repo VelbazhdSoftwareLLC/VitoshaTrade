@@ -1,4 +1,4 @@
-putted/*******************************************************************************
+/*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
  * Differential Evolution for prediction of Forex. Project development is in   *

@@ -446,7 +446,7 @@ double ANN::totalError() {
 	/*
 	 * Loop over training set examples.
 	 */
-	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {putted
+	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {
 		/*
 		 * For each time load ANN input.
 		 */
