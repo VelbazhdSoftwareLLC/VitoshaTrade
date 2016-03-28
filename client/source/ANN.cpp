@@ -446,11 +446,11 @@ double ANN::totalError() {
 	/*
 	 * Loop over training set examples.
 	 */
-	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {
+	for (int i=0,size=ts->getSize(); i<size&&isRunning==true; i++) {putted
 		/*
 		 * For each time load ANN input.
 		 */
-		loadInput(ts->getSplittedInputed(i));
+		loadInput(ts->getSplittedInputted(i));
 
 		/*
 		 * Update ANN internal state.
@@ -680,7 +680,7 @@ void ANN::gradient() {
 		/*
 		 * For each time load ANN input.
 		 */
-		loadInput(ts->getSplittedInputed(index));
+		loadInput(ts->getSplittedInputted(index));
 
 		/*
 		 * Feed forward ANN.
@@ -708,7 +708,7 @@ void ANN::predict() {
 		return;
 	}
 
-    loadInput(ts->getSplittedInputed(0));
+    loadInput(ts->getSplittedInputted(0));
 
 	update();
 

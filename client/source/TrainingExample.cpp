@@ -1,4 +1,4 @@
-/*******************************************************************************
+putted/*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
  * Differential Evolution for prediction of Forex. Project development is in   *
@@ -32,11 +32,11 @@
 #include "TrainingExample.h"
 
 TrainingExample::TrainingExample() {
-	ANNIO inputed(0);
+	ANNIO inputted(0);
 	ANNIO expected(0);
 	ANNIO predicted(0);
 
-	this->inputed = inputed;
+	this->inputted = inputted;
 	this->expected = expected;
 	this->predicted = predicted;
 }

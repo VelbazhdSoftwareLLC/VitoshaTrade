@@ -297,7 +297,7 @@ public:
 	 *
 	 * @date 09 Sep 2009
 	 */
-	ANNIO& getSplittedInputed(int index);
+	ANNIO& getSplittedInputted(int index);
 
 	/**
 	 * Expected value at index pointer getter.

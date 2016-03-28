@@ -92,7 +92,7 @@ void TrainingSet::splitData(int past, int future) {
 
 	int j = 0;
 	for (int i=future; i<rates.size()-past; i++, j++) {
-		examples[j].inputed = getBarsInPast(i,past);
+		examples[j].inputted = getBarsInPast(i,past);
 		examples[j].expected = getBarsInFuture(i+1,future);
 		examples[j].predicted = getBarsInFuture(i+1,future);
 	}
@@ -211,9 +211,9 @@ ANNIO TrainingSet::getBarsInFuture(int index, int amount) {
 	return result;
 }
 
-ANNIO& TrainingSet::getSplittedInputed(int index) {
+ANNIO& TrainingSet::getSplittedInputted(int index) {
 	if (index >= 0 && index < rates.size()) {
-		return( examples[index].inputed );
+		return( examples[index].inputted );
 	} else {
 		throw( "TrainingSet00125" );
 	}

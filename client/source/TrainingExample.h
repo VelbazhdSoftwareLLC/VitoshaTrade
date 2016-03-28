@@ -1,4 +1,4 @@
-/*******************************************************************************
+putted/*******************************************************************************
  *                                                                             *
  * VitoshaTrade is Distributed Artificial Neural Network trained by            *
  * Differential Evolution for prediction of Forex. Project development is in   *
@@ -72,7 +72,7 @@ struct TrainingExample {
 	 * Rate time values.
 	 */
 	//TODO Wrong spelling. It should be inputted.
-	ANNIO inputed;
+	ANNIO inputted;
 
 	/**
 	 * Expected values.
