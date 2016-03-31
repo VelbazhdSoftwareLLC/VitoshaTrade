@@ -323,7 +323,7 @@ function HttpCommunicator() {
 //			ann.setInput(ANN.MIN_INPUT_NEURONS_AMOUNT);
 //			ann.setOutput(ANN.MIN_OUTPUT_NEURONS_AMOUNT);
 //		}
-	}
+};
 
 //	/**
 //	 * Save single ANN record on the remote side server.
@@ -579,7 +579,7 @@ function HttpCommunicator() {
 //		requests.send(parameters);
 //
 		return(result);
-	}
+};
 
 //	/**
 //	 * Save training set record on remote side server.
@@ -770,7 +770,7 @@ function HttpCommunicator() {
 //		}
 //
 //		requests.send(parameters);
-	}
+};
 
 //	/**
 //	 * Load remote server best known fitness for particular ANN kind.
