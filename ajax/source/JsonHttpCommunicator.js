@@ -89,7 +89,7 @@ const LOAD_TRAINING_SET_SCRIPT = "/logic/json_load_training_set.php";
 function JsonHttpCommunicator() {
 
 	/**
-	 * Communication object.
+	 * Communication object as private member.
 	 */
 	var requests = null;
 
@@ -128,6 +128,35 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadAnnList = function(list, annId, symbol, period) {
+		list.splice(0, list.length);
+
+		if(requests.readyState != 4 && requests.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "annid=" + annId;
+		parameters += "&";
+		parameters += "&symbol" + symbol;
+		parameters += "&";
+		parameters += "period" + period;
+
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		requests.open("POST", HOST+LIST_OF_ANNS_SCRIPT, false);
+		requests.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		requests.setRequestHeader("Content-length", parameters.length);
+		requests.setRequestHeader("Connection", "close");
+
+		requests.send(parameters);
+		
+		list = JSON.parse(requests.responseText);
+		
+		return list;
 	};
 
 	/**
