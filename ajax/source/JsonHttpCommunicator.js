@@ -91,18 +91,18 @@ function JsonHttpCommunicator() {
 	/**
 	 * Communication object as private member.
 	 */
-	var requests = null;
+	var request = null;
 
 	/*
 	 * Get XTML HTTP request object.
 	 */
 	if (window.XMLHttpRequest) {
-		requests = new XMLHttpRequest();
+		request = new XMLHttpRequest();
 		/*
 		 * Not IE.
 		 */
 	} else if (window.ActiveXObject) {
-		requests = new ActiveXObject("Microsoft.XMLHTTP");
+		request = new ActiveXObject("Microsoft.XMLHTTP");
 		/*
 		 * IE
 		 */
@@ -130,7 +130,7 @@ function JsonHttpCommunicator() {
 	this.loadAnnList = function(list, annId, symbol, period) {
 		list.splice(0, list.length);
 
-		if(requests.readyState != 4 && requests.readyState != 0) {
+		if(request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -147,14 +147,16 @@ function JsonHttpCommunicator() {
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		requests.open("POST", HOST+LIST_OF_ANNS_SCRIPT, false);
-		requests.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		requests.setRequestHeader("Content-length", parameters.length);
-		requests.setRequestHeader("Connection", "close");
+		request.open("POST", "http://"+HOST+LIST_OF_ANNS_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		request.setRequestHeader("Content-length", parameters.length);
+		request.setRequestHeader("Connection", "close");
 
-		requests.send(parameters);
+		request.send(parameters);
 		
-		list = JSON.parse(requests.responseText);
+		list = JSON.parse(request.responseText);
+		
+		//TODO Parse to be as C++.
 		
 		return list;
 	};

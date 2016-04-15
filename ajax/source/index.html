@@ -70,9 +70,8 @@
 				parameters.populationSize = document.getElementById('populationSize').value;
 				parameters.bars = document.getElementById('numberOfBars').value;
 				
-				trainer = new Trainer();
-				
-				trainer.setup(parameters);
+				//trainer = new Trainer();
+				//trainer.setup(parameters);
 			}
 
 			/**
@@ -88,15 +87,16 @@
 				/*
 				 * Call training procedure.
 				 */
-				trainer.train();
-
-				document.getElementById('prediction').innerHTML = trainer.predict();
+				//trainer.train();
+				//document.getElementById('prediction').innerHTML = trainer.predict();
 			}
 
 			/*
 			 * Setup time interval for calculation calling.
 			 */
 			setInterval("doCalculation()", 3000);
+//var list = [];
+//(new JsonHttpCommunicator()).loadAnnList(list,1,"EURUSD",1);
 		</script>
 
 		<!-- Ajax distributed computing code. -->
