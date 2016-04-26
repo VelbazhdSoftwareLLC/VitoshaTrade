@@ -149,14 +149,13 @@ function JsonHttpCommunicator() {
 		 */
 		request.open("POST", "http://"+HOST+LIST_OF_ANNS_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.setRequestHeader("Content-length", parameters.length);
-		request.setRequestHeader("Connection", "close");
 
 		request.send(parameters);
+		var response = JSON.parse(request.responseText);
 		
-		list = JSON.parse(request.responseText);
-		
-		//TODO Parse to be as C++.
+		for(var i=0; i<response.identifiers.length; i++) {
+			list[i] = response.identifiers[i];
+		}
 		
 		return list;
 	};
@@ -225,6 +224,26 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadAnnNeuronsAmount = function(annId) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "annid=" + annId;
+
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+LOAD_NEURONS_AMOUNT_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
+		var response = JSON.parse(request.responseText);
+		
+		return response.neuronsAmount;
 	};
 
 	/**

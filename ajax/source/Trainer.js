@@ -35,11 +35,7 @@ document.write('<script type="text/javascript" src="' + 'ANN.js' + '"></script>'
 document.write('<script type="text/javascript" src="' + 'DE.js' + '"></script>');
 document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></script>');
 document.write('<script type="text/javascript" src="' + 'ModelParameters.js' + '"></script>');
-
-/**
- * Default random maximum value.
- */
-const RAND_MAX = 32767;
+document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
 
 /**
  * Do report flag.

@@ -19,6 +19,148 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Database: `veldsoft_vitoshatrade`
 --
 
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertCurrencyPair`(IN `symbol` VARCHAR(255), IN `period` INT(10))
+    MODIFIES SQL DATA
+    COMMENT 'Insert currency pair with currency symbol and minutes period.'
+begin
+	declare period_id int;
+        
+        select id into period_id from time_periods where time_periods.minutes=period;
+        
+	insert into currency_pairs (symbol, period_id, description) values (symbol, period_id, "");
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `saveAnn`(IN `symbol` VARCHAR(255), IN `period` INT(10), IN `number_of_neurons` INT(10), IN `flags` TEXT, IN `activities` TEXT, IN `fitness` DOUBLE, IN `weights` TEXT)
+    MODIFIES SQL DATA
+    COMMENT 'Save ANN information in many tables.'
+begin
+	declare currency_pairs_id int;
+        declare ann_kind_id int;
+        
+        set currency_pairs_id = checkCurrencyPairsId(symbol,period);
+	if currency_pairs_id=0 then
+        	call insertCurrencyPair(symbol, period);
+        	set currency_pairs_id = checkCurrencyPairsId(symbol,period);
+        end if;
+
+	set ann_kind_id = checkAnnKindId(symbol, period, number_of_neurons, flags, activities);
+        if ann_kind_id=0 then
+		insert into ann_kind (currency_pairs_id, number_of_neurons, flags, activities) values (currency_pairs_id, number_of_neurons, flags, activities);
+                set ann_kind_id = checkAnnKindId(symbol, period, number_of_neurons, flags, activities);
+	end if;
+
+	insert into ann (ann_kind_id, fitness, weights) values (ann_kind_id, fitness, weights);
+        
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `saveTrainingSet`(IN `symbol` VARCHAR(255), IN `period` INT, IN `number_of_examples` INT, IN `time` TEXT, IN `open` TEXT, IN `low` TEXT, IN `high` TEXT, IN `close` TEXT, IN `volume` TEXT)
+    MODIFIES SQL DATA
+    COMMENT 'Save training set values.'
+begin
+	declare currency_pairs_id int;
+	declare id int;
+        
+        set currency_pairs_id = checkCurrencyPairsId(symbol,period);
+	if currency_pairs_id=0 then
+        	call insertCurrencyPair(symbol, period);
+        	set currency_pairs_id = checkCurrencyPairsId(symbol,period);
+        end if;
+
+	-- Delete previous record, because information will be old.
+        select training_set.id into id from training_set, currency_pairs, time_periods where training_set.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id and currency_pairs.symbol=symbol and time_periods.minutes=period;
+	delete from training_set where training_set.id = id;
+        
+        -- Insert new data for the same record.
+        insert into training_set (training_set.currency_pairs_id, training_set.number_of_examples, training_set.time, training_set.open, training_set.low, training_set.high, training_set.close, training_set.volume) values (currency_pairs_id, number_of_examples, time, open, low, high, close, volume);
+end$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnnKindId`(`symbol` VARCHAR(255), `period` INT(10), `number_of_neurons` INT(10), `flags` TEXT, `activities` TEXT) RETURNS int(11)
+    READS SQL DATA
+    COMMENT 'Check for ANN kind id. Return 0 if it was not found.'
+begin
+	declare id int;
+
+        select ann_kind.id into id from ann_kind, currency_pairs, time_periods where ann_kind.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id and currency_pairs.symbol=symbol and time_periods.minutes=period and ann_kind.number_of_neurons=number_of_neurons and ann_kind.flags=flags and ann_kind.activities=activities;
+        
+        if id is null then
+        	set id = 0;
+        end if;
+        
+	return id;
+end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `checkCurrencyPairsId`(`symbol` VARCHAR(255), `period` INT(10)) RETURNS int(11)
+    READS SQL DATA
+    COMMENT 'Check for currency pair id. Return 0 if it was not found.'
+begin
+
+	declare id int;
+
+        select currency_pairs.id into id from currency_pairs, time_periods where currency_pairs.period_id=time_periods.id and currency_pairs.symbol=symbol and time_periods.minutes=period;
+        
+        if id is null then
+        	set id = 0;
+        end if;
+        
+	return id;
+
+end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `listAnns`(`id` INT) RETURNS text CHARSET utf8 COLLATE utf8_general_ci
+    READS SQL DATA
+    COMMENT 'List ids of all ANN from particular type.'
+begin
+	declare ids text;
+        
+        -- TODO Implement list of ANNs.
+        
+        return ids;
+end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `loadBestFitness`(`symbol` VARCHAR(255), `period` INT, `number_of_neurons` INT, `flags` TEXT, `activities` TEXT) RETURNS double
+    READS SQL DATA
+    COMMENT 'Load best fitness for particular ANN kind.'
+begin
+	declare best double;
+        declare ann_kind_id int;
+        
+	select ann_kind.id into ann_kind_id from ann_kind, currency_pairs, time_periods where currency_pairs.symbol=symbol and time_periods.minutes=period and ann_kind.number_of_neurons=number_of_neurons and ann_kind.flags=flags and ann_kind.activities=activities and ann_kind.currency_pairs_id=currency_pairs.id and currency_pairs.period_id=time_periods.id;
+
+        select min(ann.fitness) into best from ann where ann.ann_kind_id=ann_kind_id;
+
+        -- TODO There is a bug in calling this procedure from phpMyAdmin and from calls.html.
+
+        if best is null then
+        	set best = 10000;
+        end if;
+        
+	return best;
+end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `loadNeuronsAmount`(`id` INT) RETURNS int(11)
+    READS SQL DATA
+    COMMENT 'Check neurons amount in particular ANN.'
+begin
+	declare amount int;
+
+	select ann_kind.number_of_neurons into amount from ann, ann_kind where ann.id=id and ann.ann_kind_id=ann_kind.id;
+        
+        if amount is null then
+        	set amount = 0;
+        end if;
+        
+        return amount;
+end$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --

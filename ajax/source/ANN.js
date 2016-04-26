@@ -25,11 +25,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.        *
  *                                                                             *
  ******************************************************************************/
-
-/**
- * Default random maximum value.
+/*
+ * Include files.
  */
-const RAND_MAX = 32767;
+document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
 
 /**
  * Minumum input amount of ANN neurons.

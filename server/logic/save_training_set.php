@@ -34,6 +34,8 @@
  */
 include "../common/db.php";
 
+header("access-control-allow-origin: *");
+
 /*
  * Check input parameters.
  */

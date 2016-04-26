@@ -33,6 +33,8 @@
  */
 include "../common/db.php";
 
+header("access-control-allow-origin: *");
+
 /*
  * Response output variable.
  */
