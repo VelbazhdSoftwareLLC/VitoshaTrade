@@ -140,9 +140,9 @@ function JsonHttpCommunicator() {
 		var parameters = "";
 		parameters += "annid=" + annId;
 		parameters += "&";
-		parameters += "&symbol" + symbol;
+		parameters += "&symbol=" + symbol;
 		parameters += "&";
-		parameters += "period" + period;
+		parameters += "period=" + period;
 
 		/*
 		 * Send synchronous HTTP request.
@@ -182,6 +182,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadTrainerObjects = function(counters, ann, de, symbol, period, parameters) {
+		//TODO Implement it last.
 	};
 
 	/**
@@ -208,6 +209,66 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.saveSingleANN = function(symbol, period, fitness, neurons, weights, activities) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "&symbol=" + symbol;
+		parameters += "&";
+		parameters += "period=" + period;
+		parameters += "&";
+		parameters += "fitness=" + fitness;
+		parameters += "&";
+		parameters += "number_of_neurons=" + neurons.dimension();
+		
+		parameters += "&";
+		parameters += "flags=";
+		for (var i=0; i<neurons.dimension(); i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += neurons[i].getType();
+		}
+		
+		parameters += "&";
+		parameters += "weights=";
+		for (var j=0; j<neurons.dimension(); j++) {
+			if (j > 0) {
+				parameters += "\n";
+			}
+			for (var i=0; i<neurons.dimension(); i++) {
+				if (i > 0) {
+					parameters += " ";
+				}
+				parameters += weights.get(i,j);
+			}
+		}
+		
+		parameters += "&";
+		parameters += "activities=";
+		for (var j=0; j<neurons.dimension(); j++) {
+			if (j > 0) {
+				parameters += "\n";
+			}
+			for (var i=0; i<neurons.dimension(); i++) {
+				if (i > 0) {
+					parameters += " ";
+				}
+				parameters += activities.get(i,j);
+			}
+		}
+		
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+SAVE_SINGLE_ANN_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
 	};
 
 	/**
