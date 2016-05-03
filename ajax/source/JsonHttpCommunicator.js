@@ -333,6 +333,28 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadSingleANN = function(annId, symbol, period, fitness, neurons, weights, activities) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "annid=" + annId;
+
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+LOAD_SINGLE_ANN_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
+		var response = JSON.parse(request.responseText);
+
+		//TODO Parse response.		
+		
+		return [annId, symbol, period, fitness, neurons, weights, activities];
 	};
 
 	/**
@@ -349,6 +371,28 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadTrainingSetSize = function(symbol, period) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "&symbol=" + symbol;
+		parameters += "&";
+		parameters += "period=" + period;
+
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+TRAINING_SET_SIZE_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
+		var response = JSON.parse(request.responseText);
+		
+		return response.numberOfExamples;
 	};
 
 	/**
@@ -413,5 +457,52 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadRemoteBestFitness = function(symbol, period, neurons, activities) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "&symbol=" + symbol;
+		parameters += "&";
+		parameters += "period=" + period;
+		parameters += "&";
+		parameters += "number_of_neurons=" + neurons.dimension();
+		
+		parameters += "&";
+		parameters += "flags=";
+		for (var i=0; i<neurons.dimension(); i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += neurons[i].getType();
+		}
+		
+		parameters += "&";
+		parameters += "activities=";
+		for (var j=0; j<neurons.dimension(); j++) {
+			if (j > 0) {
+				parameters += "\n";
+			}
+			for (var i=0; i<neurons.dimension(); i++) {
+				if (i > 0) {
+					parameters += " ";
+				}
+				parameters += activities.get(i,j);
+			}
+		}
+		
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+LOAD_BEST_FITNESS_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
+		var response = JSON.parse(request.responseText);
+		
+		return response.fitness;
 	};
 }
