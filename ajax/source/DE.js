@@ -295,7 +295,8 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 				secondParentIndex = index;
 			}
 		}
-	}
+	};
+	
 	/**
 	 * Crossover chromosomes.
 	 *
@@ -380,7 +381,8 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 		// //TODO Implement crossover as private helper method.
 		// //TODO Implement binary matrix template for crossover.
 		// }
-	}
+	};
+	
 	/**
 	 * Mutate chromosome.
 	 *
@@ -425,7 +427,8 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 				this.population[index][i][j] += (factor * (this.population[firstIndex][i][j] - this.population[secondIndex][i][j]));
 			}
 		}
-	}
+	};
+	
 	//	/**
 	//	 * Search for best fitness and save it in class member variable.
 	//	 *
@@ -519,7 +522,8 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 		}
 
 		return (false );
-	}
+	};
+	
 	/**
 	 * Evolve population. Do selection for crossover. Crossover half of the
 	 * population. Mutate crossovered half of the population.
@@ -596,5 +600,5 @@ function DE(ann, populationSize, crossoverPercent, mutationPercent) {
 				this.bestFitnessIndex = resultIndex;
 			}
 		}
-	}
+	};
 }

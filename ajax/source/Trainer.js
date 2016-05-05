@@ -128,7 +128,8 @@ function Trainer() {
 		*/
 		//TODO this.http.loadTrainerObjects(this.ann, this.de, parameters);
 		//TODO this.ann.ts = this.ts;
-	}
+	};
+	
 	/**
 	 * Update training set.
 	 *
@@ -173,7 +174,8 @@ function Trainer() {
 		//		 * not sure that previous beest chromosome will be best again.
 		//		 */
 		//		de.setBestFitnessIndex( Math.floor(Math.random()*(de.getPopulationSize())))
-	}
+	};
+	
 	/**
 	 * Do training process.
 	 *
@@ -204,7 +206,8 @@ function Trainer() {
 		// if ((new Date()).getTime() - BEST_FITNESS_REPORT_INTERVAL > this.lastBestFitnessReportTime) {
 		// this.reportLocalBestFitness();
 		// }
-	}
+	};
+	
 	/**
 	 * Obtain predicted value.
 	 *
@@ -226,7 +229,8 @@ function Trainer() {
 		//		}
 		//
 		//		return( this.ann.prediction );
-	}
+	};
+	
 	/**
 	 * Report local best fitness.
 	 *
@@ -266,5 +270,5 @@ function Trainer() {
 		//		 * Mark last time checked for server best fitness.
 		//		 */
 		//		this.lastBestFitnessReportTime = (new Date()).getTime();
-	}
+	};
 }

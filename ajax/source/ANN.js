@@ -179,7 +179,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		} else {
 			return (false );
 		}
-	}
+	};
+	
 	/**
 	 * Remove all flag from all neurons.
 	 *
@@ -193,7 +194,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		for (var i = 0; i < this.neuronsAmount; i++) {
 			this.neuronsFlags[i] = REGULAR_NEURON;
 		}
-	}
+	};
+	
 	/**
 	 * Reset all neurons to constant value.
 	 *
@@ -211,7 +213,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 				this.neurons[i] = BIAS_VALUE;
 			}
 		}
-	}
+	};
+	
 	/*
 	 * Remove all bias neurons.
 	 */
@@ -245,7 +248,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		} else {
 			return (false );
 		}
-	}
+	};
+	
 	/**
 	 * Is output neuron getter.
 	 *
@@ -269,7 +273,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		} else {
 			return (false );
 		}
-	}
+	};
+	
 	//	/**
 	//	 * Pack neurons flags in both ends of the array.
 	//	 *
@@ -339,7 +344,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		for (var i = 0; i < size; i++) {
 			this.neurons[i] = input[i];
 		}
-	}
+	};
+	
 	/**
 	 * Forward pass of network state change. All neurons get new values.
 	 *
@@ -376,7 +382,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		this.neurons = this.neuronsBuffer2;
 		this.neuronsBuffer2 = this.neuronsBuffer1;
 		this.neuronsBuffer1 = this.neurons;
-	}
+	};
+	
 	/**
 	 * Store (retrun) output of the network into output array.
 	 *
@@ -394,7 +401,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		for (var i = 0; i < size; i++) {
 			this.neurons[this.neuronsAmount - size + i] = output[i];
 		}
-	}
+	};
+	
 	/**
 	 * Calculate network output error.
 	 *
@@ -432,7 +440,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		result /= 2.0;
 
 		return (result );
-	}
+	};
+	
 	/**
 	 * Calculate average net error for all training examples.
 	 *
@@ -487,7 +496,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		result /= this.ts.size;
 
 		return (result );
-	}
+	};
+	
 	/**
 	 * Feed forward ANN.
 	 *
@@ -570,7 +580,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 		this.neurons = this.neuronsBuffer2;
 		this.neuronsBuffer2 = this.neuronsBuffer1;
 		this.neuronsBuffer1 = this.neurons;
-	}
+	};
+	
 	/**
 	 * Back propagate ANN.
 	 *
@@ -679,7 +690,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 				this.weights[i][j] += LEARNING_RATE * this.neuronsError[i] * this.neurons[j];
 			}
 		}
-	}
+	};
+	
 	/**
 	 * Gradient training of ANN.
 	 *
@@ -714,7 +726,8 @@ function ANN(ts, neuronsAmount, bars, period) {
 			//			 */
 			//			this.backpropagation(this.ts.examples[index].expected, this.outputNeuronsAmount);
 		}
-	}
+	};
+	
 	/**
 	 * Predict future value.
 	 *
@@ -759,5 +772,5 @@ function ANN(ts, neuronsAmount, bars, period) {
 		this.storeOutput(this.outputValues, this.outputNeuronsAmount);
 
 		this.prediction = this.ts.mergeDigits(this.outputValues, this.outputNeuronsAmount) / this.ts.FLOATING_POINT_FACTOR;
-	}
+	};
 }

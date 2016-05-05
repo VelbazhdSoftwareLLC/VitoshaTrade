@@ -352,9 +352,13 @@ function JsonHttpCommunicator() {
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
 
+		symbol = response.symbol;
+		period = response.period;
+		fitness = response.fitness;
+
 		//TODO Parse response.		
 		
-		return [annId, symbol, period, fitness, neurons, weights, activities];
+		return [symbol, period, fitness, neurons, weights, activities];
 	};
 
 	/**
@@ -413,6 +417,81 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.saveTrainingSet = function(symbol, period, rates, size) {
+		if(request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "&symbol=" + symbol;
+		parameters += "&";
+		parameters += "period=" + period;
+		parameters += "&";
+		parameters += "number_of_examples=" + size;
+
+		parameters += "&";
+		parameters += "time=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].time;
+		}
+
+		parameters += "&";
+		parameters += "open=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].open;
+		}
+
+		parameters += "&";
+		parameters += "low=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].low;
+		}
+
+		parameters += "&";
+		parameters += "high=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].high;
+		}
+
+		parameters += "&";
+		parameters += "close=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].close;
+		}
+
+		parameters += "&";
+		parameters += "volume=";
+		for (var i=0; i<size; i++) {
+			if (i > 0) {
+				parameters += " ";
+			}
+			parameters += rates[i].volume;
+		}
+		
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://"+HOST+SAVE_TRAINING_SET_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
 	};
 
 	/**
