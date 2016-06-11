@@ -30,3 +30,10 @@
  * Default random maximum value.
  */
 const RAND_MAX = 32767;
+
+/**
+ * System random generation function.
+ */
+function rand() {
+	return Math.floor(Math.random() * (RAND_MAX + 1));
+}

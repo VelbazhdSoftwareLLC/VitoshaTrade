@@ -60,6 +60,56 @@ function ActivitiesMatrix(size) {
 			this.values[i][j] = MAX_ACTIVITY;
 		}
 	}
+	
+	/**
+	 * Matrix elements accessor.
+	 *
+	 * @param col Column.
+	 *
+	 * @param row Row.
+	 *
+	 * @return Constant element value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.get = function(col, row) {
+		if (col<0 || col>=values.size() || row<0 || row>=values.size()) {
+			//TODO Do exception handling.
+			return( 0.0 );
+		};
+	
+		return values[col][row];
+	};
+
+	/**
+	 * Matrix elements accessor.
+	 *
+	 * @param col Column.
+	 *
+	 * @param row Row.
+	 *
+	 * @return Constant element value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 03 Aug 2011
+	 */
+	this.set = function(col, row, value) {
+		if (col<0 || col>=values.size() || row<0 || row>=values.size()) {
+			//TODO Do exception handling.
+			return value;
+		}
+	
+		values[col][row] = value;
+	
+		return( values[col][row] );
+	};
 
 	/**
 	 * Set all activities to the maximum valid value.

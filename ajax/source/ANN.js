@@ -29,26 +29,9 @@
  * Include files.
  */
 document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
-
-/**
- * Minumum input amount of ANN neurons.
- */
-const MIN_INPUT_NEURONS_AMOUNT = 10;
-
-/**
- * Minumum regular amount of ANN neurons.
- */
-const MIN_REGULAR_NEURONS_AMOUNT = 5;
-
-/**
- * Minumum output amount of ANN neurons.
- */
-const MIN_OUTPUT_NEURONS_AMOUNT = 5;
-
-/**
- * Minumum amount of ANN neurons.
- */
-const MIN_NEURONS_AMOUNT = MIN_INPUT_NEURONS_AMOUNT + MIN_REGULAR_NEURONS_AMOUNT + MIN_OUTPUT_NEURONS_AMOUNT;
+document.write('<script type="text/javascript" src="' + 'NeuronsList.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'ActivitiesMatrix.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '"></script>');
 
 /**
  * Learning rate of backpropagation.
@@ -64,69 +47,33 @@ const LEARNING_RATE = 0.35;
  *
  * @date 16 Dec 2010
  */
-function ANN(ts, neuronsAmount, bars, period) {
+function ANN(counters, ts, neuronsAmount, learn, bars, period) {
+
 	/**
 	 * Number of ANN neurons.
 	 */
 	this.neuronsAmount = neuronsAmount;
 
-	if (this.neuronsAmount < MIN_NEURONS_AMOUNT) {
-		this.neuronsAmount = MIN_NEURONS_AMOUNT;
-	}
-
-	/**
-	 * Number of ANN input neurons.
-	 */
-	this.inputNeuronsAmount = 0;
-
-	/**
-	 * Number of ANN output neurons.
-	 */
-	this.outputNeuronsAmount = 0;
-
-	/**
-	 * Neurons flags. More than one neuron can be bias, input and output in multi
-	 * layer networks.
-	 */
-	this.neuronsFlags = new Array(this.neuronsAmount);
-
-	/**
-	 * Real nurons buffer array 1.
-	 */
-	this.neuronsBuffer1 = new Array(this.neuronsAmount);
-
-	/**
-	 * Real nurons buffer array 2.
-	 */
-	this.neuronsBuffer2 = new Array(this.neuronsAmount);
-
 	/**
 	 * Just a pinter to real array.
 	 */
-	this.neurons = this.neuronsBuffer1;
+	this.neurons = new NeuronsList(this.neuronsAmount);
+	this.neuronsAmount = neurons.dimension();
 
-	/**
-	 * Neurons error array for backpropagation.
+	/*
+	 * Make all neurons regular.
 	 */
-	this.neuronsError = new Array(this.neuronsAmount);
+	neurons.clearTypes();
 
-	/**
-	 * Real buffer for prediction time split digits.
+	/*
+	 * Initialize neurons for first update.
 	 */
-	this.timeValue = new Array(this.neuronsAmount);
-
-	/**
-	 * Real buffer for merge output digits.
-	 */
-	this.outputValues = new Array(this.neuronsAmount);
+	neurons.reset();
 
 	/**
 	 * Activities 2D maxtrix.
 	 */
-	this.activities = new Array(this.neuronsAmount);
-	for (var i = 0; i < this.neuronsAmount; i++) {
-		this.activities[i] = new Array(this.neuronsAmount);
-	}
+	this.activities = new ActivitiesMatrix(this.neuronsAmount);
 
 	/**
 	 * Weights reference from DE.
@@ -137,6 +84,11 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 * Link to real training set object.
 	 */
 	this.ts = ts;
+
+	/**
+	 * Past bars interval.
+	 */
+	this.learn = learn;
 
 	/**
 	 * Prediction bars interval.
@@ -154,174 +106,11 @@ function ANN(ts, neuronsAmount, bars, period) {
 	this.prediction = 0.0;
 
 	/*
-	 * It is not possible neurons amount to be negative number.
+	 * Estimate work done.
 	 */
-	if (this.neuronsAmount < MIN_NEURONS_AMOUNT) {
-		this.neuronsAmount = MIN_NEURONS_AMOUNT;
+	if (counters != null) {
+		counters.setValue("Number of neurons", this.neuronsAmount);
 	}
-
-	/**
-	 * Is bias neuron getter.
-	 *
-	 * @param index Index in neurons array.
-	 *
-	 * @return True if neuron is bias, false otherwise.
-	 *
-	 * @author Todor Balabanov
-	 *
-	 * @email tdb@tbsoft.eu
-	 *
-	 * @date 21 Aug 2009
-	 */
-	this.isBias = function(index) {
-		if ((this.neuronsFlags[index] & BIAS_NEURON) == BIAS_NEURON) {
-			return (true );
-		} else {
-			return (false );
-		}
-	};
-	
-	/**
-	 * Remove all flag from all neurons.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 22 Feb 2011
-	 */
-	this.clearFlags = function() {
-		for (var i = 0; i < this.neuronsAmount; i++) {
-			this.neuronsFlags[i] = REGULAR_NEURON;
-		}
-	};
-	
-	/**
-	 * Reset all neurons to constant value.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 18 Dec 2010
-	 */
-	this.resetNeurons = function() {
-		for (var i = 0; i < this.neuronsAmount; i++) {
-			this.neurons[i] = NEURONS_RESET_VALUE;
-
-			if (this.isBias(this.neuronsFlags[i]) == true) {
-				this.neurons[i] = BIAS_VALUE;
-			}
-		}
-	};
-	
-	/*
-	 * Remove all bias neurons.
-	 */
-	this.clearFlags();
-
-	/*
-	 * Initialize neurons for first update.
-	 */
-	this.resetNeurons();
-
-	/**
-	 * Is input neuron getter.
-	 *
-	 * @param index Index in neurons array.
-	 *
-	 * @return True if neuron is input, false otherwise.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 27 Dec 2010
-	 */
-	this.isInput = function(index) {
-		if (index < 0 || index >= this.neuronsAmount) {
-			return (false );
-		}
-
-		if ((this.neuronsFlags[index] & INPUT_NEURON) == INPUT_NEURON) {
-			return (true );
-		} else {
-			return (false );
-		}
-	};
-	
-	/**
-	 * Is output neuron getter.
-	 *
-	 * @param index Index in neurons array.
-	 *
-	 * @return True if neuron is output, false otherwise.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 27 Dec 2010
-	 */
-	this.isOutput = function(index) {
-		if (index < 0 || index >= this.neuronsAmount) {
-			return (false );
-		}
-
-		if ((this.neuronsFlags[index] & OUTPUT_NEURON) == OUTPUT_NEURON) {
-			return (true );
-		} else {
-			return (false );
-		}
-	};
-	
-	//	/**
-	//	 * Pack neurons flags in both ends of the array.
-	//	 *
-	//	 * @author Daniel Chutrov
-	//	 *
-	//	 * @email d.chutrov@gmail.com
-	//	 *
-	//	 * @date 16 Dec 2010
-	//	 */
-	//	this.packInputOutput = function() {
-	//		this.inputNeuronsAmount = 0;
-	//		this.outputNeuronsAmount = 0;
-	//		for (var i=0; i<neuronsAmount; i++) {
-	//			if (isInput(i) == true) {
-	//				this.inputNeuronsAmount++;
-	//			}
-	//			if (isOutput(i) == true) {
-	//				this.outputNeuronsAmount++;
-	//			}
-	//		}
-	//
-	//		var done = false;
-	//		var swap = "0";
-	//
-	//		do {
-	//			done = true;
-	//
-	//			for (var i=0; i<neuronsAmount-1; i++) {
-	//				if (isInput(i)==false && isInput(i+1)==true) {
-	//					swap = neuronsFlags[ i];
-	//					neuronsFlags[ i] = neuronsFlags[ i+1 ];
-	//					neuronsFlags[ i+1 ] = swap;
-	//
-	//					done = false;
-	//				}
-	//			}
-	//			for (var i=1; i<neuronsAmount; i++) {
-	//				if (isOutput(i)==false && isOutput(i-1)==true) {
-	//					swap = neuronsFlags[ i];
-	//					neuronsFlags[ i ] = neuronsFlags[ i-1 ];
-	//					neuronsFlags[ i-1 ] = swap;
-	//
-	//					done = false;
-	//				}
-	//			}
-	//		} while (done == false);
-	//	}
 
 	/**
 	 * Load input vector inside the network.
@@ -337,15 +126,22 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 * @date 18 Dec 2010
 	 */
 	this.loadInput = function(input, size) {
-		if (size < 0 || size > this.neuronsAmount) {
+		if (input.dimension() != neurons.getInputNeuronsAmount()) {
+			//TODO Find better exception handling.
 			return;
 		}
 
-		for (var i = 0; i < size; i++) {
-			this.neurons[i] = input[i];
+		for (var i = 0,
+		    k = 0; i < neurons.dimension(); i++) {
+			if (neurons[i].isInput() == false) {
+				continue;
+			}
+
+			neurons[i].setValue(input[k]);
+			k++;
 		}
 	};
-	
+
 	/**
 	 * Forward pass of network state change. All neurons get new values.
 	 *
@@ -356,34 +152,42 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 * @date 18 Dec 2010
 	 */
 	this.update = function() {
-		for (var i = 0; i < this.neuronsAmount; i++) {
-			if (this.isInput(i) == true || this.isBias(i) == true) {
+		/*
+		 * Return if weights are not loaded.
+		 */
+		if (weights.dimension() == 0) {
+			//TODO Find better exception handling.
+			return;
+		}
+
+		next = new NeuronsList(neurons.dimension());
+		for (var i = 0; i < neurons.dimension(); i++) {
+			if (neurons[i].isInput() == true || neurons[i].isBias() == true) {
 				continue;
 			}
-
-			this.neuronsBuffer2[i] = 0.0;
 
 			/*
 			 * Activation function of neuron i.
 			 */
-			for (var j = 0; j < this.neuronsAmount; j++) {
-				this.neuronsBuffer2[i] += this.neuronsBuffer1[j] * this.weights[i][j] * this.activities[i][j];
+			var value = 0.0;
+			for (var j = 0; j < neurons.dimension(); j++) {
+				value += neurons[j].getValue() * weights.get(i, j) * activities.get(i, j);
 			}
 
 			/*
-			 * Normalize activation level of neuron i with sidmoid function.
+			 * Normalize activation level of neuron i with sigmoid function.
 			 */
-			this.neuronsBuffer2[i] = 1.0 / (1.0 + Math.exp(-this.neuronsBuffer2[i]));
+			value = 1.0 / (1.0 + exp(-value));
+
+			next[i].setValue(value);
 		}
 
 		/*
 		 * Swap buffer to be ready for next network forward update.
 		 */
-		this.neurons = this.neuronsBuffer2;
-		this.neuronsBuffer2 = this.neuronsBuffer1;
-		this.neuronsBuffer1 = this.neurons;
+		neurons = next;
 	};
-	
+
 	/**
 	 * Store (retrun) output of the network into output array.
 	 *
@@ -394,15 +198,22 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 * @date 18 Dec 2010
 	 */
 	this.storeOutput = function(output, size) {
-		if (size < 0 || size > this.neuronsAmount) {
+		if (output.dimension() != neurons.getOutputNeuronsAmount()) {
+			//TODO Find better exception handling.
 			return;
 		}
 
-		for (var i = 0; i < size; i++) {
-			this.neurons[this.neuronsAmount - size + i] = output[i];
+		for (var i = 0,
+		    k = 0; i < neurons.dimension(); i++) {
+			if (neurons[i].isOutput() == false) {
+				continue;
+			}
+
+			output[k] = neurons[i].getValue();
+			k++;
 		}
 	};
-	
+
 	/**
 	 * Calculate network output error.
 	 *
@@ -421,11 +232,17 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 * @date 18 Dec 2010
 	 */
 	this.error = function(expected, predicted, size) {
-		if (size < 0 || size > this.neuronsAmount) {
-			return (0.0 );
+		if (expected.dimension() != predicted.dimension()) {
+			//TODO Find better exception handling.
+			return 0.0;
 		}
 
-		this.storeOutput(predicted, size);
+		if (predicted.dimension() < 0 || predicted.dimension() > neurons.dimension()) {
+			//TODO Find better exception handling.
+			return 0.0;
+		}
+
+		storeOutput(predicted);
 
 		/*
 		 * Difference sum.
@@ -433,15 +250,15 @@ function ANN(ts, neuronsAmount, bars, period) {
 		 */
 		var result = 0.0;
 		var subtraction = 0.0;
-		for (var i = 0; i < size; i++) {
+		for (var i = 0; i < predicted.dimension(); i++) {
 			subtraction = expected[i] - predicted[i];
 			result += subtraction * subtraction;
 		}
 		result /= 2.0;
 
-		return (result );
+		return result;
 	};
-	
+
 	/**
 	 * Calculate average net error for all training examples.
 	 *
@@ -457,47 +274,59 @@ function ANN(ts, neuronsAmount, bars, period) {
 		var result = 0.0;
 
 		/*
+		 * Estimate work done.
+		 */
+		if (counters != null) {
+			counters.increment("Total error calculations");
+		}
+
+		/*
 		 * Total artificial neural network error can not be calculated without
 		 * training set.
 		 */
-		if (this.ts == null) {
+		if (ts == null) {
 			return ( Math.floor(Math.random() * (RAND_MAX + 1)) );
 		}
 
 		/*
 		 * Reset network for new training.
 		 */
-		this.resetNeurons();
+		neurons.reset();
 
 		/*
 		 * Loop over training set examples.
 		 */
 		for (var i = 0,
-		    size = this.ts.size; i < size; i++) {
-			//			/*
-			//			 * For each time load ANN input.
-			//			 */
-			//			this.loadInput(this.ts.examples[i].time, this.inputNeuronsAmount);
+		    size = ts.getSize(); i < size; i++) {
+			/*
+			 * For each time load ANN input.
+			 */
+			loadInput(ts.getSplittedInputted(i));
 
 			/*
 			 * Update ANN internal state.
 			 */
-			this.update();
+			update();
 
-			//			/*
-			//			 * Calculate error.
-			//			 */
-			//			result += this.error(this.ts.examples[i].expected, this.ts.examples[i].predicted, this.outputNeuronsAmount);
+			/*
+			 * Calculate error.
+			 */
+			result += error(ts.getSplittedExpected(i), ts.getSplittedPredicted(i));
+
+			/*
+			 * Sleep for better performance.
+			 */
+			sleep();
 		}
 
 		/*
 		 * Average error for comparisons with different amount of training examples.
 		 */
-		result /= this.ts.size;
+		result /= ts.getSize();
 
 		return (result );
 	};
-	
+
 	/**
 	 * Feed forward ANN.
 	 *
@@ -509,79 +338,89 @@ function ANN(ts, neuronsAmount, bars, period) {
 	 */
 	this.feedforward = function() {
 		/*
+		 * Return if weights are not loaded.
+		 */
+		if (weights.dimension() == 0) {
+			//TODO Find better exception handling.
+			return;
+		}
+
+		next = new NeuronsList(neurons);
+
+		/*
 		 * Feed hidden layer with values.
 		 */
-		for (var i = 0; i < this.neuronsAmount; i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			/*
 			 * Select neurons into the hidden layer.
 			 */
-			if (this.isInput(i) == true || this.isOutput(i) == true || this.isBias(i) == true) {
+			if (neurons[i].isInput() == true || neurons[i].isOutput() == true || neurons[i].isBias() == true) {
 				continue;
 			}
-
-			this.neuronsBuffer2[i] = 0.0;
 
 			/*
 			 * Activation function of neuron i.
 			 */
-			for (var j = 0; j < this.neuronsAmount; j++) {
+			var value = 0.0;
+			for (var j = 0; j < neurons.dimension(); j++) {
 				/*
 				 * Select neurons into the input layer.
 				 */
-				if (this.isInput(j) == false) {
+				if (neurons[j].isInput() == false) {
 					continue;
 				}
 
-				this.neuronsBuffer2[i] += this.neuronsBuffer1[j] * this.weights[i][j] * this.activities[i][j];
+				value += neurons[j].getValue() * weights.get(i, j) * activities.get(i, j);
 			}
 
 			/*
 			 * Normalize activation level of neuron i with sidmoid function.
 			 */
-			this.neuronsBuffer2[i] = 1.0 / (1.0 + Math.exp(-this.neuronsBuffer2[i]));
+			value = 1.0 / (1.0 + exp(-value));
+
+			next[i].setValue(value);
 		}
 
 		/*
 		 * Feed output layer with values.
 		 */
-		for (var i = 0; i < this.neuronsAmount; i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			/*
 			 * Select neurons into the output layer.
 			 */
-			if (this.isOutput(i) == false) {
+			if (neurons[i].isOutput() == false) {
 				continue;
 			}
-
-			this.neuronsBuffer2[i] = 0.0;
 
 			/*
 			 * Activation function of neuron i.
 			 */
-			for (var j = 0; j < this.neuronsAmount; j++) {
+			var value = 0.0;
+			for (var j = 0; j < neurons.dimension(); j++) {
 				/*
 				 * Select neurons into the hidden layer.
 				 */
-				if (this.isInput(i) == true || this.isOutput(i) == true || this.isBias(i) == true) {
+				if (neurons[j].isInput() == true || neurons[j].isOutput() == true) {
 					continue;
 				}
 
-				this.neuronsBuffer2[i] += this.neuronsBuffer1[j] * this.weights[i][j] * this.activities[i][j];
+				value += neurons[j].getValue() * weights.get(i, j) * activities.get(i, j);
 			}
 
 			/*
 			 * Normalize activation level of neuron i with sidmoid function.
 			 */
-			this.neuronsBuffer2[i] = 1.0 / (1.0 + Math.exp(-this.neuronsBuffer2[i]));
+			value = 1.0 / (1.0 + exp(-value));
+
+			next[i].setValue(value);
 		}
 
 		/*
 		 * Swap buffer to be ready for next network forward update.
 		 */
-		this.neurons = this.neuronsBuffer2;
-		this.neuronsBuffer2 = this.neuronsBuffer1;
-		this.neuronsBuffer1 = this.neurons;
+		neurons = next;
 	};
-	
+
 	/**
 	 * Back propagate ANN.
 	 *
@@ -602,15 +441,16 @@ function ANN(ts, neuronsAmount, bars, period) {
 		 * Calculate error into output layer.
 		 */
 		for (var i = 0,
-		    k = 0; i < this.neuronsAmount && k < size; i++) {
+		    k = 0; i < neurons.dimension() && k < expected.dimension(); i++) {
 			/*
 			 * Select neurons into the output layer.
 			 */
-			if (this.isOutput(i) == false) {
+			if (neurons[i].isOutput() == false) {
 				continue;
 			}
 
-			this.neuronsError[i] = (this.neurons[i] - this.expected[k]) * this.neurons[i] * (1.0 - this.neurons[i]);
+			var error = (neurons[i].getValue() - expected[k]) * neurons[i].getValue() * (1.0 - neurons[i].getValue());
+			neurons[i].setError(error);
 
 			/*
 			 * Increment expected values counter.
@@ -621,77 +461,81 @@ function ANN(ts, neuronsAmount, bars, period) {
 		/*
 		 * Calculate error into hidden layer.
 		 */
-		for (var i = 0; i < this.neuronsAmount; i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			/*
 			 * Select neurons into the hidden layer.
 			 */
-			if (this.isInput(i) == true || this.isOutput(i) == true) {
+			if (neurons[i].isInput() == true || neurons[i].isOutput() == true) {
 				continue;
 			}
 
-			this.neuronsError[i] = 0.0;
-
-			for (var j = 0; j < this.neuronsAmount; j++) {
+			var error = 0.0;
+			for (var j = 0; j < neurons.dimension(); j++) {
 				/*
 				 * Select neurons into the output layer.
 				 */
-				if (this.isOutput(j) == false) {
+				if (neurons[j].isOutput() == false) {
 					continue;
 				}
 
-				this.neuronsError[i] += this.neuronsError[j] * this.weights[i][j];
+				error += neurons[j].getError() * weights(i, j);
 			}
 
-			this.neuronsError[i] *= this.neurons[i] * (1.0 - this.neurons[i]);
+			error *= neurons[i].getValue() * (1.0 - neurons[i].getValue());
+			neurons[i].setError(error);
 		}
 
 		/*
 		 * Correct weights between output and hidden layer.
 		 */
-		for (var i = 0; i < this.neuronsAmount; i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			/*
 			 * Select neurons into the output layer.
 			 */
-			if (this.isOutput(i) == false) {
+			if (neurons[i].isOutput() == false) {
 				continue;
 			}
 
-			for (var j = 0; j < this.neuronsAmount; j++) {
+			var value = 0;
+			for (var j = 0; j < neurons.dimension(); j++) {
 				/*
 				 * Select neurons into the hidden layer.
 				 */
-				if (this.isInput(j) == true || this.isOutput(j) == true) {
+				if (neurons[j].isInput() == true || neurons[j].isOutput() == true) {
 					continue;
 				}
 
-				this.weights[i][j] += LEARNING_RATE * this.neuronsError[i] * this.neurons[j];
+				value += LEARNING_RATE * neurons[i].getError() * neurons[j].getValue();
 			}
+			weights.set(i, j, value);
 		}
 
 		/*
 		 * Correct weights between hidden and output layer.
 		 */
-		for (var i = 0; i < this.neuronsAmount; i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			/*
 			 * Select neurons into the hidden layer.
 			 */
-			if (this.isInput(i) == true || this.isOutput(i) == true || this.isBias(i) == true) {
+			if (neurons[i].isInput() == true || neurons[i].isOutput() == true || neurons[i].isBias() == true) {
 				continue;
 			}
 
-			for (var j = 0; j < this.neuronsAmount; j++) {
+			var value = 0;
+			for (var j = 0; j < neurons.dimension(); j++) {
 				/*
 				 * Select neurons into the input layer.
 				 */
-				if (this.isInput(j) == false) {
+				if (neurons[j].isInput() == false) {
 					continue;
 				}
 
-				this.weights[i][j] += LEARNING_RATE * this.neuronsError[i] * this.neurons[j];
+				value += LEARNING_RATE * neurons[i].getError() * neurons[j].getValue();
 			}
+			weights.set(i, j, value);
 		}
 	};
-	
+
 	/**
 	 * Gradient training of ANN.
 	 *
@@ -704,30 +548,40 @@ function ANN(ts, neuronsAmount, bars, period) {
 	this.gradient = function() {
 		var index = 0;
 
+		/*
+		 * Gradient optimization can not be applied without training set.
+		 */
+		if (ts == NULL) {
+			//TODO Find better exception handling.
+			return;
+		}
+
 		for (var i = 0,
-		    size = this.ts.examples.length; i < size; i++) {
+		    size = ts.getSize(); i < size; i++) {
 			/*
 			 * Select random training example.
+			 * All recurrent connections are switched off and there is no need to
+			 * have time order of examples feeding.
 			 */
-			index = Math.floor(Math.random() * size);
+			index = rand() % size;
 
-			//			/*
-			//			 * For each time load ANN input.
-			//			 */
-			//			this.loadInput(this.ts.examples[index].time, this.inputNeuronsAmount);
+			/*
+			 * For each time load ANN input.
+			 */
+			loadInput(ts.getSplittedInputted(index));
 
 			/*
 			 * Feed forward ANN.
 			 */
-			this.feedforward();
+			feedforward();
 
-			//			/*
-			//			 * Back propacate ANN error.
-			//			 */
-			//			this.backpropagation(this.ts.examples[index].expected, this.outputNeuronsAmount);
+			/*
+			 * Back propacate ANN error.
+			 */
+			backpropagation(ts.getSplittedExpected(index));
 		}
 	};
-	
+
 	/**
 	 * Predict future value.
 	 *
@@ -747,30 +601,14 @@ function ANN(ts, neuronsAmount, bars, period) {
 			return;
 		}
 
-		/*
-		 * Minutes shoud be converted to seconds.
-		 */
-		var period = this.period * 60;
-		var moment = 0;
+		loadInput(ts.getSplittedInputted(0));
 
-		//		/*
-		//		 * Loop over future time values.
-		//		 */
-		//		moment = this.ts.rates[this.ts.size-1].time + period;
-		for (var i = 0; i < this.bars; i++) {
-			/*
-			 * For each time load ANN input.
-			 */
-			this.ts.splitDigits(this.timeValues, this.inputNeuronsAmount, moment);
-			this.loadInput(this.timeValues, this.inputNeuronsAmount);
+		update();
 
-			this.update();
+		outputValues = new ANNOutput(neurons.getOutputNeuronsAmount());
+		storeOutput(outputValues);
 
-			moment += period;
-		}
-
-		this.storeOutput(this.outputValues, this.outputNeuronsAmount);
-
-		this.prediction = this.ts.mergeDigits(this.outputValues, this.outputNeuronsAmount) / this.ts.FLOATING_POINT_FACTOR;
+		//TODO Should have array of predicted future values.
+		prediction = outputValues[0];
 	};
 }

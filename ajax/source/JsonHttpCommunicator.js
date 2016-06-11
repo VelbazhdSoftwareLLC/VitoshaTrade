@@ -182,7 +182,20 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadTrainerObjects = function(counters, ann, de, symbol, period, parameters) {
+		var numberOfNeurons = loadAnnNeuronsAmount(parameters.dbId);
+		
+		var list = [];
+		list = loadAnnList(list, parameters.dbId, symbol, period);
+		
+		if(list.length > 0 && numberOfNeurons > 0){
+			//TODO
+		} else if (list.length == 0) {
+			//TODO
+		}
+		
 		//TODO Implement it last.
+		
+		return [ann, de, symbol, period];
 	};
 
 	/**
@@ -352,11 +365,20 @@ function JsonHttpCommunicator() {
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
 
-		symbol = response.symbol;
-		period = response.period;
-		fitness = response.fitness;
-
-		//TODO Parse response.		
+		if(response.size == 1) {
+			symbol = response.symbol;
+			period = response.period;
+			fitness = response.fitness;
+			
+			neurons = new NeuronsList(response.flags.length);
+			//TODO Setup each neuron.
+			
+			weights = new WeightsMatrix(neurons.flags.length);
+			//TODO Setup each weight.
+			
+			activities = new ActivitiesMatrix(neurons.flags.length);
+			//TODO Setup each activity.
+		}
 		
 		return [symbol, period, fitness, neurons, weights, activities];
 	};
