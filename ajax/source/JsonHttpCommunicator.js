@@ -130,7 +130,7 @@ function JsonHttpCommunicator() {
 	this.loadAnnList = function(list, annId, symbol, period) {
 		list.splice(0, list.length);
 
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -147,16 +147,16 @@ function JsonHttpCommunicator() {
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+LIST_OF_ANNS_SCRIPT, false);
+		request.open("POST", "http://" + HOST + LIST_OF_ANNS_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
-		
-		for(var i=0; i<response.identifiers.length; i++) {
+
+		for (var i = 0; i < response.identifiers.length; i++) {
 			list[i] = response.identifiers[i];
 		}
-		
+
 		return list;
 	};
 
@@ -183,18 +183,18 @@ function JsonHttpCommunicator() {
 	 */
 	this.loadTrainerObjects = function(counters, ann, de, symbol, period, parameters) {
 		var numberOfNeurons = loadAnnNeuronsAmount(parameters.dbId);
-		
+
 		var list = [];
 		list = loadAnnList(list, parameters.dbId, symbol, period);
-		
-		if(list.length > 0 && numberOfNeurons > 0){
+
+		if (list.length > 0 && numberOfNeurons > 0) {
 			//TODO
 		} else if (list.length == 0) {
 			//TODO
 		}
-		
+
 		//TODO Implement it last.
-		
+
 		return [ann, de, symbol, period];
 	};
 
@@ -222,7 +222,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.saveSingleANN = function(symbol, period, fitness, neurons, weights, activities) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -237,48 +237,48 @@ function JsonHttpCommunicator() {
 		parameters += "fitness=" + fitness;
 		parameters += "&";
 		parameters += "number_of_neurons=" + neurons.dimension();
-		
+
 		parameters += "&";
 		parameters += "flags=";
-		for (var i=0; i<neurons.dimension(); i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
 			parameters += neurons[i].getType();
 		}
-		
+
 		parameters += "&";
 		parameters += "weights=";
-		for (var j=0; j<neurons.dimension(); j++) {
+		for (var j = 0; j < neurons.dimension(); j++) {
 			if (j > 0) {
 				parameters += "\n";
 			}
-			for (var i=0; i<neurons.dimension(); i++) {
+			for (var i = 0; i < neurons.dimension(); i++) {
 				if (i > 0) {
 					parameters += " ";
 				}
-				parameters += weights.get(i,j);
+				parameters += weights.get(i, j);
 			}
 		}
-		
+
 		parameters += "&";
 		parameters += "activities=";
-		for (var j=0; j<neurons.dimension(); j++) {
+		for (var j = 0; j < neurons.dimension(); j++) {
 			if (j > 0) {
 				parameters += "\n";
 			}
-			for (var i=0; i<neurons.dimension(); i++) {
+			for (var i = 0; i < neurons.dimension(); i++) {
 				if (i > 0) {
 					parameters += " ";
 				}
-				parameters += activities.get(i,j);
+				parameters += activities.get(i, j);
 			}
 		}
-		
+
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+SAVE_SINGLE_ANN_SCRIPT, false);
+		request.open("POST", "http://" + HOST + SAVE_SINGLE_ANN_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
@@ -298,7 +298,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadAnnNeuronsAmount = function(annId) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -311,12 +311,12 @@ function JsonHttpCommunicator() {
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+LOAD_NEURONS_AMOUNT_SCRIPT, false);
+		request.open("POST", "http://" + HOST + LOAD_NEURONS_AMOUNT_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
-		
+
 		return response.neuronsAmount;
 	};
 
@@ -346,7 +346,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadSingleANN = function(annId, symbol, period, fitness, neurons, weights, activities) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -359,27 +359,38 @@ function JsonHttpCommunicator() {
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+LOAD_SINGLE_ANN_SCRIPT, false);
+		request.open("POST", "http://" + HOST + LOAD_SINGLE_ANN_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
 
-		if(response.size == 1) {
+		if (response.size == 1) {
 			symbol = response.symbol;
 			period = response.period;
 			fitness = response.fitness;
-			
-			neurons = new NeuronsList(response.flags.length);
-			//TODO Setup each neuron.
-			
-			weights = new WeightsMatrix(neurons.flags.length);
-			//TODO Setup each weight.
-			
-			activities = new ActivitiesMatrix(neurons.flags.length);
-			//TODO Setup each activity.
+			var size = response.flags.length;
+
+			neurons = new NeuronsList(size);
+			for (var i = 0; i < size; i++) {
+				neurons.list[i].type = response.flags[i];
+			}
+
+			weights = new WeightsMatrix(size);
+			for (var i = 0; i < size; i++) {
+				for (var j = 0; j < size; j++) {
+					weights.set(i, j, response.weights[i][j]);
+				}
+			}
+
+			activities = new ActivitiesMatrix(size);
+			for (var i = 0; i < size; i++) {
+				for (var j = 0; j < size; j++) {
+					activities.set(i, j, response.activities[i][j]);
+				}
+			}
 		}
-		
+
 		return [symbol, period, fitness, neurons, weights, activities];
 	};
 
@@ -397,7 +408,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadTrainingSetSize = function(symbol, period) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -412,12 +423,12 @@ function JsonHttpCommunicator() {
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+TRAINING_SET_SIZE_SCRIPT, false);
+		request.open("POST", "http://" + HOST + TRAINING_SET_SIZE_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
-		
+
 		return response.numberOfExamples;
 	};
 
@@ -439,7 +450,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.saveTrainingSet = function(symbol, period, rates, size) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -455,7 +466,7 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "time=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
@@ -464,7 +475,7 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "open=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
@@ -473,7 +484,7 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "low=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
@@ -482,7 +493,7 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "high=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
@@ -491,7 +502,7 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "close=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
@@ -500,17 +511,17 @@ function JsonHttpCommunicator() {
 
 		parameters += "&";
 		parameters += "volume=";
-		for (var i=0; i<size; i++) {
+		for (var i = 0; i < size; i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
 			parameters += rates[i].volume;
 		}
-		
+
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+SAVE_TRAINING_SET_SCRIPT, false);
+		request.open("POST", "http://" + HOST + SAVE_TRAINING_SET_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
@@ -558,7 +569,7 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadRemoteBestFitness = function(symbol, period, neurons, activities) {
-		if(request.readyState != 4 && request.readyState != 0) {
+		if (request.readyState != 4 && request.readyState != 0) {
 			return;
 		}
 
@@ -571,39 +582,39 @@ function JsonHttpCommunicator() {
 		parameters += "period=" + period;
 		parameters += "&";
 		parameters += "number_of_neurons=" + neurons.dimension();
-		
+
 		parameters += "&";
 		parameters += "flags=";
-		for (var i=0; i<neurons.dimension(); i++) {
+		for (var i = 0; i < neurons.dimension(); i++) {
 			if (i > 0) {
 				parameters += " ";
 			}
 			parameters += neurons[i].getType();
 		}
-		
+
 		parameters += "&";
 		parameters += "activities=";
-		for (var j=0; j<neurons.dimension(); j++) {
+		for (var j = 0; j < neurons.dimension(); j++) {
 			if (j > 0) {
 				parameters += "\n";
 			}
-			for (var i=0; i<neurons.dimension(); i++) {
+			for (var i = 0; i < neurons.dimension(); i++) {
 				if (i > 0) {
 					parameters += " ";
 				}
-				parameters += activities.get(i,j);
+				parameters += activities.get(i, j);
 			}
 		}
-		
+
 		/*
 		 * Send synchronous HTTP request.
 		 */
-		request.open("POST", "http://"+HOST+LOAD_BEST_FITNESS_SCRIPT, false);
+		request.open("POST", "http://" + HOST + LOAD_BEST_FITNESS_SCRIPT, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		request.send(parameters);
 		var response = JSON.parse(request.responseText);
-		
+
 		return response.fitness;
 	};
 }
