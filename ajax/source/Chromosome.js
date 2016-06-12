@@ -28,12 +28,13 @@
 /*
  * Include files.
  */
+document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
 document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '"></script>');
 
 /**
  * Less optimal fitness value constant.
  */
-const LESS_OPTIMAL_FITNESS_VALUE = 32767;
+const LESS_OPTIMAL_FITNESS_VALUE = RAND_MAX;
 
 /**
  * Minimuim random initializaton value for initial chromosome values.
@@ -108,7 +109,7 @@ function Chromosome() {
 	 * @date 05 Aug 2011
 	 */
 	this.getFitness = function() {
-		return (fitness );
+		return fitness;
 	};
 
 	/**
@@ -139,12 +140,12 @@ function Chromosome() {
 		/*
 		 * Initialize chromosome with random values.
 		 */
-		for (var j=0; j<weights.dimension(); j++) {
-			for (var i=0; i<weights.dimension(); i++) {
-				weights[i][j] = MIN_INIT_RANDOM + (MAX_INIT_RANDOM-MIN_INIT_RANDOM) * Math.random();
+		for (var j = 0; j < weights.dimension(); j++) {
+			for (var i = 0; i < weights.dimension(); i++) {
+				weights.set(i, j, MIN_INIT_RANDOM + (MAX_INIT_RANDOM - MIN_INIT_RANDOM) * Math.random());
 			}
 		}
-	
+
 		fitness = LESS_OPTIMAL_FITNESS_VALUE * Math.random();
 	};
 }

@@ -29,38 +29,9 @@
  * Include files.
  */
 document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
-
-/**
- * Minimum population size. Four is useful at each crossover and mutation to
- * have two parents, one child and one reserved best chromosome.
- */
-const MIN_POPULATION_SIZE = 4;
-
-/**
- * Integer number for probability percent result of crossover to be written
- * into the chromosome with the best fittnes. It is part of selection
- * strategy. Sum of all possibilities should be 100.
- */
-const CROSSOVER_RESULT_INTO_BEST_PERCENT = 5;
-
-/**
- * Integer number for probability percent result of crossover to be written
- * into the chromosome with the middle fittnes. It is part of selection
- * strategy. Sum of all possibilities should be 100.
- */
-const CROSSOVER_RESULT_INTO_MIDDLE_PERCENT = 40;
-
-/**
- * Integer number for probability percent result of crossover to be written
- * into the chromosome with the worst fittnes. It is part of selection
- * strategy. Sum of all possibilities should be 100.
- */
-const CROSSOVER_RESULT_INTO_WORST_PERCENT = 55;
-
-/**
- * Flag to involve the best chromosome in evolution process.
- */
-const KEEP_THE_BEST_CHROMOSOME = true;
+document.write('<script type="text/javascript" src="' + 'Population.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'CrossoverType.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '"></script>');
 
 /**
  * Do prediction with each chromosome, not only with the best one.
@@ -88,29 +59,14 @@ const MIN_MUTATION_FACTOR = 0.0;
 const MAX_MUTATION_FACTOR = 0.1;
 
 /**
- * Flag to switch off crossover at all.
+ * Minimum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
  */
-const CROSSOVER_TYPE_NONE = 0x00;
+const MIN_CROSSOVER_RATE = 0;
 
 /**
- * Crossover by randomly selected gens flag.
+ * Maximum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
  */
-const CROSSOVER_TYPE_RANDOM = 0x01;
-
-/**
- * Crossover by randomly selected gens flag.
- */
-const CROSSOVER_TYPE_50_50 = 0x02;
-
-/**
- * Crossover by single intersection flag.
- */
-const CROSSOVER_TYPE_SINGLE_CUT = 0x03;
-
-/**
- * Crossover by binary metrix flag.
- */
-const CROSSOVER_TYPE_BINARY_MATRIX = 0x04;
+const MAX_CROSSOVER_RATE = 10000;
 
 /**
  * Differential Evolution.
@@ -121,484 +77,366 @@ const CROSSOVER_TYPE_BINARY_MATRIX = 0x04;
  *
  * @date 19 Dec 2010
  */
-function DE(ann, populationSize, crossoverPercent, mutationPercent) {
+function DE(counters, ann, populationSize) {
 	/**
-	 * Crossover type.
+	 * Use one of the elements in the population as trial element. When the element is better than some other element just change the index value.
 	 */
-	this.crossoverType = CROSSOVER_TYPE_RANDOM;
+	this.trialIndex = 0;
 
 	/**
-	 * Probability crossover to ocure.
+	 * In original DE x vector is selected in a loop and each element is visited. Here we will select x random way (statistically it should not have a difference).
 	 */
-	this.crossoverPercent = crossoverPercent;
+	this.baseIndex = 0;
 
 	/**
-	 * Probability mutation to ocure.
+	 * Vector a from the original DE implementation.
 	 */
-	this.mutationPercent = mutationPercent;
+	this.targetIndex = 0;
 
 	/**
-	 * Population size. The amount of chormosomes in first dimension of
-	 * population array.
+	 * Vector b from the original DE implementation.
 	 */
-	this.populationSize = populationSize;
+	this.firstIndex = 0;
 
 	/**
-	 * Number of neurons used into artificial neural network. The amout of
-	 * neurons gives second and third dimension of population array (square
-	 * matrix).
+	 * Vector c from the original DE implementation.
 	 */
-	this.neuronsAmount = ann.neuronsAmount;
+	this.secondIndex = 0;
 
-	/**
-	 * Array with fitness values for each chromosome. Smaller output error is
-	 * better fitness for the chromosome (weights set).
+	/*
+	 * Check counters pointer for point valid object.
 	 */
-	this.fitness = new Array(this.neuronsAmount);
+	if (counters == null) {
+		//TODO Find better way for exception handling.
+		return;
+	}
+	this.counters = counters;
+
+	/*
+	 * Check ANN pointer for point valid object.
+	 */
+	if (ann == null) {
+		//TODO Find better way for exception handling.
+		return;
+	}
+	this.ann = ann;
 
 	/**
 	 * Population array. Population array is dynamically allocated. Eeach
 	 * member is two dimensional array (matrix of weights). Weights matrix is
 	 * also dynamically allocated.
 	 */
-	this.population = new Array(populationSize);
-	for (var k = 0; k < this.populationSize; k++) {
-		this.population[k] = new Array(this.neuronsAmount);
-		for (var i = 0; i < this.neuronsAmount; i++) {
-			this.population[k][i] = new Array(this.neuronsAmount);
+	this.population = new Population(populationSize);
+
+	/**
+	 * Indexes should be different in order DE to work.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 27 Dec 2014
+	 */
+	this.validIndexes = function() {
+		if (trialIndex == baseIndex || trialIndex == targetIndex || trialIndex == firstIndex || trialIndex == secondIndex) {
+			return false;
 		}
-	}
 
-	/**
-	 * Index of the chromozome with the best fitness.
-	 */
-	this.bestFitnessIndex = 0;
-
-	/**
-	 * Link to real artificial neural network object.
-	 */
-	this.ann = ann;
-
-	/*
-	 * Check ANN pointer for point valid object.
-	 */
-	if (this.ann == null) {
-		//TODO Find way to inform the user that there is no ANN reference.
-	}
-
-	/*
-	 * It is not possible population size to less than minimum amount.
-	 */
-	if (this.populationSize < MIN_POPULATION_SIZE) {
-		this.populationSize = MIN_POPULATION_SIZE;
-	}
-
-	/*
-	 * Probability is between 0 and 100.
-	 */
-	if (this.crossoverPercent < 0.0) {
-		this.crossoverPercent = 0.0;
-	}
-	if (this.crossoverPercent > 100.0) {
-		this.crossoverPercent = 100.0;
-	}
-	if (this.mutationPercent < 0.0) {
-		this.mutationPercent = 0.0;
-	}
-	if (this.mutationPercent > 100.0) {
-		this.mutationPercent = 100.0;
-	}
-
-	/*
-	 * Check valid object internal structure.
-	 */
-	if (this.populationSize <= 0) {
-		//TODO Find way to inform the user that there is problem with population size.
-	}
-
-	if (this.neuronsAmount <= 0) {
-		//TODO Find way to inform the user that there is problem with neurons amount.
-	}
-
-	/**
-	 * Select chromosomes for crossover. Swap places of each index according
-	 * probabilistic strategy.
-	 *
-	 * @param resultIndex Index on which crossover result is stored.
-	 *
-	 * @param firstParentIndex Index of the first parent.
-	 *
-	 * @param secondParentIndex Index of the second parent.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 19 Dec 2010
-	 */
-	this.select = function(resultIndex, firstParentIndex, secondParentIndex) {
-		/*
-		 * Do selection of indivuduals according probabilistic strategy.
-		 */
-		var index;
-
-		/*
-		 * Random value should be between 0 and sum of all percents (general 100%).
-		 */
-		var percent = Math.floor(Math.random() * (CROSSOVER_RESULT_INTO_WORST_PERCENT + CROSSOVER_RESULT_INTO_MIDDLE_PERCENT + CROSSOVER_RESULT_INTO_BEST_PERCENT));
-
-		if (percent < CROSSOVER_RESULT_INTO_WORST_PERCENT) {
-			/*
-			 * Worst fitness value is the highest.
-			 */
-			if (this.fitness[resultIndex] < this.fitness[firstParentIndex]) {
-				index = resultIndex;
-				resultIndex = firstParentIndex;
-				firstParentIndex = index;
-			}
-			if (this.fitness[resultIndex] < this.fitness[secondParentIndex]) {
-				index = resultIndex;
-				resultIndex = secondParentIndex;
-				secondParentIndex = index;
-			}
-		} else if (percent < (CROSSOVER_RESULT_INTO_WORST_PERCENT + CROSSOVER_RESULT_INTO_MIDDLE_PERCENT)) {
-			/*
-			 * Middle fitness value is between the others.
-			 */
-			if (this.fitness[secondParentIndex] < this.fitness[firstParentIndex]) {
-				index = secondParentIndex;
-				secondParentIndex = firstParentIndex;
-				firstParentIndex = index;
-			}
-			if (this.fitness[resultIndex] < this.fitness[firstParentIndex]) {
-				index = resultIndex;
-				resultIndex = firstParentIndex;
-				firstParentIndex = index;
-			}
-			if (this.fitness[resultIndex] > this.fitness[secondParentIndex]) {
-				index = resultIndex;
-				resultIndex = secondParentIndex;
-				secondParentIndex = index;
-			}
-		} else if (percent < (CROSSOVER_RESULT_INTO_WORST_PERCENT + CROSSOVER_RESULT_INTO_MIDDLE_PERCENT + CROSSOVER_RESULT_INTO_BEST_PERCENT)) {
-			/*
-			 * Best fitness value is the smallest.
-			 */
-			if (this.fitness[resultIndex] > this.fitness[firstParentIndex]) {
-				index = resultIndex;
-				resultIndex = firstParentIndex;
-				firstParentIndex = index;
-			}
-			if (this.fitness[resultIndex] > this.fitness[secondParentIndex]) {
-				index = resultIndex;
-				resultIndex = secondParentIndex;
-				secondParentIndex = index;
-			}
+		if (baseIndex == targetIndex || baseIndex == firstIndex || baseIndex == secondIndex) {
+			return false;
 		}
+
+		if (targetIndex == firstIndex || targetIndex == secondIndex) {
+			return false;
+		}
+
+		if (firstIndex == secondIndex) {
+			return false;
+		}
+
+		return true;
 	};
-	
+
 	/**
-	 * Crossover chromosomes.
+	 * Recombine chromosomes.
 	 *
-	 * @param resultIndex Index on which crossover result is stored.
+	 * @author Iliyan Zankinski
 	 *
-	 * @param firstParentIndex Index of the first parent.
+	 * @email iliyan_mf@abv.bg
 	 *
-	 * @param secondParentIndex Index of the second parent.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 19 Dec 2010
+	 * @date 31 Mar 2009
 	 */
-	this.crossover = function(resultIndex, firstParentIndex, secondParentIndex) {
-		// if (this.crossoverType == CROSSOVER_TYPE_NONE) {
-		// return;
-		// }
-		//
-		// if (Math.random()*100 > this.crossoverPercent) {
-		// return;
-		// }
-		//
-		// if (resultIndex < 0 || resultIndex >= this.populationSize) {
-		// return;
-		// }
-		//
-		// if (firstParentIndex < 0 || firstParentIndex >= this.populationSize) {
-		// return;
-		// }
-		//
-		// if (secondParentIndex < 0 || secondParentIndex >= this.populationSize) {
-		// return;
-		// }
-		//
-		// if (this.crossoverType == CROSSOVER_TYPE_RANDOM) {
-		// //TODO Implement crossover as private helper method.
-		// for (var j=0; j<this.neuronsAmount; j++) {
-		// for (var i=0; i<this.neuronsAmount; i++) {
-		// this.population[resultIndex][i][j] = (Math.random()<0.5) ? this.population[firstParentIndex][i][j] : this.population[secondParentIndex][i][j];
-		// }
-		// }
-		// } else if (this.crossoverType == CROSSOVER_TYPE_50_50) {
-		// //TODO Implement crossover as private helper method.
-		// for (var i=0; i<this.neuronsAmount; i++) {
-		// if (i%2 == 0) {
-		// for (var j=0; j<this.neuronsAmount; j++) {
-		// this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
-		// }
-		// } else {
-		// for (var j=0; j<neuronsAmount; j++) {
-		// this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
-		// }
-		// }
-		// }
-		// } else if (this.crossoverType == DE::CROSSOVER_TYPE_SINGLE_CUT) {
-		// //TODO Implement crossover as private helper method.
-		// var x = Math.floor(Math.random()*(this.neuronsAmount+1));
-		// var y = Math.floor(Math.random()*(this.neuronsAmount+1));
-		//
-		// for (var j=0; j<this.neuronsAmount; j++) {
-		// for (var i=0; i<y; i++) {
-		// this.population[resultIndex][i][j] = this.population[firstParentIndex][i][j];
-		// }
-		// }
-		//
-		// for (var i=0; i<this.neuronsAmount; i++) {
-		// if (i < x) {
-		// this.population[resultIndex][y][i] = this.population[firstParentIndex][y][i];
-		// } else {
-		// this.population[resultIndex][y][i] = this.population[secondParentIndex][y][i];
-		// }
-		// }
-		//
-		// for (var j=0; j<this.neuronsAmount; j++) {
-		// for (var i=y+1; i<this.neuronsAmount; i++) {
-		// this.population[resultIndex][i][j] = this.population[secondParentIndex][i][j];
-		// }
-		// }
-		// } else if (this.crossoverType == CROSSOVER_TYPE_BINARY_MATRIX) {
-		// //TODO Implement crossover as private helper method.
-		// //TODO Implement binary matrix template for crossover.
-		// }
-	};
+	//TODO Do it in Chromosome class.
+	this.recombine = function() {
+		var CR = MIN_CROSSOVER_RATE + rand() % (MAX_CROSSOVER_RATE - MIN_CROSSOVER_RATE + 1);
+		var F = MIN_MUTATION_FACTOR + (MAX_MUTATION_FACTOR - MIN_MUTATION_FACTOR) * (1.0*rand() / RAND_MAX);
 	
-	/**
-	 * Mutate chromosome.
-	 *
-	 * @param index Index of the chromosome which mutate.
-	 *
-	 * @author Daniel Chutrov
-	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 19 Dec 2010
-	 */
-	this.mutate = function(index) {
-		if (Math.random() * 100 > this.mutationPercent) {
+		/*
+		 * Trail vector.
+		 */
+		trial = population.list[trialIndex].getWeights();
+	
+		/*
+		 * Base vector.
+		 */
+		base = population.list[baseIndex].getWeights();
+	
+		/*
+		 * Target vector.
+		 */
+		target = population.list[targetIndex].getWeights();
+	
+		/*
+		 * First vector for the difference.
+		 */
+		first = population.list[firstIndex].getWeights();
+	
+		/*
+		 * Second vector for the difference.
+		 */
+		second = population.list[secondIndex].getWeights();
+	
+		/*
+		 * Size of the ANN should not be zero.
+		 */
+	    if(trial.dimension() <= 0) {
+			//TODO Find better way for exception handling.
 			return;
-		}
-
-		if (index < 0 || index >= this.populationSize) {
-			return;
-		}
-
+	    }
+	
+		//TODO Implement recombination as polymorphic class.
+	
 		/*
-		 * First chromosome index used in difference vector calculation.
+		 * It is a guarantee that at least one element will be crossed.
 		 */
-		var firstIndex = Math.floor(Math.random() * this.populationSize);
-
-		/*
-		 * Second chromosome index used in difference vector calculation.
-		 */
-		var secondIndex = Math.floor(Math.random() * this.populationSize);
-
-		/*
-		 * Difference vector weight factor.
-		 */
-		var factor = MIN_MUTATION_FACTOR + (MAX_MUTATION_FACTOR - MIN_MUTATION_FACTOR) * Math.random();
-
-		/*
-		 * Calculate weighted difference vector.
-		 * Add weighted difference vector as mutation of chromosome.
-		 */
-		for (var j = 0; j < this.neuronsAmount; j++) {
-			for (var i = 0; i < this.neuronsAmount; i++) {
-				this.population[index][i][j] += (factor * (this.population[firstIndex][i][j] - this.population[secondIndex][i][j]));
+		var R = rand() % (trial.dimension() * trial.dimension());
+	
+	    /*
+	     * Binomial crossover.
+	     */
+		for (var j=0, k=0; j<trial.dimension(); j++) {
+			for (var i=0; i<trial.dimension(); i++, k++) {
+				var ri = MIN_CROSSOVER_RATE + rand() % (MAX_CROSSOVER_RATE - MIN_CROSSOVER_RATE + 1);
+	
+				if (ri < CR || k == R) {
+					trial(i,j) = base(i,j) + F * (first(i,j)-second(i,j));
+				} else {
+					trial(i,j) = target(i,j);
+				}
 			}
 		}
-	};
 	
-	//	/**
-	//	 * Search for best fitness and save it in class member variable.
-	//	 *
-	//	 * @author Daniel Chutrov
-	//	 *
-	//	 * @email d.chutrov@gmail.com
-	//	 *
-	//	 * @date 19 Dec 2010
-	//	 */
-	//	this.searchBestFitnessIndex = function() {
-	//		this.bestFitnessIndex = 0;
-	//
-	//		/*
-	//		 * Best fintess is the smallest possible. Fitness is artificial neural
-	//		 * network total error.
-	//		 */
-	//		for (var i=0; i<this.populationSize; i++) {
-	//			if (this.fitness[i] < this.fitness[bestFitnessIndex]) {
-	//				this.bestFitnessIndex = i;
-	//			}
-	//		}
-	//	}
-	//
-	//	/**
-	//	 * Initialize chromosome with random values.
-	//	 *
-	//	 * @param index Chromosome index in population array.
-	//	 *
-	//	 * @author Daniel Chutrov
-	//	 *
-	//	 * @email d.chutrov@gmail.com
-	//	 *
-	//	 * @date 19 Dec 2010
-	//	 */
-	//	this.randomChromosome = function(index) {
-	//		/*
-	//		* Initialize chromosome with random values.
-	//		*/
-	//		for (var j=0; j<this.neuronsAmount; j++) {
-	//			for (var i=0; i<this.neuronsAmount; i++) {
-	//				this.population[index][j][i] = MIN_INIT_RANDOM + (MAX_INIT_RANDOM-MIN_INIT_RANDOM) * Math.random();
-	//			}
-	//		}
-	//	}
-	//
-	//	/**
-	//	 * Initialize population with random chromosomes.
-	//	 *
-	//	 * @author Daniel Chutrov
-	//	 *
-	//	 * @email d.chutrov@gmail.com
-	//	 *
-	//	 * @date 19 Dec 2010
-	//	 */
-	//	this.initRandom = function() {
-	//		/*
-	//		 * Set random values as population.
-	//		 */
-	//		for (var k=0; k<this.populationSize; k++) {
-	//			this.randomChromosome( k );
-	//			/*
-	//			 * Set worse fitness value.
-	//			 */
-	//			this.fitness[k] = RAND_MAX;
-	//		}
-	//
-	//		this.searchBestFitnessIndex();
-	//	}
+		/*
+		 * Update result chromosome. When reference is used result is already on place.
+		 */
+		//TODO population[trialIndex].setWeights( trial );
+	};
 
 	/**
-	 * Check chromosome for duplication.
+	 * Population getter.
 	 *
-	 * @param index Chromosome index in population array.
+	 * @return Weights Population reference.
 	 *
-	 * @return True if duplicate is found, false otherwise.
+	 * @author Todor Balabanov
 	 *
-	 * @author Daniel Chutrov
+	 * @email todor.balabanov@gmail.com
 	 *
-	 * @email d.chutrov@gmail.com
-	 *
-	 * @date 21 Feb 2011
+	 * @date 19 Aug 2009
 	 */
-	this.hasDupliation = function(index) {
-		/*
-		 * Check chromosome for duplication.
-		 */
-		for (var k = 0; k < this.populationSize; k++) {
-			if (this.fitness[k] == this.fitness[index] && k != index) {
-				return (true );
-			}
-		}
-
-		return (false );
+	this.getPopulation = function() {
+		return population;
 	};
-	
+
+	/**
+	 * Population setter.
+	 *
+	 * @param population Population to set.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 20 May 2009
+	 */
+	this.setPopulation = function(value) {
+		population = value;
+	};
+
+	/**
+	 * Crossover type getter.
+	 *
+	 * @return Crossover type.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.getCrossoverType = function() {
+	};
+
+	/**
+	 * Crossover type setter.
+	 *
+	 * @param type Crossover type.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.setCrossoverType = function(type) {
+	};
+
+	/**
+	 * Crossover percent getter.
+	 *
+	 * @return Crossover probability in percent.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.getCrossoverPercent = function() {
+	};
+
+	/**
+	 * Crossover percent setter.
+	 *
+	 * @param percent Crossover probability in percent.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.setCrossoverPercent = function(percent) {
+	};
+
+	/**
+	 * Mutation percent getter.
+	 *
+	 * @return Mutation probability in percent.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.getMutationPercent = function() {
+	};
+
+	/**
+	 * Mutation percent setter.
+	 *
+	 * @param percent Mutation probability in percent.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 11 Aug 2011
+	 */
+	this.setMutationPercent = function(percent) {
+	};
+
 	/**
 	 * Evolve population. Do selection for crossover. Crossover half of the
 	 * population. Mutate crossovered half of the population.
 	 *
-	 * @author Daniel Chutrov
+	 * @author Todor Balabanov
 	 *
-	 * @email d.chutrov@gmail.com
+	 * @email todor.balabanov@gmail.com
 	 *
-	 * @date 19 Dec 2010
+	 * @date 15 May 2009
 	 */
 	this.evolve = function() {
-		var resultIndex;
-		var firstParentIndex;
-		var secondParentIndex;
-
+		/*
+		 * Estimate work done.
+		 */
+		if (counters != null) {
+			counters.increment( "Evolution loops" );
+		}
+	
+		/*
+		 * Select trial vector index (it is used as buffer).
+		 */
+		//TODO Use the chromosome with the worst fitness.
+		trialIndex = rand() % population.dimension();
+	
 		/*
 		 * Evolve more chromosomes of the population (not all of them).
 		 */
-		for (var k = 0; k < this.populationSize; k++) {
+		for (var k=0; k<population.dimension()&&isRunning==true; k++) {
 			/*
 			 * Select random indivudials for crossover according selection strategy.
 			 * The best chromosome is not part of the evolution to give better chances
 			 * to other chromosomes to survive and to evolve.
 			 */
 			do {
-				resultIndex = Math.floor(Math.random() * this.populationSize);
-				firstParentIndex = Math.floor(Math.random() * this.populationSize);
-				secondParentIndex = Math.floor(Math.random() * this.populationSize);
-			} while (KEEP_THE_BEST_CHROMOSOME==true && (resultIndex==this.bestFitnessIndex || firstParentIndex==this.bestFitnessIndex || secondParentIndex==this.bestFitnessIndex));
-			this.select(resultIndex, firstParentIndex, secondParentIndex);
-
+				/*
+				 * Base vector should never be equal to the trial vector. That is why k can not be used as x vector selection.
+				 */
+				baseIndex = rand() % population.dimension();
+	
+				targetIndex = rand() % population.dimension();
+				firstIndex = rand() % population.dimension();
+				secondIndex = rand() % population.dimension();
+			} while (validIndexes() == false);
+	
 			/*
-			 * Crossover chromosomes.
+			 * Produce trial vector.
 			 */
-			this.crossover(resultIndex, firstParentIndex, secondParentIndex);
-
-			/*
-			 * Mutate crossovered chromosome.
-			 */
-			this.mutate(resultIndex);
-
+			recombine();
+	
 			/*
 			 * Load chromosome's weights into ANN.
 			 */
-			ann.weights = this.population[resultIndex];
-
+			ann.setWeights(population[trialIndex].getWeights());
+	
 			/*
 			 * Calculate chromosome fitness by calling ANN total error calculation.
 			 */
-			this.fitness[resultIndex] = this.ann.totalError();
-
+			population[ trialIndex ].setFitness( ann.totalError() );
+	
 			/*
-			 * Equal chromosomes are useless. Replace with random chromosome.
+			 * There is a chance total error calculation to be interrupted.
 			 */
-			if (this.hasDupliation(resultIndex) == true) {
-				/*
-				 * Back propagation training for similar chromosomes.
-				 */
-				this.ann.gradient();
-				this.fitness[resultIndex] = this.ann.totalError();
+			if (isRunning == false) {
+				population[trialIndex].setFitness( RAND_MAX );
 			}
-
+	
 			/*
 			 * Update ANN prediction.
 			 */
-			if (this.fitness[resultIndex] < this.fitness[this.bestFitnessIndex] || PREDICT_WITH_EACH_CHROMOSOME == true) {
-				this.ann.predict();
+			if (population[trialIndex].getFitness()<=population.getBestFitness() || PREDICT_WITH_EACH_CHROMOSOME==true) {
+				ann.predict();
 			}
-
+	
+			/*
+			 * If trial vector is better than base vector than switch indexes.
+			 */
+			if(population[ trialIndex ].getFitness() < population[ baseIndex ].getFitness()) {
+				trialIndex = baseIndex;
+			}
+	
 			/*
 			 * Update best fitness index.
 			 */
-			if (this.fitness[resultIndex] < this.fitness[this.bestFitnessIndex]) {
-				this.bestFitnessIndex = resultIndex;
-			}
+			population.searchBestFitnessIndex();
 		}
 	};
+
+	/*
+	 * Estimate work done.
+	 */
+	if (counters != null) {
+		counters.setValue("Population size", population.dimension());
+	}
 }
