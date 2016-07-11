@@ -64,6 +64,7 @@ void Trainer::setup(const ModelParameters &parameters) {
 	 * At the beginning there is no training set.
 	 */
 	http.loadTrainingSet(symbol, period, ts.getRates(), ts.getSize());
+	ts.splitData(parameters.learn, parameters.forecast); 
 
 	/*
 	 * Create object structure.

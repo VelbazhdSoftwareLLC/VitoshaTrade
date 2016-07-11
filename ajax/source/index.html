@@ -47,7 +47,12 @@
 		<!-- Ajax distributed computing code. -->
 		<script type="text/javascript">
 			/**
-			 *
+			 * Is running flag to control training process.
+			 */
+			var isRunning = true;
+		
+			/**
+			 * Training object.
 			 */
 			var trainer = null;
 
@@ -70,8 +75,8 @@
 				parameters.populationSize = document.getElementById('populationSize').value;
 				parameters.bars = document.getElementById('numberOfBars').value;
 				
-				//trainer = new Trainer();
-				//trainer.setup(parameters);
+				trainer = new Trainer();
+				trainer.setup(parameters);
 			}
 
 			/**
@@ -87,20 +92,15 @@
 				/*
 				 * Call training procedure.
 				 */
-				//trainer.train();
-				//document.getElementById('prediction').innerHTML = trainer.predict();
+				trainer.train();
+				document.getElementById('prediction').innerHTML = trainer.predict();
 			}
 
 			/*
 			 * Setup time interval for calculation calling.
 			 */
 			setInterval("doCalculation()", 3000);
-//TODO Rmove testing segment.
-var list = [];
-(new JsonHttpCommunicator()).loadAnnNeuronsAmount(1);
-//TODO Rmove testing segment.
 		</script>
-
 		<!-- Ajax distributed computing code. -->
 	</head>
 

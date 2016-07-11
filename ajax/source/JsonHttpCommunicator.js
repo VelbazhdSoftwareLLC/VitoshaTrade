@@ -601,6 +601,46 @@ function JsonHttpCommunicator() {
 	 * @date 16 Sep 2013
 	 */
 	this.loadTrainingSet = function(symbol, period, rates, size) {
+		if (request.readyState != 4 && request.readyState != 0) {
+			return;
+		}
+
+		/*
+		 * Prepare request parameters.
+		 */
+		var parameters = "";
+		parameters += "&symbol=" + symbol;
+		parameters += "&";
+		parameters += "period=" + period;
+
+		/*
+		 * Send synchronous HTTP request.
+		 */
+		request.open("POST", "http://" + HOST + LOAD_TRAINING_SET_SCRIPT, false);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		request.send(parameters);
+		var response = JSON.parse(request.responseText);
+
+		if (response.numberOfExamples <= 0) {
+			return [null, 0];
+		}
+		
+		/*
+		 * Parse response.
+		 */
+		for (var i = 0; i < numberOfExamples; i++) {
+			rates[i].time = response.time[i];
+			rates[i].open = response.open[i];
+			rates[i].low = response.low[i];
+			rates[i].high = response.high[i];
+			rates[i].close = response.close[i];
+			rates[i].volume = response.volume[i];
+		}
+		
+		size = numberOfExamples;
+		
+		return [rates, size];
 	};
 
 	/**

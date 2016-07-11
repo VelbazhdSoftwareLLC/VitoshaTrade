@@ -36,11 +36,17 @@ document.write('<script type="text/javascript" src="' + 'DE.js' + '"></script>')
 document.write('<script type="text/javascript" src="' + 'Counter.js' + '"></script>');
 document.write('<script type="text/javascript" src="' + 'ModelParameters.js' + '"></script>');
 document.write('<script type="text/javascript" src="' + 'cstdlib.js' + '"></script>');
+document.write('<script type="text/javascript" src="' + 'ctime.js' + '"></script>');
 
 /**
  * Do report flag.
  */
 const DO_FINAL_REPORT = true;
+
+/**
+ * Report file name.
+ */
+const REPORT_FILE_NAME = "VitoshaTradeTrainingReport.txt";
 
 /**
  * Number of seconds to request training set update.
@@ -80,8 +86,7 @@ function Trainer() {
 	/*
 	 * Estimate work done.
 	 */
-	var value = new Date();
-	this.counters.setValue("Training start time", "" + value);
+	this.counters.setValue("Training start time", "" + time(null));
 
 	/**
 	 * Artificial neural network trainer.
@@ -93,43 +98,47 @@ function Trainer() {
 	 * @date 29 Dec 2010
 	 */
 	this.setup = function(parameters) {
-		/*
+		/**
 		 * MetaTrader 4 chart symbol.
 		 */
 		this.symbol = parameters.symbol;
 
-		/*
+		/**
 		 * MetaTrader 4 chart period.
 		 */
 		this.period = parameters.period;
 
-		/*
-		* Training set dynamic instance.
-		*/
-		//TODO this.ts = new TrainingSet();
+		/**
+		 * Training set dynamic instance.
+		 */
+		this.ts = new TrainingSet();
+
+		/**
+		 * Artificial neural network dynamic instance.
+		 */
+		this.ann = new ANN(counters, ts, parameters.neuronsAmount, parameters.learn, parameters.forecast, period);
+
+		/**
+		 * Differential evolution dynamic instance.
+		 */
+		this.de = new DE();
 
 		/*
-		* At the beggining there is no training set.
+		* At the beginning there is no training set.
 		*/
-		//TODO this.http.loadTrainingSet(symbol, period, this.ts.rates, this.ts.size);
+		var result = http.loadTrainingSet(symbol, period, ts.getRates(), ts.getSize());
+		this.ts = new TrainingSet(result[0], result[1], parameters.learn, parameters.forecast);
+		ts.splitData(parameters.learn, parameters.forecast); 
 
 		/*
-		* Artificial neural network dynamic instance.
-		*/
-		//this.ann = new ANN();
-
-		/*
-		* Differential evolution dynamic instance.
-		*/
-		//TODO this.de = new DE();
-
-		/*
-		* Create object structure.
-		*/
-		//TODO this.http.loadTrainerObjects(this.ann, this.de, parameters);
-		//TODO this.ann.ts = this.ts;
+		 * Create object structure.
+		 */
+		result = http.loadTrainerObjects(this.ann, this.de, parameters);
+		this.ann = result[0];
+		this.de = result[1];
+		ann.setTrainingSetPointer(this.ts);
 	};
-	
+
 	/**
 	 * Update training set.
 	 *
@@ -144,38 +153,30 @@ function Trainer() {
 	 * @date 23 Dec 2010
 	 */
 	this.updateTrainingSet = function(rates, size) {
-		//		/*
-		//		 * Do not update if there is no new data at latest known time.
-		//		 */
-		//		if (ts!=null && ts.size==size && ts.getTime(ts.size-1)==rates[size-1].time) {
-		//			return;
-		//		}
-		//
-		//		/*
-		//		 * Create new training set object and swap it with the old one.
-		//		 */
-		//		var swap = null;
-		//		var temp = new TrainingSet(ts, rates, size);
-		//
-		//		swap = ts;
-		//		ts = temp;
-		//		temp = swap;
-		//
-		//		swap = null;
-		//		temp = null;
-		//
-		//		/*
-		//		 * Update ANN training set pointer.
-		//		 */
-		//		ann.setTrainingSetPointer( ts );
-		//
-		//		/*
-		//		 * Select random chromosome to be best, because with new training set it is
-		//		 * not sure that previous beest chromosome will be best again.
-		//		 */
-		//		de.setBestFitnessIndex( Math.floor(Math.random()*(de.getPopulationSize())))
+		/*
+		 * Do not update if there is no new data at latest known time.
+		 */
+		if (ts.getSize() == size && ts.getTime(ts.getSize() - 1) == rates[size - 1].time) {
+			return;
+		}
+
+		/*
+		 * Create new training set object and swap it with the old one.
+		 * Constructor with merge capabilities also can be used.
+		 */
+		ts = new TrainingSet(rates, size, ann.getNeurons().getInputNeuronsAmount(), ann.getNeurons().getOutputNeuronsAmount());
+
+		/*
+		 * Update ANN training set pointer.
+		 */
+		ann.setTrainingSetPointer(ts);
+
+		/*
+		 * Estimate work done.
+		 */
+		counters.setValue("Training set size", ts.getSize());
 	};
-	
+
 	/**
 	 * Do training process.
 	 *
@@ -186,28 +187,26 @@ function Trainer() {
 	 * @date 23 Dec 2010
 	 */
 	this.train = function() {
-		// /*
-		// * If training set is not present training can not be done.
-		// */
-		// if (this.ts == null || this.ts.size == 0) {
-		// return;
-		// }
-		//
-		// /*
-		// * Run one epoche of evolution.
-		// */
-		// if (this.de != null) {
-		// this.de.evolve();
-		// }
-		//
-		// /*
-		// * Report best chromosome at regular time interval.
-		// */
-		// if ((new Date()).getTime() - BEST_FITNESS_REPORT_INTERVAL > this.lastBestFitnessReportTime) {
-		// this.reportLocalBestFitness();
-		// }
+		/*
+		 * If training set is not present training can not be done.
+		 */
+		if (ts.getSize() == 0) {
+			return;
+		}
+
+		/*
+		 * Run one epoche of evolution.
+		 */
+		de.evolve();
+
+		/*
+		 * Report best chromosome at regular time interval.
+		 */
+		if (time(null) - BEST_FITNESS_REPORT_INTERVAL > lastBestFitnessReportTime) {
+			reportLocalBestFitness();
+		}
 	};
-	
+
 	/**
 	 * Obtain predicted value.
 	 *
@@ -220,17 +219,16 @@ function Trainer() {
 	 * @date 23 Dec 2010
 	 */
 	this.predict = function() {
-		return Math.round(Math.random() * 100000.0) / 100.0;
-		//		/*
-		//		 * If training set is not present training can not be done.
-		//		 */
-		//		if (ts==null || ts.size==0 || ann==null) {
-		//			return( 0 );
-		//		}
-		//
-		//		return( this.ann.prediction );
+		/*
+		 * If training set is not present training can not be done.
+		 */
+		if (ts.getSize() == 0) {
+			return (0 );
+		}
+
+		return ( ann.getPrediction() );
 	};
-	
+
 	/**
 	 * Report local best fitness.
 	 *
@@ -241,34 +239,75 @@ function Trainer() {
 	 * @date 23 Dec 2010
 	 */
 	this.reportLocalBestFitness = function() {
-		//		/*
-		//		 * Remote best fitness to be used as level for better result server report.
-		//		 */
-		//		var remoteBestFitness = Math.random()*RAND_MAX;
-		//
-		//		/*
-		//		 * Get pointers needed.
-		//		 */
-		//		var activities = ann.activities;
-		//		var neuronsFlags = ann.neuronsFlags;
-		//
-		//		/*
-		//		 * Check remote best fitness.
-		//		 */
-		//		remoteBestFitness = http.loadRemoteBestFitness(symbol, period, ann.neuronsAmount, neuronsFlags, activities);
-		//
-		//		/*
-		//		 * Load Compare remote and local best fitness value.
-		//		 */
-		//		if (de.fitness[de.bestFitnessIndex] < remoteBestFitness) {
-		//			var weights = de.weights( de.bestFitnessIndex );
-		//			http.saveSingleANN(symbol, period, de.fitness[de.bestFitnessIndex], ann.neuronsAmount, neuronsFlags, weights, activities);
-		//			http.saveTrainingSet(symbol, period, ts.rates, ts.size);
-		//		}
-		//
-		//		/*
-		//		 * Mark last time checked for server best fitness.
-		//		 */
-		//		this.lastBestFitnessReportTime = (new Date()).getTime();
+		/*
+		 * Remote best fitness to be used as level for better result server report.
+		 */
+		var remoteBestFitness = RAND_MAX;
+
+		/*
+		 * Get pointers needed.
+		 */
+		var activities = ann.getActivities();
+		var neurons = ann.getNeurons();
+
+		/*
+		 * Do not handle zero size ANNs.
+		 */
+		if (activities.dimension() == 0 || neurons.dimension() == 0) {
+			return;
+		}
+
+		/*
+		 * Check remote best fitness.
+		 */
+		remoteBestFitness = http.loadRemoteBestFitness(symbol, period, neurons, activities);
+
+		/*
+		 * Load Compare remote and local best fitness value.
+		 */
+		var population = de.getPopulation();
+		if (population.getBestFitness() < remoteBestFitness) {
+			var weights = population[population.getBestFitnessIndex()].getWeights();
+
+			/*
+			 * Do not handle zero size ANNs.
+			 */
+			if (weights.dimension() > 0) {
+				http.saveSingleANN(symbol, period, population.getBestFitness(), neurons, weights, activities);
+				http.saveTrainingSet(symbol, period, ts.getRates(), ts.getSize());
+			}
+		}
+
+		/*
+		 * Mark last time checked for server best fitness.
+		 */
+		lastBestFitnessReportTime = time(NULL);
+	};
+
+	this.finalize = function() {
+		/*
+		 * Report local best fitness value.
+		 */
+		reportLocalBestFitness();
+
+		/*
+		 * Estimate work done.
+		 */
+		counters.setValue("Training end time seconds", clock() / CLOCKS_PER_SEC);
+
+		/*
+		 * Report training results.
+		 */
+		if (DO_FINAL_REPORT == true) {
+			console.log("================================================================================");
+			console.log(counters);
+			console.log("================================================================================");
+			console.log(ann);
+			console.log("================================================================================");
+			console.log(de);
+			console.log("================================================================================");
+			console.log(ts);
+			console.log("================================================================================");
+		}
 	};
 }
