@@ -1,10 +1,14 @@
 -> Last used exception number 219.
 
+-> Use isRunning flag everywhere in AJAX training and forecasting.
+
+-> Write all throw clauses for exception handling in AJAX code.
+
 -> Use encode_json in PHP scripts to form JSON response.
 
 -> Add data and time field in each important database table.
 
--> Add three layers topology in activity matrix with maximum strenght of the connections (as private helper function).
+-> Add three layers topology in activity matrix with maximum strength of the connections (as private helper function).
 
 -> Collect database statistics for calculating nodes. It is important to know which node did better computations.
 

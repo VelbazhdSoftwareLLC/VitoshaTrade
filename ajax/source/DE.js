@@ -39,24 +39,14 @@ document.write('<script type="text/javascript" src="' + 'WeightsMatrix.js' + '">
 const PREDICT_WITH_EACH_CHROMOSOME = true;
 
 /**
- * Minimuim random initializaton value for initial chromosome values.
- */
-const MIN_INIT_RANDOM = -1.0;
-
-/**
- * Maximum random initializaton value for initial chromosome values.
- */
-const MAX_INIT_RANDOM = +1.0;
-
-/**
  * Minimuim mutation factor.
  */
-const MIN_MUTATION_FACTOR = 0.0;
+const MIN_MUTATION_FACTOR = 0.000;
 
 /**
  * Maximum mutation factor.
  */
-const MAX_MUTATION_FACTOR = 0.1;
+const MAX_MUTATION_FACTOR = 0.001;
 
 /**
  * Minimum crossover rate as integer number between [0-10000] instead of double number between [0.0-1.0].
@@ -107,7 +97,7 @@ function DE(counters, ann, populationSize) {
 	 * Check counters pointer for point valid object.
 	 */
 	if (counters == null) {
-		//TODO Find better way for exception handling.
+		throw( "DE00148" );
 		return;
 	}
 	this.counters = counters;
@@ -116,7 +106,7 @@ function DE(counters, ann, populationSize) {
 	 * Check ANN pointer for point valid object.
 	 */
 	if (ann == null) {
-		//TODO Find better way for exception handling.
+		throw( "DE00095" );
 		return;
 	}
 	this.ann = ann;
@@ -200,7 +190,7 @@ function DE(counters, ann, populationSize) {
 		 * Size of the ANN should not be zero.
 		 */
 	    if(trial.dimension() <= 0) {
-			//TODO Find better way for exception handling.
+			throw( "DE00219" );
 			return;
 	    }
 	
