@@ -188,12 +188,68 @@ function JsonHttpCommunicator() {
 		list = loadAnnList(list, parameters.dbId, symbol, period);
 
 		if (list.length > 0 && numberOfNeurons > 0) {
-			//TODO
+			neuronsAmount = numberOfNeurons;
+
+			ann = new ANN(counters, neuronsAmount, parameters.learn, parameters.forecast, period);
 		} else if (list.length == 0) {
-			//TODO
+			neuronsAmount = parameters.neuronsAmount;
+
+			/*
+			 * It is good new network to have at least neurons for input and output.
+			 */
+			if (neuronsAmount < (parameters.inputSize + parameters.outputSize)) {
+				neuronsAmount = parameters.inputSize + parameters.outputSize;
+			}
+
+			/*
+			 * Create new network if no record presented in database.
+			 * Input and output neurons should be specified on network creation.
+			 */
+			ann = new ANN(counters, neuronsAmount, parameters.learn, parameters.forecast, period);
+			ann.setupInput(parameters.inputSize);
+			ann.setupOutput(parameters.outputSize);
+			ann.setupThreeLayers();
 		}
 
-		//TODO Implement it last.
+		de = new DE(counters, ann, parameters.populationSize);
+
+		/*
+		 * Load DE with random values. It is useful in new ANN and DE creation.
+		 * Internal size of chromosomes should be given before initialization.
+		 */
+		var population = de.getPopulation();
+		for (var i = 0; i < population.dimension(); i++) {
+			weights = new WeightsMatrix(ann.getNeurons().dimension());
+			chromosome = new Chromosome(weights, RAND_MAX);
+			population[i] = chromosome;
+		}
+		//TODO Find better way to initialize random population with proper size of weight matrices.
+		population.initRandom();
+		//TODO This setter call may be is not needed.
+		de.setPopulation(population);
+
+		/*
+		 * Load DB ANNs.
+		 */
+		var fitness = RAND_MAX;
+		var neurons = ann.getNeurons();
+		var activities = ann.getActivities();
+		if (list.size() > 0 && neurons.dimension() > 0 && neurons.dimension() == neuronsAmount) {
+			var population = de.getPopulation();
+			for (var i = 0; i < list.size(); i++) {
+				weights = population[i].getWeights();
+				//TODO Activities, symbol, period, number of neurons and flags can be loaded only once.
+				var result = loadSingleANN(list[i], symbol, period, fitness, neurons, weights, activities);
+				ann.symbol = result[0];
+				ann.period = result[1];
+				ann.setNeurons(result[3]);
+				ann.setActivities(result[5]);
+
+				population[i].setFitness(result[2]);
+				population[i].setWeights(result[4]);
+			}
+			de.setPopulation(population);
+		}
 
 		return [ann, de, symbol, period];
 	};
