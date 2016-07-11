@@ -1,5 +1,7 @@
 -> Last used exception number 219.
 
+-> Use encode_json in PHP scripts to form JSON response.
+
 -> Add data and time field in each important database table.
 
 -> Add three layers topology in activity matrix with maximum strenght of the connections (as private helper function).

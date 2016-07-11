@@ -81,6 +81,11 @@ function ANN(counters, ts, neuronsAmount, learn, bars, period) {
 	this.weights = null;
 
 	/**
+	 * Counters reference is used for statistics collecton.
+	 */
+	this.counters = counters;
+
+	/**
 	 * Link to real training set object.
 	 */
 	this.ts = ts;
@@ -111,6 +116,337 @@ function ANN(counters, ts, neuronsAmount, learn, bars, period) {
 	if (counters != null) {
 		counters.setValue("Number of neurons", this.neuronsAmount);
 	}
+
+	/**
+	 * Neurons list getter.
+	 *
+	 * @return Neurons list reference.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 19 Aug 2009
+	 */
+	this.getNeurons = function() {
+		return (neurons );
+	};
+
+	/**
+	 * Neurons list setter.
+	 *
+	 * @param neurons Neurons list.
+	 *
+	 * @author Iliyan Zankinski
+	 *
+	 * @email iliyan_mf@abv.bg
+	 *
+	 * @date 31 Jul 2009
+	 */
+	this.setNeurons = function(neurons) {
+		this.neurons = neurons;
+	};
+
+	/**
+	 * Weights matrix getter.
+	 *
+	 * @return Weights matrix reference.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 19 Aug 2009
+	 */
+	this.getWeights = function() {
+		return (weights );
+	};
+
+
+	/**
+	 * Weights matrix setter.
+	 *
+	 * @param weights Weights matrix.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 26 Feb 2009
+	 */
+	this.setWeights = function(weights) {
+		this.weights = weights;
+	};
+
+	/**
+	 * Activities matrix getter.
+	 *
+	 * @return Activities matrix reference.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 19 Aug 2009
+	 */
+	this.getActivities = function() {
+		return (activities );
+	};
+
+	/**
+	 * Activities matrix setter.
+	 *
+	 * @param activities Activities matrix.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 26 Feb 2009
+	 */
+	this.setActivities = function(activities) {
+		this.activities = activities;
+	};
+
+	/**
+	 * Activity value getter.
+	 *
+	 * @param int x Column index.
+	 *
+	 * @param int y Row index.
+	 *
+	 * @return Activity value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 14 Mar 2009
+	 */
+	this.getActivity = function(x, y) {
+		if (x < 0 || y < 0 || x >= activities.dimension() || y >= activities.dimension()) {
+			throw ("ANN00015" );
+			return (0.0 );
+		}
+
+		return ( activities(x, y) );
+	};
+
+	/**
+	 * Activity value setter.
+	 *
+	 * @param int x Column index.
+	 *
+	 * @param int y Row index.
+	 *
+	 * @param value Activity value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 14 Mar 2009
+	 */
+	this.setActivity = function(x, y, value) {
+		if (x < 0 || y < 0 || x >= activities.dimension() || y >= activities.dimension()) {
+			throw ("ANN00016" );
+			return;
+		}
+
+		activities(x, y) = value;
+		activities.normalize();
+	};
+
+
+	/**
+	 * Set all weights activities to minimum.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 16 Jul 2015
+	 */
+	this.setAllInactive = function() {
+		//TODO Move this method in activities class.
+		for (var j = 0; j < activities.dimension(); j++) {
+			for (var i = 0; i < activities.dimension(); i++) {
+				activities(i, j) = MIN_ACTIVITY;
+			}
+		}
+	};
+
+	/**
+	 * Set all weights activities to maximum.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 14 Mar 2009
+	 */
+	this.setAllActive = function() {
+		//TODO Move this method in activities class.
+		for (var j = 0; j < activities.dimension(); j++) {
+			for (var i = 0; i < activities.dimension(); i++) {
+				activities(i, j) = MAX_ACTIVITY;
+			}
+		}
+	};
+
+	/**
+	 * Training set pointer setter.
+	 *
+	 * @param ts Training set pointer.
+	 *
+	 * @author Iliyan Zankinski
+	 *
+	 * @email iliyan_mf@abv.bg
+	 *
+	 * @date 31 Jul 2009
+	 */
+	this.setTrainingSetPointer = function(ts) {
+		this.ts = ts;
+	};
+
+	/**
+	 * Prediction value getter.
+	 *
+	 * @return Prediction value.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 29 Apr 2009
+	 */
+	this.getPrediction = function() {
+		return (prediction );
+	};
+
+	/**
+	 * Setup first neurons in internal array to be input.
+	 *
+	 * @param size Number of neurons to be used.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 27 Oct 2011
+	 */
+	this.setupInput = function(size) {
+		for (var i = 0; i < size && i < neurons.dimension(); i++) {
+			neurons[i].setInput(true);
+		}
+	};
+
+	/**
+	 * Setup last neurons in internal array to be output.
+	 *
+	 * @param size Number of neurons to be used.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 27 Oct 2011
+	 */
+	this.setupOutput = function(size) {
+		for (var i = neurons.dimension() - size; i < neurons.dimension(); i++) {
+			neurons[i].setOutput(true);
+		}
+	};
+
+	/**
+	 * Setup three layers topology.
+	 *
+	 * @author Todor Balabanov
+	 *
+	 * @email todor.balabanov@gmail.com
+	 *
+	 * @date 16 Jul 2015
+	 */
+	this.setupThreeLayers = function() {
+		/*
+		 * Clear all connections.
+		 */
+		setAllInactive();
+
+		/*
+		 * Set bias between input and hidden layers.
+		 */
+		var b1 = 0;
+		for ( b1 = 0; b1 < neurons.dimension(); b1++) {
+			if (neurons[b1].isRegular() == true) {
+				neurons[b1].setBias(true);
+				break;
+			}
+		}
+
+		/*
+		 * Set bias between hidden and output layers.
+		 */
+		var b2 = 0;
+		for ( b2 = neurons.dimension() - 1; b2 > 0; b2--) {
+			if (neurons[b2].isRegular() == true) {
+				neurons[b2].setBias(true);
+				break;
+			}
+		}
+
+		/*
+		 * Connect bias neuron.
+		 */
+		for (var j = 0; j < neurons.dimension(); j++) {
+			if (neurons[j].isRegular() == false) {
+				continue;
+			}
+			activities(j, b1) = activities.MAX_ACTIVITY;
+		}
+
+		/*
+		 * Connect bias neuron.
+		 */
+		for (var j = 0; j < neurons.dimension(); j++) {
+			if (neurons[j].isOutput() == false) {
+				continue;
+			}
+			activities(j, b2) = activities.MAX_ACTIVITY;
+		}
+
+		/*
+		 * Set connections between input and hidden layers.
+		 */
+		for (var i = 0; i < neurons.dimension(); i++) {
+			if (neurons[i].isInput() == false) {
+				continue;
+			}
+
+			for (var j = 0; j < neurons.dimension(); j++) {
+				if (neurons[j].isRegular() == false) {
+					continue;
+				}
+				activities(j, i) = activities.MAX_ACTIVITY;
+			}
+		}
+
+		/*
+		 * Set connections between hidden and output layers.
+		 */
+		for (var i = 0; i < neurons.dimension(); i++) {
+			if (neurons[i].isRegular() == false) {
+				continue;
+			}
+
+			for (var j = 0; j < neurons.dimension(); j++) {
+				if (neurons[j].isOutput() == false) {
+					continue;
+				}
+				activities(j, i) = activities.MAX_ACTIVITY;
+			}
+		}
+	};
 
 	/**
 	 * Load input vector inside the network.
