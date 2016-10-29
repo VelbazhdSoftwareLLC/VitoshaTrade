@@ -118,13 +118,14 @@ if ($offset >= $number_of_pages) {
 ?>
 
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8">
 <title>.:: Vitosha Trade ::.</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 
-﻿<body style="overflow:hidden;">
+﻿<body>
 	<div id="wrapper">
 		<div id="logo">
 			<ul id="menu">
@@ -258,3 +259,4 @@ if ($result != false) {
 	</div>
 </body>
 </html>
+
