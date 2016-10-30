@@ -125,21 +125,12 @@ if ($offset >= $number_of_pages) {
 <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 
-﻿<body>
+<body>
 	<div id="wrapper">
-		<div id="logo">
-			<ul id="menu">
-				<li><a class="current" href="index.php" title="Home Page">Home Page</a></li>
-				<li class="spacer">&nbsp;</li>
-				<li><a href="products.php" title="Products Information">Products Information</a></li>
-				<li class="spacer">&nbsp;</li>
-				<li><a href="contactus.php" title="Contact Us">Contact Us</a></li>
-			</ul>
-		</div>
-		<div id="header">
-			<div id="slogan">The Ultimate<br />&nbsp; &nbsp; &nbsp; Forex Prediction<br />&nbsp; &nbsp; &nbsp; 
-			&nbsp; &nbsp; &nbsp; Indicator...</div>
-		</div>
+		<?php include 'menu.php';?>
+
+		<?php include 'header.php';?>
+
 		<div id="home_about_bevel">
 			<h1>About Vitosha Trade</h1>
 			<div class="home_bevel_txt">
@@ -221,8 +212,8 @@ if ($result != false) {
 			<br />
 			<div class="paging">
 
-<a href="?offset=0" title="First Page"><img src="images/paging_first.jpg" style="border:0;" alt="First Page" /></a>  &nbsp;
-<a href="?offset=<?php echo($offset-1);?>" title="Previous"><img src="images/left_arrow.jpg" style="border:0;" alt="Previous" /></a>  &nbsp; 
+				<a href="?offset=0" title="First Page"><img src="images/paging_first.jpg" style="border:0;" alt="First Page" /></a>  &nbsp;
+				<a href="?offset=<?php echo($offset-1);?>" title="Previous"><img src="images/left_arrow.jpg" style="border:0;" alt="Previous" /></a>  &nbsp; 
 
 <?php
 if ($result != false) {
@@ -239,24 +230,13 @@ if ($result != false) {
 }
 ?>
 
-<a href="?offset=<?php echo($offset+1);?>" title="Next"><img src="images/right_arrow.jpg" style="border:0;" alt="Next" /></a>  &nbsp;
-<a href="?offset=<?php echo($number_of_pages-1);?>" title="Last Page"><img src="images/paging_last.jpg" style="border:0;" alt="Last Page" /></a>  &nbsp; 
-
+				<a href="?offset=<?php echo($offset+1);?>" title="Next"><img src="images/right_arrow.jpg" style="border:0;" alt="Next" /></a>  &nbsp;
+				<a href="?offset=<?php echo($number_of_pages-1);?>" title="Last Page"><img src="images/paging_last.jpg" style="border:0;" alt="Last Page" /></a>  &nbsp; 
 			</div>
 		</div>
 		<div class="clearer"></div>
-		<div id="footer">
-			<div class="footerLeft">
-			 	Design by <a href="http://www.mxworkz.com/" target="_blank" title="MXWorkz Creative">MXWorkz</a>
-			</div>
-			<div class="copy">This website and its content is intellectual pfoperty of <strong>Velbazhd Software &copy;</strong>. </div>
-			<div class="footerRight">
-				 <a href="index.php" title="Home">Home</a> &nbsp; &nbsp; 
-				 <a href="products.php" title="Products Information">Products Information</a> &nbsp; &nbsp; 
-				 <a href="contactus.php" title="Contact Us">Contact Us</a>
-			</div>
-		</div>
+
+		<?php include 'footer.php';?>
 	</div>
 </body>
 </html>
-
