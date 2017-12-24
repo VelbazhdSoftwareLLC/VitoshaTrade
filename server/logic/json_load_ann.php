@@ -156,7 +156,7 @@ if ($result != false) {
 	$response .= "\n";
 } else {
 	/*
-	 * Response with -1 flag that artificial neural networks can not be loaded.
+	 * Response with 0 flag that artificial neural networks can not be loaded.
 	 */
 	$response .= '"size":"0"';
 	$response .= "\n";
