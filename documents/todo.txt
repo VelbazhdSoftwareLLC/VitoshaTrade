@@ -4,6 +4,8 @@
 
 -> Write all throw clauses for exception handling in AJAX code.
 
+-> Accept client requests as JSON messages.
+
 -> Use encode_json in PHP scripts to form JSON response.
 
 -> Add data and time field in each important database table.
