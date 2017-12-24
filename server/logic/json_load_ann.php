@@ -90,7 +90,7 @@ if ($result != false) {
 	$response .= "\n";
 
 	/*
-	 * Artificial neural network weights fintness.
+	 * Artificial neural network weights fitness.
 	 */
 	$response .= '"fitness":"' . trim($result[0][2],"\r\n") . '",';
 	$response .= "\n";
