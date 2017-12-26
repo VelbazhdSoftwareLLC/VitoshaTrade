@@ -65,7 +65,6 @@ $sql = 'select loadNeuronsAmount(' . $annid . ');';
  */
 $result = query_db( $sql );
 
-
 $response .= '"neuronsAmount":"' . trim($result[0][0],"\r\n") . '"';
 $response .= "\n";
 $response .= "}";
